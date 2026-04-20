@@ -1,0 +1,91 @@
+
+.verseContainer { /* Wrapper for the daily verse */
+    display: flex; /* Flexbox for alignment */
+    flex-direction: column; /* Stack text and citation */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text lines */
+    padding: var(--spacing-large); /* Use global spacing */
+    margin-top: var(--spacing-large); /* Separation from welcome text */
+    background-color: var(--color-surface); /* Adaptive theme background */
+    border-radius: var(--radii-card); /* Themed rounded corners */
+} /* End verse container */
+
+.verseText { /* The scripture text style */
+    font-size: 1.5rem; /* Large readable size */
+    font-style: italic; /* Emphasized style */
+    color: var(--color-text-main); /* Themed main text */
+    line-height: 1.4; /* Comfortable spacing */
+    margin-bottom: var(--spacing-small); /* Space above reference */
+} /* End verse text */
+
+.verseRef { /* The citation/reference style */
+    font-size: 1rem; /* Smaller font */
+    color: var(--color-text-muted); /* Softer secondary color */
+    font-weight: 500; /* Slightly bold for clarity */
+} /* End verse reference */
+
+
+
+.appContainer { /* Main application wrapper style */
+    display: flex; /* Use flexbox for overall layout */
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Ensure it fills the entire screen vertically */
+    background-color: var(--color-background); /* Apply themed background */
+    color: var(--color-text); /* Apply themed main text color */
+    font-family: system-ui, -apple-system, sans-serif; /* Modern system font stack */
+} /* End app container style */
+
+
+/* i will remove the duplicate styles from Home.module.css and keep only the unique ones related to the daily verse display. The global styles for layout and navigation will remain in globals.css and Comments.module.css respectively. */
+
+
+
+.navBar { /* Navigation bar style */
+    display: flex; /* Flexbox for nav items */
+    justify-content: space-between; /* Push logo and links apart */
+    align-items: center; /* Vertically center nav items */
+    padding: var(--spacing-medium) var(--spacing-large); /* Use global spacing tokens */
+    background-color: var(--color-surface); /* Solid surface background */
+    border-bottom: 0.1rem solid var(--color-border); /* Themed separation line */
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.02); /* Very subtle shadow */
+} /* End nav bar style */
+
+.navBrand { /* Logo/Brand text style */
+    font-size: 1.25rem; /* Fixed scale for brand */
+    font-weight: bold; /* Bold brand text */
+    color: var(--color-primary); /* Themed brand color */
+    text-decoration: none; /* Remove link underline */
+} /* End nav brand style */
+
+.navLinks { /* Navigation links container style */
+    display: flex; /* Flexbox for links */
+    gap: var(--spacing-medium); /* Space between nav links */
+} /* End nav links container style */
+
+.navLinkItem { /* Individual nav link style */
+    color: var(--color-text-muted); /* Use muted text variable */
+    text-decoration: none; /* No underline */
+    font-weight: 500; /* Medium weight */
+    transition: color 0.2s ease; /* Smooth color transition for hover */
+} /* End nav link item style */
+
+.navLinkItem:hover { /* Hover state for nav links */
+    color: var(--color-primary-hover); /* Switch to interactive primary hover color */
+} /* End nav link hover state */
+
+.mainContent { /* Central content wrapper style - Mobile First */
+    display: flex; /* Flexbox for main content */
+    flex-direction: column; /* Stack content vertically */
+    flex-grow: 1; /* Allow this section to fill remaining screen space */
+    width: 100%; /* Take full width available on mobile */
+    padding: var(--spacing-large); /* Outer padding from tokens */
+    margin: 0 auto; /* Center horizontally */
+    max-width: 100%; /* Prevent overflow on small screens */
+} /* End main content style */
+
+@media (min-width: 768px) { /* Desktop styles for flexible layouts */
+    .mainContent { /* Override base main content for larger screens */
+        width: 60%; /* Restrict width on desktop for better readability */
+        min-width: 320px; /* Set a safe minimum width using px */
+    } /* End desktop override */
+} /* End media query */

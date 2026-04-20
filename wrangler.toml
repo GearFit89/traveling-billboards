@@ -1,0 +1,10 @@
+
+# wrangler.toml
+name = "storage-for-traveling-billboards-site" # This is the missing piece!
+compatibility_date = "2024-04-01"
+pages_build_output_dir = ".next"
+[[d1_namespaces]]
+
+binding = "SQL_DB"
+id = "22e97f03-4c93-409c-a211-f53e638ffac8"
+

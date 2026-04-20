@@ -1,0 +1,93 @@
+/* --- SKELETON ANIMATION --- */
+@keyframes shimmer { /* Define the sliding light effect */
+    0% { background-position: -200% 0; } /* Start position */
+    100% { background-position: 200% 0; } /* End position */
+} /* End shimmer animation */
+
+.scard { /* The main container for the skeleton */
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Vertical stack */
+    padding: var(--spacing-large); /* Use global spacing */
+    background-color: var(--color-surface); /* Adaptive background */
+    border-radius: var(--radii-card); /* Themed corners */
+    border: 0.1rem solid var(--color-border); /* Subtle border */
+    gap: var(--spacing-medium); /* Gap between skeleton lines */
+    min-height: 150px; /* Ensure height matches real cards */
+} /* End skeleton card */
+
+.shimmerBase { /* Base style for all skeleton lines */
+    background: linear-gradient( /* Create the shimmering gradient */
+        90deg, 
+        var(--color-border) 25%, 
+        var(--color-background) 50%, 
+        var(--color-border) 75%
+    ); /* End gradient colors */
+    background-size: 200% 100%; /* Double width for animation flow */
+    animation: shimmer 1.5s infinite linear; /* Apply the movement */
+    border-radius: var(--radii-button); /* Match theme radii */
+} /* End shimmer base */
+
+.stitle { /* Skeleton version of the title */
+    background: linear-gradient( /* Create the shimmering gradient */
+        90deg, 
+        var(--color-border) 25%, 
+        var(--color-background) 50%, 
+        var(--color-border) 75%
+    ); /* End gradient colors */
+    background-size: 200% 100%; /* Double width for animation flow */
+    animation: shimmer 1.5s infinite linear; /* Apply the movement */
+    border-radius: var(--radii-button); /* Match theme radii */
+    height: 1.5rem; /* Match header height */
+    width: 60%; /* Only take partial width */
+} /* End skeleton title */
+
+.sbody { /* Skeleton version of the paragraph */
+    background: linear-gradient( /* Create the shimmering gradient */
+        90deg, 
+        var(--color-border) 25%, 
+        var(--color-background) 50%, 
+        var(--color-border) 75%
+    ); /* End gradient colors */
+    background-size: 200% 100%; /* Double width for animation flow */
+    animation: shimmer 1.5s infinite linear; /* Apply the movement */
+    border-radius: var(--radii-button); /* Match theme radii */
+    height: 1rem; /* Match standard text height */
+    width: 100%; /* Full width */
+    margin-bottom: var(--spacing-small); /* Space for multi-line look */
+} /* End skeleton body */
+
+.sbodyShort { /* A shorter second line for the body */
+    background: linear-gradient( /* Create the shimmering gradient */
+        90deg, 
+        var(--color-border) 25%, 
+        var(--color-background) 50%, 
+        var(--color-border) 75%
+    ); /* End gradient colors */
+    background-size: 200% 100%; /* Double width for animation flow */
+    animation: shimmer 1.5s infinite linear; /* Apply the movement */
+    border-radius: var(--radii-button); /* Match theme radii */
+    height: 1rem; /* Match standard text height */
+    margin-bottom: var(--spacing-small); /* Space for multi-line look */
+    width: 85%; /* Slightly shorter for realism */
+} /* End short body line */
+
+.sactions { /* Skeleton version of the buttons */
+    display: flex; /* Flexbox for buttons */
+    gap: var(--spacing-medium); /* Use standard gap */
+} /* End skeleton actions wrapper */
+
+.sbutton { /* Individual skeleton button */
+    background: linear-gradient( /* Create the shimmering gradient */
+        90deg, 
+        var(--color-border) 25%, 
+        var(--color-background) 50%, 
+        var(--color-border) 75%
+    ); /* End gradient colors */
+    background-size: 200% 100%; /* Double width for animation flow */
+    animation: shimmer 1.5s infinite linear; /* Apply the movement */
+    border-radius: var(--radii-button); /* Match theme radii */
+    height: 2.5rem; /* Match primary button height */
+    flex-grow: 1; /* Match the flex-grow of your real buttons */
+    min-width: 100px; /* Safe minimum width */
+} /* End skeleton button */
+/* Verse specific styles within your module */

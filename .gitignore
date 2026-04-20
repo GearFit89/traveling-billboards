@@ -4,6 +4,8 @@
 ### Git ###
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
+.env*
+
 *.orig
 
 # Created by git when using merge tools for conflicts
@@ -197,6 +199,8 @@ dist
 !.env.example
 .dev.vars*
 !.dev.vars.example
+
+
 
 ### OpenNext ###
 .open-next/

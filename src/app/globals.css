@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-	--background: #ffffff;
-	--foreground: #171717;
+:root { /* Set the classic theme as the default root variables */
+    --color-background: #f8fafc; /* Very light blue-gray background */
+    --color-text: #0f172a; /* Dark slate text for readability */
+    --color-primary: #0284c7; /* Trustworthy blue for main branding */
+    --color-secondary: #38bdf8; /* Lighter blue for supporting elements */
+    --color-accent: #f59e0b; /* Warm amber for links and calls to action */
+} /* End of classic theme root variables */
+
+[data-theme='warm'] { /* Theme 2: Earthy and welcoming */
+    --color-background: #fffbeb; /* Soft, warm cream background */
+    --color-text: #451a03; /* Deep brown text for contrast */
+    --color-primary: #d97706; /* Strong amber/orange for branding */
+    --color-secondary: #fcd34d; /* Soft yellow for highlights */
+    --color-accent: #10b981; /* Emerald green for links and buttons */
+} /* End of warm theme overrides */
+
+[data-theme='modern'] { /* Theme 3: High contrast and bold */
+    --color-background: #f1f5f9; /* Cool gray background */
+    --color-text: #1e293b; /* Slate gray text */
+    --color-primary: #4f46e5; /* Vibrant indigo for a modern look */
+    --color-secondary: #818cf8; /* Soft indigo for secondary elements */
+    --color-accent: #e11d48; /* Rose red for high-visibility elements */
+} /* End of modern theme overrides */
+
+[data-theme='dark'] { /* Theme 4: Dark Mode */
+    --color-background: #0f172a; /* Deep slate background */
+    --color-text: #f8fafc; /* Light gray/white text for contrast */
+    --color-primary: #38bdf8; /* Bright blue for visibility in the dark */
+    --color-secondary: #0284c7; /* Deeper blue for borders or subtle UI */
+    --color-accent: #fbbf24; /* Bright yellow/gold for links to pop */
+} /* End of dark theme overrides */
+
+.layoutContainer { /* Global layout container class */
+    display: flex; /* Using flexbox for flexible mobile-first layouts */
+    flex-direction: column; /* Stack elements vertically by default */
+    flex-grow: 1; /* Allow container to grow and fill available space */
+    width: 100%; /* Use percentage for responsive standard width */
+    min-height: 100vh; /* Ensure the container spans the full viewport height */
+    min-width: 320px; /* Use px strictly to set an absolute minimum safe width */
+    padding: 2rem; /* Standardize inner spacing using rem */
+    gap: 1.5rem; /* Standardize separation between child elements using rem */
+    background-color: var(--color-background); /* Apply dynamic theme background */
+    color: var(--color-text); /* Apply dynamic theme text color */
+} /* End of layout container styling */
+.spinner {
+  width: 3rem; /* Scalable size */
+  height: 3rem;
+  border: 0.25rem solid #f3f3f3; /* Light grey */
+  border-top: 0.25rem solid #3498db; /* Blue highlight */
+  border-radius: 50%; /* Make it a circle */
+  animation: spin 1s linear infinite; /* Smooth rotation */
 }
 
-@theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); } 
+}
+/* The Skeleton Container */
+.skeleton-verse {
+  width: 80%; /* Flexible width */
+  max-width: 40rem; /* Limit size on computers */
+  height: 6rem; 
+  background: #eee;
+  border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-	}
+/* The Shimmer Animation */
+.skeleton-verse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.5s infinite; /* Continuous loop */
 }
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }

@@ -12,6 +12,13 @@
 		"binding": "ASSETS",
 		"directory": ".open-next/assets"
 	},
+	"d1_databases": [
+		{
+			"binding": "SQL_DB", // This is the name you use in your code (env.SQL_DB)
+			"database_name": "storage-for-traveling-billboards-site", // The name in your dashboard
+			"database_id": "22e97f03-4c93-409c-a211-f53e638ffac8" // Get this from the Cloudflare Dashboard
+		}
+	],
 	"observability": {
 		"enabled": true
 	},

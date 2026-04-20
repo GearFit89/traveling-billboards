@@ -13,10 +13,12 @@
 	},
 	"dependencies": {
 		"@opennextjs/cloudflare": "^1.18.1",
+		"ioredis": "^5.10.1",
 		"lucide-react": "^1.8.0",
 		"next": "^16.2.3",
 		"react": "19.2.1",
-		"react-dom": "19.2.1"
+		"react-dom": "19.2.1",
+		"swr": "^2.4.1"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "3",
@@ -24,6 +26,7 @@
 		"@types/node": "24.12.2",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "^19.2.3",
+		"dotenv-cli": "^11.0.0",
 		"eslint": "9.39.2",
 		"eslint-config-next": "16.0.7",
 		"tailwindcss": "4.1.17",
@@ -36,7 +39,7 @@
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
 		"check": "npm run build && tsc",
 		"deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-		"dev": "next dev",
+		"dev": " next dev",
 		"lint": "next lint",
 		"preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
 		"start": "next start"

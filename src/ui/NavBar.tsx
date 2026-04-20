@@ -1,32 +1,45 @@
-import Link from 'next/link'; // Fixed: Link import is usually default or from 'next/link'
-import { capitalizeFirstLetter } from '@src/utils'; // Fixed: Typo in function name
-import { Link as LinkICon } from 'lucide-react'
+import Link from 'next/link'; // Import Next.js Link for optimized navigation
+import { Link as LinkICon, Home, MessagesSquare, LucideIcon } from 'lucide-react'; // Import icons from lucide
+import { capitalizeFirstLetter } from '@/utils/strings'; // Import string utility
+import "@/app/global.css"; // Use @ alias to point directly to global variables
+import styles from "./Comments.module.css"; // Use scoped module for specific layout
+import { Suspense } from 'react'; // Import Suspense for loading boundaries
 
-export default function NavBar({ 
-  // Updated to an array of objects to store icons or other metadata
-  links = [
-    { name: 'home', icon: '' },
-    { name: 'thoughts', icon: '' },
-    { name: 'links', icon: '' }
-  ] 
-}) {
+export interface LinkItem { // Define link data structure
+  name: string; // URL path and label
+   icon: LucideIcon; // Lucide icon component
+  suspense?: boolean; // Optional flag for loading states
+} // End interface
 
-  const navStyle = { 
-    display: 'flex', // Standard for nav bars
-    gap: '1rem',      // Using rem instead of px per your preference
-    position: 'relative',
-    backgroundColor:'blue' // Fixed: Typo in "position"
-  };
+export default function NavBar({
+  links = [ // Set default navigation items
+    { name: 'home', icon: Home }, // Home route
+    { name: 'thoughts', icon: MessagesSquare }, // Thoughts route
+    { name: 'links', icon: LinkICon } // Links route
+  ]
+}: { links?: LinkItem[] }) { // End props definition
 
-  return (
-    <nav style={navStyle}>
-      {links.map((link) => (
-        // Key is required for list rendering in React
-        <Link key={link.name} href={'/' + link.name}>
-          <div>{link.icon}</div> {/* Render the icon */}
-          {capitalizeFirstLetter(link.name)} {/* Fixed typo */}
-        </Link>
-      ))}
-    </nav>
-  );
-}
+  return ( // Render navigation structure
+    <nav className={styles.navBar}> {/* Fixed: Added navBar class from styles */}
+      <div className={styles.navBrand}>Logo</div> {/* Optional: added brand for layout balance */}
+
+      <div className={styles.navLinks}> {/* Wrapper for links using flex and gap */}
+        {links.map((link) => ( // Map through link definitions
+          link.suspense ? ( // Render with Suspense boundary if requested
+            <Suspense key={link.name} fallback={<div>Loading...</div>}>
+              <Link href={'/' + link.name} className={styles.navLinkItem}> {/* Applied themed link style */}
+                <link.icon size={20} /> {/* Render icon with standard size */}
+                <span>{capitalizeFirstLetter(link.name)}</span> {/* Themed label */}
+              </Link>
+            </Suspense>
+          ) : ( // Standard render without suspense
+            <Link key={link.name} href={'/' + link.name} className={styles.navLinkItem}> {/* Applied themed link style */}
+              <link.icon size={20} /> {/* Render icon with standard size */}
+              <span>{capitalizeFirstLetter(link.name)}</span> {/* Themed label */}
+            </Link>
+          )
+        ))}
+      </div> {/* End links wrapper */}
+    </nav> // End nav
+  ); // End render
+} // End NavBar component

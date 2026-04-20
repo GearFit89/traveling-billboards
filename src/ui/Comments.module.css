@@ -1,0 +1,161 @@
+/* appStyles.css - Make sure global.css is imported in your project */
+
+.appContainer { /* Main application wrapper style */
+    display: flex; /* Use flexbox for overall layout */
+    flex-direction: column; /* Stack children vertically */
+    min-height: 100vh; /* Ensure it fills the entire screen vertically */
+    background-color: var(--color-background); /* Apply themed background */
+    color: var(--color-text); /* Apply themed main text color */
+    font-family: system-ui, -apple-system, sans-serif; /* Modern system font stack */
+} /* End app container style */
+
+.navBar { /* Navigation bar style */
+    display: flex; /* Flexbox for nav items */
+    justify-content: space-between; /* Push logo and links apart */
+    align-items: center; /* Vertically center nav items */
+    padding: var(--spacing-medium) var(--spacing-large); /* Use global spacing tokens */
+    background-color: var(--color-surface); /* Solid surface background */
+    border-bottom: 0.1rem solid var(--color-border); /* Themed separation line */
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.02); /* Very subtle shadow */
+} /* End nav bar style */
+
+.navBrand { /* Logo/Brand text style */
+    font-size: 1.25rem; /* Fixed scale for brand */
+    font-weight: bold; /* Bold brand text */
+    color: var(--color-primary); /* Themed brand color */
+    text-decoration: none; /* Remove link underline */
+} /* End nav brand style */
+
+.navLinks { /* Navigation links container style */
+    display: flex; /* Flexbox for links */
+    gap: var(--spacing-medium); /* Space between nav links */
+} /* End nav links container style */
+
+.navLinkItem { /* Individual nav link style */
+    color: var(--color-text-muted); /* Use muted text variable */
+    text-decoration: none; /* No underline */
+    font-weight: 500; /* Medium weight */
+    transition: color 0.2s ease; /* Smooth color transition for hover */
+} /* End nav link item style */
+
+.navLinkItem:hover { /* Hover state for nav links */
+    color: var(--color-primary-hover); /* Switch to interactive primary hover color */
+} /* End nav link hover state */
+
+.mainContent { /* Central content wrapper style - Mobile First */
+    display: flex; /* Flexbox for main content */
+    flex-direction: column; /* Stack content vertically */
+    flex-grow: 1; /* Allow this section to fill remaining screen space */
+    width: 100%; /* Take full width available on mobile */
+    padding: var(--spacing-large); /* Outer padding from tokens */
+    margin: 0 auto; /* Center horizontally */
+    max-width: 100%; /* Prevent overflow on small screens */
+} /* End main content style */
+
+@media (min-width: 768px) { /* Desktop styles for flexible layouts */
+    .mainContent { /* Override base main content for larger screens */
+        width: 60%; /* Restrict width on desktop for better readability */
+        min-width: 320px; /* Set a safe minimum width using px */
+    } /* End desktop override */
+} /* End media query */
+
+.headerSection { /* Header above the message style */
+    display: flex; /* Flexbox for alignment */
+    flex-direction: column; /* Stack text vertically */
+    align-items: center; /* Center content horizontally */
+    margin-bottom: var(--spacing-large); /* Space below header */
+    text-align: center; /* Center the text inside */
+} /* End header section style */
+
+.signBadge { /* Small badge showing sign number style */
+    background-color: var(--color-primary); /* Themed primary background */
+    color: var(--color-surface); /* Contrast color for text */
+    padding: var(--spacing-small) var(--spacing-medium); /* Pill shape padding */
+    border-radius: 2rem; /* Extremely rounded borders for pill effect */
+    font-size: 0.875rem; /* Smaller text */
+    font-weight: bold; /* Bold text */
+    margin-bottom: var(--spacing-medium); /* Space below badge */
+} /* End sign badge style */
+
+.messageCard { /* The main thought post card style */
+    display: flex; /* Flexbox for inner content */
+    flex-direction: column; /* Stack title and text vertically */
+    background-color: var(--color-surface); /* Use surface color token */
+    padding: var(--spacing-large); /* Generous inner padding */
+    border-radius: var(--radii-card); /* Themed card corners */
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05); /* Soft, modern shadow */
+    margin-bottom: var(--spacing-xlarge); /* Extra large space before resources */
+} /* End message card style */
+
+.messageTitle { /* Title inside the message card style */
+    font-size: 1.8rem; /* Large heading size */
+    margin-bottom: var(--spacing-medium); /* Space below title */
+    color: var(--color-text); /* Main themed text color */
+    line-height: 1.2; /* Tight line height for headings */
+} /* End message title style */
+
+.messageParagraph { /* Paragraph text inside card style */
+    font-size: 1.1rem; /* Comfortable reading size */
+    line-height: 1.6; /* Open line height for readability */
+    color: var(--color-text-muted); /* Slightly softer muted text */
+    margin-bottom: var(--spacing-medium); /* Space between paragraphs */
+} /* End message paragraph style */
+
+.resourceGrid { /* Container for the action buttons style */
+    display: flex; /* Flexbox for buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+    gap: var(--spacing-medium); /* Space between buttons */
+    justify-content: center; /* Center buttons horizontally */
+} /* End resource grid style */
+
+.buttonPrimary { /* Main action button style */
+    display: flex; /* Flexbox for button content */
+    flex-grow: 1; /* Allow button to expand */
+    min-width: 200px; /* Safe minimum width in px */
+    justify-content: center; /* Center text */
+    padding: var(--spacing-medium); /* Generous hit area padding */
+    background-color: var(--color-primary); /* Primary themed background */
+    color: var(--color-surface); /* Surface color for text contrast */
+    text-decoration: none; /* Remove link underline */
+    border-radius: var(--radii-button); /* Themed button corners */
+    font-weight: bold; /* Bold text for action */
+    border: none; /* Remove default borders */
+    cursor: pointer; /* Show hand cursor on hover */
+    text-align: center; /* Ensure text is centered */
+    transition: background-color 0.2s ease; /* Smooth background transition */
+} /* End primary button style */
+
+.buttonPrimary:hover { /* Hover state for primary button */
+    background-color: var(--color-primary-hover); /* Switch to themed hover color */
+} /* End primary button hover state */
+
+.buttonSecondary { /* Secondary action button style */
+    display: flex; /* Flexbox for button content */
+    flex-grow: 1; /* Allow button to expand */
+    min-width: 200px; /* Safe minimum width in px */
+    justify-content: center; /* Center text */
+    padding: var(--spacing-medium); /* Generous hit area padding */
+    background-color: var(--color-surface); /* Themed surface background */
+    color: var(--color-primary); /* Use primary color for text */
+    text-decoration: none; /* Remove link underline */
+    border-radius: var(--radii-button); /* Themed button corners */
+    font-weight: bold; /* Bold text */
+    border: 0.1rem solid var(--color-primary); /* Primary color outline */
+    cursor: pointer; /* Show hand cursor on hover */
+    text-align: center; /* Ensure text is centered */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth hover transitions */
+} /* End secondary button style */
+
+.buttonSecondary:hover { /* Hover state for secondary button */
+    background-color: var(--color-primary); /* Fill with primary color */
+    color: var(--color-surface); /* Contrast text with surface color */
+} /* End secondary button hover state */
+
+.footer { /* Bottom footer area style */
+    padding: var(--spacing-large); /* Outer padding */
+    text-align: center; /* Center text */
+    color: var(--color-text-muted); /* Use muted text variable */
+    font-size: 0.875rem; /* Small font size */
+    border-top: 0.1rem solid var(--color-border); /* Themed top separator line */
+    margin-top: auto; /* Push to the bottom of the flex container */
+} /* End footer style */
