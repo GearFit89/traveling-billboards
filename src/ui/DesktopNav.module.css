@@ -1,0 +1,15 @@
+/* Desktop: fixed top bar, hidden on mobile */
+.desktopWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+}
+
+@media (max-width: 767px) {
+  .desktopWrapper {
+    display: none;
+  }
+}

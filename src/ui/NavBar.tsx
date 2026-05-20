@@ -6,8 +6,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { capitalizeFirstLetter } from "@/utils/strings";
-import "@/app/globals.css";
-import styles from "./Comments.module.css";
+import styles from "./NavBar.module.css";
 import { Suspense } from "react";
 
 export interface LinkItem {
