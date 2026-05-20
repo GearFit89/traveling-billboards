@@ -1,46 +1,50 @@
 import { Suspense } from "react";
-import Spinner from "@/ui/spinner"; 
+import Spinner from "@/ui/spinner";
 import getDailyVerse from "@/utils/dailyVerseGetter";
-import styles from "./Home.module.css"; // Import home module
-import "@/app/globals.css"; // Ensure global tokens are available
+import styles from "./Home.module.css";
+import "@/app/globals.css";
 
 export const runtime = "edge";
 
 async function BibleVerse() {
-    // Fetching the daily data
-    const data = await getDailyVerse();
+  const data = await getDailyVerse();
 
-    return (
-        <div className={styles.verseContainer}>
-            {/* Using the themed verse text class */}
-            <p className={styles.verseText}>
-                "{data.verse.details.text}"
-            </p>
-            {/* Using the themed muted citation class */}
-            <cite className={styles.verseRef}>
-                — {data.verse.details.reference}
-            </cite>
-        </div>
-    );
+  return (
+    <div className={styles.verseCard}>
+      <span className={styles.verseLabel}>Verse of the Day</span>
+      <p className={styles.verseText}>&ldquo;{data.verse.details.text}&rdquo;</p>
+      <cite className={styles.verseRef}>— {data.verse.details.reference}</cite>
+    </div>
+  );
 }
 
 export default function Home() {
-    return (
-        <main className={styles.appContainer}>
-            <header className={styles.headerSection}>
-                <h1 className={styles.messageTitle}>Welcome to Traveling Billboards!</h1>
-                <p className={styles.messageParagraph}>This is the home page.</p>
-            </header>
+  return (
+    <main className={styles.page}>
+      {/* Hero */}
+      <header className={styles.hero}>
+        <span className={styles.eyebrow}>Welcome</span>
+        <h1 className={styles.heroTitle}>Traveling Billboards</h1>
+        <p className={styles.heroSubtitle}>
+          A curated space for links, signs, and reflections worth sharing.
+        </p>
+      </header>
 
-            <Suspense fallback={<Spinner />}>
-                <BibleVerse />
-            </Suspense>
+      {/* Daily verse */}
+      <section className={styles.verseSection} aria-label="Daily Bible Verse">
+        <Suspense fallback={<Spinner />}>
+          <BibleVerse />
+        </Suspense>
+      </section>
 
-            <section className={styles.mainContent}>
-                <p className={styles.messageParagraph}>
-                    This is a demo. There will be introduction text here to welcome your visitors.
-                </p>
-            </section>
-        </main>
-    );
+      {/* Intro content */}
+      <section className={styles.contentSection}>
+        <div className={styles.contentCard}>
+          <p className={styles.contentParagraph}>
+            There will be introduction text here to welcome your visitors.
+          </p>
+        </div>
+      </section>
+    </main>
+  );
 }

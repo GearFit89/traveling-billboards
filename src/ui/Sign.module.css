@@ -1,0 +1,38 @@
+/* ─── Sign card ───────────────────────────────────────────────────────────────── */
+.signCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radii-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.signCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Relative wrapper needed so next/image fill works */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-background);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.signTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  padding: var(--spacing-small) var(--spacing-medium) var(--spacing-medium);
+  line-height: 1.4;
+}

@@ -52,15 +52,14 @@ export default async function SectionPage({
   const getParams = await params;
   return (
     <main className={styles.container}>
-      <Link href="/links" className={styles.linkButton}>
-        &larr; Back to Sections
-      </Link>
-      <h1
-        className={styles.title}
-        style={{ marginTop: "var(--spacing-medium)" }}
-      >
-        {decodeURIComponent(getParams.section)} Links
-      </h1>
+      <header className={styles.pageHeader}>
+        <Link href="/links" className={styles.linkButton}>
+          &larr; Back to Sections
+        </Link>
+        <h1 className={styles.pageTitle}>
+          {decodeURIComponent(getParams.section)} Links
+        </h1>
+      </header>
 
       <Suspense
         fallback={<div className="skeleton-verse">Loading links...</div>}
