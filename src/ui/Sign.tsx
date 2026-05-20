@@ -1,3 +1,4 @@
+
 import { SignData } from "@/types";
 import Image from "next/image";
 
@@ -14,4 +15,19 @@ export default function Sign({ data }: { data: SignData }) {
       ></Image>
     </div>
   );
+}
+=======
+import { SignData } from "@/types"
+
+
+export default function Sign (data:SignData){
+    
+    return (<>
+    
+    <img></img>
+    
+    
+    </>)
+
+
 }
