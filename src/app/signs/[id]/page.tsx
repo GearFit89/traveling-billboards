@@ -15,13 +15,6 @@ export const dynamicParams = true;
 
 //route param example : sign/1, sign/2, sign/3, etc. This page will be used to display the content for each sign, which will be determined by the route parameter. For example, if the user navigates to /sign1, the content for sign1 will be displayed. If they navigate to /sign2, the content for sign2 will be displayed, and so on. This allows us to have a single page that can display different content based on the route parameter, which is more efficient than creating separate pages for each sign.
 /*using suspence the main data will be se */
-export function generateStaticParams() {
-  const params = [];
-  for (let i = 0; i < 10; i++) {
-    params.push({ id: i + 1 });
-  }
-  return params;
-}
 
 async function LoadSignData({ id }: { id: string }) {
   const { env } = getCloudflareContext();

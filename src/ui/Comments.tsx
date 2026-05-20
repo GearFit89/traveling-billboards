@@ -1,4 +1,6 @@
 
+"use client";
+
 import { Comments as IComments, SignData } from '@/types';
 
 import React, { useState, useEffect } from 'react';

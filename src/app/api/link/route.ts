@@ -1,6 +1,7 @@
 import setQuery from "@/services/setQuery";
 import { NextResponse } from "next/server";
-export async function UPDATE(
+
+export async function PUT(
   request: Request,
   { params }: { params: Promise<Record<string, string>> },
 ) {

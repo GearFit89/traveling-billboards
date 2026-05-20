@@ -54,7 +54,7 @@ async function fetchAndParse<T extends Record<string, any>>(
       error: "", // No error in dev
     };
   }
-  const { env } = getCloudflareContext();
+  const { env } = await getCloudflareContext({ async: true });
   // 2. Fetch data using the shared getQuery utility
   const rawData = await getQuery<T>(
     env,
