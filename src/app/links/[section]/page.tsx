@@ -3,11 +3,9 @@ import Link from "next/link";
 import { getLinkCache } from "@/services/cacher";
 import { LinkData } from "@/types";
 import styles from "@/app/styles/links.module.css";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 // Fetches all links and filters by the current section route
 async function SectionLinks({ sectionName }: { sectionName: string }) {
-  const { env } = getCloudflareContext();
   const response = await getLinkCache(
     "*",
     ["id", "section", "title"],
@@ -54,15 +52,14 @@ export default async function SectionPage({
   const getParams = await params;
   return (
     <main className={styles.container}>
-      <Link href="/links" className={styles.linkButton}>
-        &larr; Back to Sections
-      </Link>
-      <h1
-        className={styles.title}
-        style={{ marginTop: "var(--spacing-medium)" }}
-      >
-        {decodeURIComponent(getParams.section)} Links
-      </h1>
+      <header className={styles.pageHeader}>
+        <Link href="/links" className={styles.linkButton}>
+          &larr; Back to Sections
+        </Link>
+        <h1 className={styles.pageTitle}>
+          {decodeURIComponent(getParams.section)} Links
+        </h1>
+      </header>
 
       <Suspense
         fallback={<div className="skeleton-verse">Loading links...</div>}

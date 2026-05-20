@@ -1,10 +1,10 @@
 
+"use client";
+
 import { Comments as IComments, SignData } from '@/types';
 
-import React, { useState, useEffect,  } from 'react'; // Import React and necessary hooks
-import "./../app/globals.css"
-
-import styles from "./Comments.module.css"
+import React, { useState, useEffect } from 'react';
+import styles from "./Comments.module.css";
 
 // --- COMPONENTS --- // Start component definitions
 
