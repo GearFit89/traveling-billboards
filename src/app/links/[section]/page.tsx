@@ -3,11 +3,9 @@ import Link from "next/link";
 import { getLinkCache } from "@/services/cacher";
 import { LinkData } from "@/types";
 import styles from "@/app/styles/links.module.css";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 // Fetches all links and filters by the current section route
 async function SectionLinks({ sectionName }: { sectionName: string }) {
-  const { env } = getCloudflareContext();
   const response = await getLinkCache(
     "*",
     ["id", "section", "title"],

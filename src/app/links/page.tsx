@@ -3,8 +3,8 @@ import Link from "next/link";
 import { getLinkCache } from "@/services/cacher";
 import { LinkData } from "@/types";
 import styles from "@/app/styles/links.module.css";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import Image from "next/image"
+import { APP_IMAGE_URL } from "@/const";
+import Image from "next/image";
 // Async component that handles the data fetching
 async function SectionsList() {
   // Pass "*" as the ID to get all links, as requested
@@ -29,7 +29,12 @@ async function SectionsList() {
     <div className={styles.grid}>
       {sections.map((section) => (
         <Link key={section} href={`/links/${section}`} className={styles.card}>
-          <Image src=`${APP_IMAGE_URL}${section}.png    z`> </Image>
+          <Image 
+            src={`${APP_IMAGE_URL}${section}.png`} 
+            alt={`${section} category`}
+            width={100}
+            height={100}
+          />
           <h3 className={styles.title}>{section}</h3>
           {/*<p className={styles.description}></p>*/}
         </Link>
