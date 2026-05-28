@@ -1,55 +1,53 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { getLinkCache } from "@/services/cacher";
-import { LinkData } from "@/types";
-import styles from "@/app/styles/links.module.css";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
-import Image from "next/image"
-// Async component that handles the data fetching
-async function SectionsList() {
-  // Pass "*" as the ID to get all links, as requested
-  // const
-  //
-  //
-  //
-  console.log("{link} getting cache");
-  const response = await getLinkCache("*");
-
-  // Ensure we safely extract an array of links
-  const links: LinkData[] = Array.isArray(response?.data) ? response.data : [];
-  console.log("{link} getting cache... GOT!", response);
-  // Group links by section )
-  //
-  console.log("{link} data ", links);
-  const sections = Array.from(
-    new Set(links.map((l) => l.section || "General")),
-  );
-
-  return (
-    <div className={styles.grid}>
-      {sections.map((section) => (
-        <Link key={section} href={`/links/${section}`} className={styles.card}>
-          <Image src=`${APP_IMAGE_URL}${section}.png    z`> </Image>
-          <h3 className={styles.title}>{section}</h3>
-          {/*<p className={styles.description}></p>*/}
-        </Link>
-      ))}
-    </div>
-  );
-}
+import Link from 'next/link';
+import { Navigation } from '@/components/navigation/Navigation';
+import { getAllSections } from '@/lib/mock-db';
+import { siteContent, linksPageContent } from '@/lib/content';
+import { Icon } from '@/lib/icons';
+import styles from './Links.module.css';
 
 export default function LinksPage() {
-  return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>Browse Directories</h1>
-      <p className={styles.description}>Select a category to view links.</p>
+  const sections = getAllSections();
+  const content = linksPageContent;
 
-      {/* Suspense keeps the page static while fetching data */}
-      <Suspense
-        fallback={<div className="skeleton-verse">Loading sections...</div>}
-      >
-        <SectionsList />
-      </Suspense>
-    </main>
+  return (
+    <div className={styles.container}>
+      <Navigation />
+
+      <main className={styles.main}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>
+            {content.title}<span className={styles.titleAccent}>.</span>
+          </h1>
+          <p className={styles.subtitle}>{content.subtitle}</p>
+        </header>
+
+        <div className={styles.sectionsGrid}>
+          {sections.map((section) => (
+            <Link
+              key={section.id}
+              href={`/links/${section.id}`}
+              className={styles.sectionCard}
+            >
+              <div className={styles.sectionIcon}>
+                <Icon name={section.iconKey} size={24} />
+              </div>
+              <h2 className={styles.sectionName}>{section.name}</h2>
+              <p className={styles.sectionDescription}>{section.description}</p>
+              <span className={styles.sectionCount}>
+                {section.links.length} link{section.links.length !== 1 ? 's' : ''}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          {siteContent.siteName.split(' ')[0]}
+          <span className={styles.footerAccent}>.</span>{' '}
+          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
+        </p>
+      </footer>
+    </div>
   );
 }

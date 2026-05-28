@@ -16,18 +16,3 @@ export default function Sign({ data }: { data: SignData }) {
     </div>
   );
 }
-=======
-import { SignData } from "@/types"
-
-
-export default function Sign (data:SignData){
-    
-    return (<>
-    
-    <img></img>
-    
-    
-    </>)
-
-
-}

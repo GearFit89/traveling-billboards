@@ -1,111 +1,99 @@
-@import "tailwindcss"; /* Import Tailwind base */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* Theme variables are injected via ThemeStyles component */
+/* These provide fallback values and Tailwind integration */
 
 :root {
-    /* Global Design Tokens - Classic Theme */
-    /* Colors */
-    --color-background: #f8fafc; /* Very light blue-gray background */
-    --color-surface: #ffffff; /* Card and surface background */
-    --color-text: #0f172a; /* Dark slate text */
-    --color-text-muted: #64748b; /* Muted slate for secondary text */
-    --color-primary: #0284c7; /* Main brand blue */
-    --color-primary-hover: #0369a1; /* Darker blue for interactions */
-    --color-border: #e2e8f0; /* Soft gray for dividers */
-
-    /* Spacing & Sizing (Flexible rem-based) */
-    --spacing-small: 0.5rem; /* Small internal gaps */
-    --spacing-medium: 1rem; /* Standard padding/gaps */
-    --spacing-large: 2rem; /* Section padding */
-    --spacing-xlarge: 3rem; /* Large vertical separation */
-
-    /* Borders & Effects */
-    --radii-card: 0.75rem; /* Rounded corners for cards */
-    --radii-button: 0.5rem; /* Rounded corners for buttons */
-} /* End classic variables */
-
-[data-theme="warm"] {
-    /* Theme 2: Earthy */
-    --color-background: #fffbeb; /* Cream background */
-    --color-surface: #fef3c7; /* Lighter amber surface */
-    --color-text: #451a03; /* Deep brown */
-    --color-text-muted: #92400e; /* Muted brown */
-    --color-primary: #d97706; /* Strong amber */
-    --color-primary-hover: #b45309; /* Darker amber */
-    --color-border: #fde68a; /* Warm border */
-} /* End warm variables */
-
-[data-theme="modern"] {
-    /* Theme 3: Bold Indigo */
-    --color-background: #f1f5f9; /* Cool gray */
-    --color-surface: #ffffff; /* White surface */
-    --color-text: #1e293b; /* Slate text */
-    --color-text-muted: #475569; /* Muted slate */
-    --color-primary: #4f46e5; /* Vibrant indigo */
-    --color-primary-hover: #4338ca; /* Darker indigo */
-    --color-border: #cbd5e1; /* Gray border */
-} /* End modern variables */
-
-[data-theme="dark"] {
-    /* Theme 4: Dark Mode */
-    --color-background: #0f172a; /* Deep slate */
-    --color-surface: #1e293b; /* Lighter slate surface */
-    --color-text: #f8fafc; /* Near-white text */
-    --color-text-muted: #94a3b8; /* Muted blue-gray */
-    --color-primary: #38bdf8; /* Bright sky blue */
-    --color-primary-hover: #7dd3fc; /* Soft sky blue */
-    --color-border: #334155; /* Subtle dark border */
-} /* End dark variables */
-
-/* Global Layout & Utilities */
-.layoutContainer {
-    /* Main wrapper */
-    display: flex; /* Flexbox for layout */
-    flex-direction: column; /* Vertical stacking */
-    flex-grow: 1; /* Fill height */
-    width: 100%; /* Responsive width */
-    min-height: 100vh; /* Full viewport height */
-    min-width: 320px; /* Safe minimum width in px */
-    background-color: var(--color-background); /* Theme background */
-    color: var(--color-text); /* Theme text */
-} /* End layout container */
-
-/* Animations */
-.spinner {
-    /* Loading spinner */
-    width: 3rem; /* Scalable size */
-    height: 3rem; /* Scalable size */
-    border: 0.25rem solid var(--color-border); /* Use theme border */
-    border-top: 0.25rem solid var(--color-primary); /* Use primary color */
-    border-radius: 50%; /* Circle shape */
-    animation: spin 1s linear infinite; /* Rotation */
-} /* End spinner */
-
-@keyframes spin {
-    /* Rotate animation */
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  /* Core theme colors - overridden by ThemeStyles */
+  --background: var(--theme-background, oklch(0.98 0.01 240));
+  --foreground: var(--theme-foreground, oklch(0.15 0.02 240));
+  --card: var(--theme-card, oklch(1 0 0));
+  --card-foreground: var(--theme-card-foreground, oklch(0.15 0.02 240));
+  --popover: var(--theme-card, oklch(1 0 0));
+  --popover-foreground: var(--theme-card-foreground, oklch(0.15 0.02 240));
+  --primary: var(--theme-primary, oklch(0.55 0.2 240));
+  --primary-foreground: var(--theme-primary-foreground, oklch(1 0 0));
+  --secondary: var(--theme-muted, oklch(0.95 0.01 240));
+  --secondary-foreground: var(--theme-foreground, oklch(0.15 0.02 240));
+  --muted: var(--theme-muted, oklch(0.95 0.01 240));
+  --muted-foreground: var(--theme-muted-foreground, oklch(0.45 0.02 240));
+  --accent: var(--theme-accent, oklch(0.55 0.2 240));
+  --accent-foreground: var(--theme-accent-foreground, oklch(1 0 0));
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: var(--theme-border, oklch(0.9 0.02 240));
+  --input: var(--theme-muted, oklch(0.95 0.01 240));
+  --ring: var(--theme-primary, oklch(0.55 0.2 240));
+  
+  /* Chart colors */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  
+  --radius: 0.75rem;
+  
+  /* Sidebar colors */
+  --sidebar: var(--theme-card, oklch(1 0 0));
+  --sidebar-foreground: var(--theme-foreground, oklch(0.15 0.02 240));
+  --sidebar-primary: var(--theme-primary, oklch(0.55 0.2 240));
+  --sidebar-primary-foreground: var(--theme-primary-foreground, oklch(1 0 0));
+  --sidebar-accent: var(--theme-muted, oklch(0.95 0.01 240));
+  --sidebar-accent-foreground: var(--theme-foreground, oklch(0.15 0.02 240));
+  --sidebar-border: var(--theme-border, oklch(0.9 0.02 240));
+  --sidebar-ring: var(--theme-primary, oklch(0.55 0.2 240));
 }
 
-.skeleton-verse {
-    /* Loading skeleton */
-    width: 80%; /* Flexible width */
-    max-width: 40rem; /* Desktop limit */
-    height: 6rem; /* Fixed height */
-    background: var(--color-border); /* Use border color as base */
-    border-radius: 0.5rem; /* Rounded corners */
-    position: relative; /* For shimmer positioning */
-    overflow: hidden; /* Clip the shimmer */
-} /* End skeleton */
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
 
-@keyframes shimmer {
-    /* Shimmer effect */
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -1,49 +1,16 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { getLinkCache } from "@/services/cacher";
-import { LinkData } from "@/types";
-import styles from "@/app/styles/links.module.css";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Navigation } from '@/components/navigation/Navigation';
+import { getSectionById, getAllSections } from '@/lib/mock-db';
+import { siteContent, linksPageContent } from '@/lib/content';
+import { Icon } from '@/lib/icons';
+import styles from '../Links.module.css';
 
-// Fetches all links and filters by the current section route
-async function SectionLinks({ sectionName }: { sectionName: string }) {
-  const { env } = getCloudflareContext();
-  const response = await getLinkCache(
-    "*",
-    ["id", "section", "title"],
-    "AND section = ?",
-    [sectionName],
-  );
-  const allLinks: LinkData[] = Array.isArray(response?.data)
-    ? response.data
-    : [];
-
-  // Decode the URL param and match it to our section grouping logic
-  const decodedSection = decodeURIComponent(sectionName);
-  const sectionLinks = allLinks.filter(
-    (l) => (l.section || "General") === decodedSection,
-  );
-
-  if (sectionLinks.length === 0) {
-    return (
-      <p className={styles.description}>No links found in this section.</p>
-    );
-  }
-
-  return (
-    <div className={styles.grid}>
-      {sectionLinks.map((link) => (
-        <Link
-          key={link.id}
-          href={`/links/${sectionName}/${link.id}`}
-          className={styles.card}
-        >
-          <h2 className={styles.title}>{link.title}</h2>
-          <p className={styles.description}>Click to view details</p>
-        </Link>
-      ))}
-    </div>
-  );
+export function generateStaticParams() {
+  const sections = await  getAllSections();
+  return sections.map((section) => ({
+    section: section.id,
+  }));
 }
 
 export default async function SectionPage({
@@ -51,24 +18,63 @@ export default async function SectionPage({
 }: {
   params: Promise<{ section: string }>;
 }) {
-  const getParams = await params;
-  return (
-    <main className={styles.container}>
-      <Link href="/links" className={styles.linkButton}>
-        &larr; Back to Sections
-      </Link>
-      <h1
-        className={styles.title}
-        style={{ marginTop: "var(--spacing-medium)" }}
-      >
-        {decodeURIComponent(getParams.section)} Links
-      </h1>
+  const { section: sectionId } = await params;
+  const section = getSectionById(sectionId);
+  const content = linksPageContent;
 
-      <Suspense
-        fallback={<div className="skeleton-verse">Loading links...</div>}
-      >
-        <SectionLinks sectionName={getParams.section} />
-      </Suspense>
-    </main>
+  if (!section) {
+    notFound();
+  }
+
+  return (
+    <div className={styles.container}>
+      <Navigation />
+
+      <main className={styles.main}>
+        <Link href="/links" className={styles.backLink}>
+          <Icon name="arrowLeft" size={16} className={styles.backIcon} />
+          {content.backToAllText}
+        </Link>
+
+        <header className={styles.header}>
+          <nav className={styles.breadcrumb}>
+            <Link href="/links" className={styles.breadcrumbLink}>{content.title}</Link>
+            <span className={styles.breadcrumbSeparator}>/</span>
+            <span className={styles.breadcrumbCurrent}>{section.name}</span>
+          </nav>
+          <h1 className={styles.title}>
+            <span className={styles.sectionIcon} style={{ display: 'inline-flex', marginRight: '0.5rem', verticalAlign: 'middle' }}>
+              <Icon name={section.iconKey} size={32} />
+            </span>
+            {section.name}
+          </h1>
+          <p className={styles.subtitle}>{section.description}</p>
+        </header>
+
+        <div className={styles.linksList}>
+          {section.links.map((link) => (
+            <Link
+              key={link.id}
+              href={`/links/${sectionId}/${link.id}`}
+              className={styles.linkCard}
+            >
+              <div className={styles.linkContent}>
+                <h2 className={styles.linkTitle}>{link.title}</h2>
+                <p className={styles.linkDescription}>{link.description}</p>
+              </div>
+              <Icon name="arrowRight" size={20} className={styles.linkArrow} />
+            </Link>
+          ))}
+        </div>
+      </main>
+
+      <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          {siteContent.siteName.split(' ')[0]}
+          <span className={styles.footerAccent}>.</span>{' '}
+          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
+        </p>
+      </footer>
+    </div>
   );
 }

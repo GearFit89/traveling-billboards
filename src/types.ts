@@ -1,26 +1,20 @@
 export interface SignData {
   id: string; // Unique identifier for the sign
-  comments: Comments[]; // Array of comments related to the sign
+  comments: Thought[]; // Array of comments related to the sign
   // Add any other relevant fields as needed
   title: string;
   img_key: string;
   img_alt: string;
   discription: string;
+  web_hits:number;
+  qr_hits:number;
   metadata?: Record<string, any>; // Optional field for additional metadata
 }
-export interface SignDataStr {
-  id: string; // Unique identifier for the sign
-  comments: string; // Array of comments related to the sign
-  // Add any other relevant fields as needed
+
+export interface Thought {
   title: string;
-  img_key: string;
-  img_alt: string;
-  discription: string;
-  metadata?: string; // Optional field for additional metadata
-}
-export interface Comments {
-  title: string;
-  date: number;
+  date: string;
+  id:string;
   content?: string; //plain text
   html: string; //static html saved in string format  in the db.
 }
@@ -33,6 +27,7 @@ export interface LinkData {
   img_alt: string;
   discription: string;
   section: string;
+  hits:number;
   metadata?: Record<string, any>; // Optional field for additional metadata
 }
 export type SearchType = "signs" | "billboard" | "links" | "thoughts";

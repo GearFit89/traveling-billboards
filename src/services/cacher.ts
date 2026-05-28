@@ -1,4 +1,4 @@
-import { SignDataStr, SignData, LinkData } from "@/types"; // Import necessary types
+import { SignData, LinkData } from "@/types"; // Import necessary types
 import { unstable_cache } from "next/cache"; // Next.js cache utility
 import getQuery from "./getQuery"; // Database query utility
 import { TAGS } from "@/const"; // Revalidation constants
@@ -95,7 +95,7 @@ async function fetchAndParse<T extends Record<string, any>>(
 
 export const getSignCache = unstable_cache(
   async (env: any, signId: string) =>
-    fetchAndParse<SignDataStr>(`sign_${signId}`, "comments", {
+    fetchAndParse<SignData>(`sign_${signId}`, "comments", {
       id: signId,
       table: "signs",
       cols: ["*"],
@@ -118,6 +118,6 @@ export const getLinkCache = unstable_cache(
       extraSql,
       values,
     }), // Delegate logic
-  ["link_data"], // Unique cache key
+  ["link_data", id], // Unique cache key
   { tags: [TAGS.LINKS] }, // Revalidation
 );
