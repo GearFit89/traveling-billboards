@@ -19,15 +19,23 @@ export interface ThemeColors {
   mutedForeground: string;
   border: string;
   
-  // Mood badge colors (for Thoughts page)
-  moodReflective: string;
-  moodReflectiveText: string;
-  moodExcited: string;
-  moodExcitedText: string;
-  moodCurious: string;
-  moodCuriousText: string;
-  moodPeaceful: string;
-  moodPeacefulText: string;
+  // // Mood badge colors (for Thoughts page)
+  // moodReflective: string;
+  // moodReflectiveText: string;
+  // moodExcited: string;
+  // moodExcitedText: string;
+  // moodCurious: string;
+  // moodCuriousText: string;
+  // moodPeaceful: string;
+  // moodPeacefulText: string;/ Mood badge colors (for Thoughts page)
+  // moodReflective: string;
+  // moodReflectiveText: string;
+  // moodExcited: string;
+  // moodExcitedText: string;
+  // moodCurious: string;
+  // moodCuriousText: string;
+  // moodPeaceful: string;
+  // moodPeacefulText: string;
 }
 
 export interface Theme {
@@ -60,15 +68,15 @@ export const themes: Record<string, Theme> = {
       mutedForeground: 'oklch(0.45 0.02 240)',
       border: 'oklch(0.9 0.02 240)',
       
-      // Mood badges
-      moodReflective: 'oklch(0.92 0.08 280)',
-      moodReflectiveText: 'oklch(0.4 0.15 280)',
-      moodExcited: 'oklch(0.92 0.1 45)',
-      moodExcitedText: 'oklch(0.45 0.15 45)',
-      moodCurious: 'oklch(0.92 0.08 220)',
-      moodCuriousText: 'oklch(0.4 0.15 220)',
-      moodPeaceful: 'oklch(0.92 0.08 160)',
-      moodPeacefulText: 'oklch(0.4 0.15 160)',
+      // // Mood badges
+      // moodReflective: 'oklch(0.92 0.08 280)',
+      // moodReflectiveText: 'oklch(0.4 0.15 280)',
+      // moodExcited: 'oklch(0.92 0.1 45)',
+      // moodExcitedText: 'oklch(0.45 0.15 45)',
+      // moodCurious: 'oklch(0.92 0.08 220)',
+      // moodCuriousText: 'oklch(0.4 0.15 220)',
+      // moodPeaceful: 'oklch(0.92 0.08 160)',
+      // moodPeacefulText: 'oklch(0.4 0.15 160)',
     },
   },
   'dark-amber': {
@@ -94,14 +102,14 @@ export const themes: Record<string, Theme> = {
       border: 'oklch(0.28 0.01 260)',
       
       // Mood badges
-      moodReflective: 'rgba(147, 112, 219, 0.2)',
-      moodReflectiveText: 'rgb(177, 156, 217)',
-      moodExcited: 'rgba(255, 180, 80, 0.2)',
-      moodExcitedText: 'oklch(0.75 0.15 45)',
-      moodCurious: 'rgba(100, 200, 255, 0.2)',
-      moodCuriousText: 'rgb(140, 210, 255)',
-      moodPeaceful: 'rgba(100, 220, 150, 0.2)',
-      moodPeacefulText: 'rgb(140, 220, 170)',
+      // moodReflective: 'rgba(147, 112, 219, 0.2)',
+      // moodReflectiveText: 'rgb(177, 156, 217)',
+      // moodExcited: 'rgba(255, 180, 80, 0.2)',
+      // moodExcitedText: 'oklch(0.75 0.15 45)',
+      // moodCurious: 'rgba(100, 200, 255, 0.2)',
+      // moodCuriousText: 'rgb(140, 210, 255)',
+      // moodPeaceful: 'rgba(100, 220, 150, 0.2)',
+      // moodPeacefulText: 'rgb(140, 220, 170)',
     },
   },
 };

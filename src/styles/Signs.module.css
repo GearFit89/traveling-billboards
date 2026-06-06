@@ -1,0 +1,48 @@
+/* The main page wrapper */
+.container {
+  min-height: calc(100vh - 80px);
+  padding-top: 80px;
+  background: var(--theme-background);
+  color: var(--theme-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Puts clean spacing between the image and thoughts */
+  max-width: 800px; /* Keeps the layout clean and readable */
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* The frame containing the Next.js Image */
+.imageFrame {
+  position: relative; /* Crucial for Next.js 'fill' to work safely */
+  width: 100%;
+  height: 50vh; /* Takes up half the screen height, adjusting dynamically */
+  border-radius: 12px;
+  overflow: hidden; /* Keeps rounded corners clean */
+}
+
+/* The actual image settings */
+.actualImage {
+  object-fit: cover; /* Keeps image from looking squished or distorted */
+  object-position: center;
+}
+
+/* The area where thoughts live */
+.thoughtsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Individual thought wrapper */
+.thoughtCard {
+  background: rgba(255, 255, 255, 0.05); /* Gives a subtle background if in dark mode */
+  padding: 16px;
+  border-radius: 8px;
+}
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--theme-border), transparent);
+  margin: 0.5rem 0;
+}

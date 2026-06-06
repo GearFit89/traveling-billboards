@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Spinner from "@/ui/spinner";
+import Spinner from "@/ui/Spinner";
 import getDailyVerse from "@/utils/dailyVerseGetter";
 import styles from "./Home.module.css";
 import "@/app/globals.css";

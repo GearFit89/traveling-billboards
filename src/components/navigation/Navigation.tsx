@@ -7,6 +7,14 @@ import { siteContent } from '@/lib/content';
 import { Icon } from '@/lib/icons';
 import styles from './Navigation.module.css';
 
+
+const  navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/signs', label: 'Signs' },
+    { href: '/links', label: 'Links' },
+  ];
+
+
 export function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,7 +33,7 @@ export function Navigation() {
         </Link>
 
         <div className={styles.navLinks}>
-          {siteContent.navLinks.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

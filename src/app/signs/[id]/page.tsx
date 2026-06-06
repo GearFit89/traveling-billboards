@@ -1,0 +1,52 @@
+import "@/styles/globals.css";
+
+import { Suspense } from 'react';
+import { Thought } from '@/components/signs/Thought';
+import { Spinner }from "@/components/ui/spinner" //scdu ui component for loading state
+import { Sign } from '@/components/signs/Sign';
+import { Navigation } from '@/components/navigation/Navigation';
+import { getSignById } from '@/lib/actions';
+import { siteContent, thoughtsPageContent } from '@/lib/content';
+import { Icon } from '@/lib/icons';
+import Skeleton from "@/components/fallbacks/Skeleton";
+import { redirect } from "next/navigation";
+import { AppError } from "@/utils/error";
+
+
+export  async function LoadSign( {id} :{id:string }) {
+    const {data:sign , error} = await  getSignById(id);
+
+
+   if(!sign || error){
+    throw new AppError(error || "Sign not found", 404)
+   }
+
+    return (
+
+        <div>
+            
+        <Sign sign={sign} />
+        
+        </div>
+    )
+
+}
+interface Params{
+    id:string;
+}
+export  default async function SignPage({ params }: { params: Promise<Params>}) {
+       const { id } = await params;
+    return (<div>
+
+
+    <Navigation />
+    <Suspense fallback={<Skeleton />}>
+
+        <LoadSign id={id} />
+
+    </Suspense>
+    
+    
+    </div>)
+
+}

@@ -70,7 +70,7 @@ export const siteContent: SiteContent = {
   
   navLinks: [
     { href: '/', label: 'Home' },
-    { href: '/thoughts', label: 'Thoughts' },
+    { href: '/sgins', label: 'Signs' },
     { href: '/links', label: 'Links' },
   ],
   

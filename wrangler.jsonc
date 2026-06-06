@@ -19,6 +19,10 @@
 			"database_id": "22e97f03-4c93-409c-a211-f53e638ffac8" // Get this from the Cloudflare Dashboard
 		}
 	],
+	"kv_namespaces": [{
+                    "binding": "KV",
+                    "id": "152f82e786af4eb0a2b3e361fcb67945"
+                 }],
 	"observability": {
 		"enabled": true
 	},
