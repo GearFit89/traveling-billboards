@@ -11,26 +11,27 @@ import { ErrorPageLinks } from '@/components/links/ErrorPageLinks';
 import { LinksFooter } from '@/components/links/LinksFooter';
 import "@/styles/globals.css";
 import styles from '@/styles/Links.module.css';
-
+import { Suspense } from 'react';
+import Spinner from '@/components/fallbacks/Spinner';
   
 export default async  function LinksPage({searchParams}: {searchParams: Promise<{[key: string]: string  | undefined }> } ) {
   const queryParams = await searchParams;
   const sectionId = queryParams.section;
   const linkId = queryParams.link;
   const content = linksPageContent;
-
+const fallback = <Spinner />
   // Link detail view
   if (sectionId && linkId) {
-    return <LinkDetailView sectionId={sectionId} linkId={linkId} content={content} />;
+    return <Suspense fallback={fallback}><LinkDetailView sectionId={sectionId} linkId={linkId} content={content} /></Suspense> ;
   }
 
   // Section view
   if (sectionId) {
-    return <SectionDetailView sectionId={sectionId} content={content} />;
+    return  <Suspense fallback={fallback}><SectionDetailView sectionId={sectionId} content={content} /></Suspense> ;
   }
 
   // Default view - all sections
-  return <AllSectionsView content={content} />;
+  return  <Suspense fallback={fallback}> <AllSectionsView content={content} /></Suspense>;
 }
 
 async function LinkDetailView({

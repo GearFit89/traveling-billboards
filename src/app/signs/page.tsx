@@ -19,7 +19,7 @@ if(!signs || error ){ // the !signs is only for the type checking
     throw new AppError(error || "Sign not found", 404)
    }
  
-"
+
 
   return (
     <div className={styles.container}>
