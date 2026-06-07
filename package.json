@@ -64,7 +64,7 @@
 		"deploy": "npm run build && opennextjs-cloudflare deploy",
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
 		"check": "npm run build && tsc",
-		"lint": "next lint",
-		"prepare": "npm run cf-typegen"
+		"lint": "next lint"
+		
 	}
 }
