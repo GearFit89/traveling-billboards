@@ -42,7 +42,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "opennextjs-cloudflare build",
+		"build": "next build",
 		"build:next": "next build",
 		"preview": "npm run build && opennextjs-cloudflare preview",
 		"deploy": "npm run build && opennextjs-cloudflare deploy",
