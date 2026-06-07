@@ -58,7 +58,7 @@ export function Navigation() {
       </div>
 
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
-        {siteContent.navLinks.map((link) => (
+        {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}

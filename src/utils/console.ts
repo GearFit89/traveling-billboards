@@ -1,5 +1,7 @@
-type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "log";
-
+type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "plog"|"log";
+// custom console keeps logs clean 
+// in const.ts turn DEBUG to false to remove these logs
+// do console.plog(msg) to bypass debug mode logging.
 interface ConsoleOptions {
   debug?: boolean;
   color?: boolean;
@@ -14,6 +16,7 @@ export class Console {
 
   // Map levels to numeric values for filtering
   private levelMap: Record<LogLevel, number> = {
+    plog:0,
     error: 1,
     warn: 2,
     info: 3,
@@ -37,7 +40,7 @@ export class Console {
 
   private shouldLog(level: LogLevel): boolean {
     if (!this.options.debug) return false;
-    return (this.levelMap[level] || 0) <= (this.options.levels || 8);
+    return this.levelMap[level] !== 0// 0 means this logs even in production
   }
 
   private getStyle(level: LogLevel): string {
@@ -59,10 +62,7 @@ export class Console {
   }
 
   llog(message: any, level: LogLevel = "info", ...args: any[]) {
-    function f() {
-      console.log("write in to file");
-      //file logic here
-    } //writes to a debug file
+   
     if (!this.shouldLog(level)) return this;
 
     const color = this.getStyle(level);
@@ -104,7 +104,11 @@ export class Console {
     console.trace(`${this.prefix} STACK TRACE`);
     return this;
   }
-}
+  plog(msg: string, ...args: any[]) { // this will log no matter what
+    return this.llog(msg, "plog", ...args);
+  }
+} 
+
 
 // Implementation as requested
 

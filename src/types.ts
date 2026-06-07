@@ -35,7 +35,7 @@ export interface QueryOptions {
 }
 export interface ReturnData<T> {
   success: boolean;
-  data?: T;
+  data: T;
   error?: string;
 }
 export interface setQueryReturnData {

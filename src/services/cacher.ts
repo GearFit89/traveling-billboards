@@ -3,15 +3,13 @@ import * as v from 'valibot';
 import { stableCache, Options } from './stableCache'; 
 import Console from '@/utils/console';
 import { AppError } from '@/utils/error';
+import { ReturnData } from '@/types';
 // custom console keeps thigns clean 
 const console = new Console("schema_validation");
-export interface ReturnData<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
+interface QueryFnRetrun<T> {
+  results: T
 
 }
-
 export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
   schema: S
 ) => {
@@ -29,7 +27,7 @@ export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v
       if ( process.env.NODE_ENV === "development" && getDevData){
         console.log("dev mode enabled")
         data =  await getDevData();
-        console.log("dev data got. ", Boolean(data));
+        console.log("dev data got. ", data);
       }else {
         console.log("using stable cache");
         data = stableCache(queryBuilder, cacheKey,  options)
@@ -37,7 +35,7 @@ export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v
      
       if(!data){
         console.log("data not found")
-        return {success:false, error:"no data"}
+        return {success:false, error:"no data", data:{}}
       }
       // safeParseAsync returns an object with { success: true, output: ... } 
       // or { success: false, issues: ... }
@@ -49,12 +47,12 @@ export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v
         return { success: true, data: parsed.output };
       } else {
         
-        console.error('Validation failed:', parsed.issues);
-        return { success: false, error: 'Validation failed' };
+        console.error('Validation failed:', JSON.stringify(parsed.issues));
+        return { success: false, error: 'Validation failed' , data:{}};
       }
     } catch (error) {
       console.error('Error fetching or parsing cached data:', error);
-      return { success: false, error: 'Error fetching or parsing cached data' };
+      return {data:{}, success: false, error: 'Error fetching or parsing cached data' };
     }
   };
 };

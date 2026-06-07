@@ -1,8 +1,7 @@
-'use client';
 
-import { useSearchParams } from 'next/navigation';
+
 import { Navigation } from '@/components/navigation/Navigation';
-import { getAllSections, getSectionById } from '@/lib/actions';
+import { getAllSections, getSectionById , getLinkById} from '@/lib/actions';
 import { linksPageContent } from '@/lib/content';
 import { LinkCard } from '@/components/links/LinkCard';
 import { SectionCard } from '@/components/links/SectionCard';
@@ -13,11 +12,11 @@ import { LinksFooter } from '@/components/links/LinksFooter';
 import "@/styles/globals.css";
 import styles from '@/styles/Links.module.css';
 
-
-export default function LinksPage() {
-  const searchParams = useSearchParams();
-  const sectionId = searchParams.get('section');
-  const linkId = searchParams.get('link');
+  
+export default async  function LinksPage({searchParams}: {searchParams: Promise<{[key: string]: string  | undefined }> } ) {
+  const queryParams = await searchParams;
+  const sectionId = queryParams.section;
+  const linkId = queryParams.link;
   const content = linksPageContent;
 
   // Link detail view
@@ -44,10 +43,9 @@ async function LinkDetailView({
   content: any;
 }) {
   try {
-    const section = await getSectionById(sectionId);
-    const link = section.links?.find((l) => l.id === linkId);
-
-    if (!link) {
+    const {data:link} = await getLinkById(linkId);
+  
+    if (!link) { 
       return <ErrorPageLinks message="Link not found" />;
     }
 
@@ -60,13 +58,13 @@ async function LinkDetailView({
             description={link.discription}
             url={link.link}
             sectionId={sectionId}
-            sectionName={section.name}
+            sectionName={sectionId}
             visitSiteText={content.visitSiteText}
             backToAllText={content.backToAllText}
             pageTitle={content.title}
           />
         </main>
-        <LinksFooter />
+        {/* <LinksFooter /> */}
       </div>
     );
   } catch {
@@ -82,8 +80,8 @@ async function SectionDetailView({
   content: any;
 }) {
   try {
-    const section = await getSectionById(sectionId);
-
+    const {data:section} = await getSectionById(sectionId);
+    
     return (
       <div className={styles.container}>
         <Navigation />
@@ -93,12 +91,12 @@ async function SectionDetailView({
             sectionName={section.name}
             sectionDescription={section.description || ''}
             sectionIcon={section.icon_key || section.iconKey || 'link'}
-            links={section.links || []}
+            links={section.links|| []}
             pageTitle={content.title}
             backToAllText={content.backToAllText}
           />
         </main>
-        <LinksFooter />
+        {/* <LinksFooter /> */}
       </div>
     );
   } catch {
@@ -108,7 +106,7 @@ async function SectionDetailView({
 
 async function AllSectionsView({ content }: { content: any }) {
   try {
-    const sections = await getAllSections();
+    const { data:sections } = await getAllSections();
 
     return (
       <div className={styles.container}>
@@ -134,9 +132,10 @@ async function AllSectionsView({ content }: { content: any }) {
             ))}
           </div>
         </main>
-        <LinksFooter />
+        {/* <LinksFooter /> */}
       </div>
     );
-  } catch {
+  } catch(e) {
     return <ErrorPageLinks message="Failed to load sections" />;
   }
+};
