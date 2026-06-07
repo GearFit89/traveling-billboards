@@ -40,9 +40,10 @@ export default function  SignListPage (){
  
  <Navigation />
 
-    <Suspense fallback={<Spinner />}></Suspense>
-
+    <Suspense fallback={<Spinner />}>
+    
     <LoadSignsList />
+</Suspense>
 
  
   

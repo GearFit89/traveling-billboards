@@ -13,7 +13,8 @@ import { redirect } from "next/navigation";
 import { AppError } from "@/utils/error";
 
 
-export  async function LoadSign( {id} :{id:string }) {
+export  async function LoadSign( { params }: { params: Promise<Params>}) {
+    const { id } = await params;
     const {data:sign , error} = await  getSignById(id);
 
 
@@ -34,15 +35,15 @@ export  async function LoadSign( {id} :{id:string }) {
 interface Params{
     id:string;
 }
-export  default async function SignPage({ params }: { params: Promise<Params>}) {
-       const { id } = await params;
+export  default  function SignPage({ params }: { params: Promise<Params>}) {
+       
     return (<div>
 
 
     <Navigation />
     <Suspense fallback={<Skeleton />}>
 
-        <LoadSign id={id} />
+        <LoadSign params={params} />
 
     </Suspense>
     

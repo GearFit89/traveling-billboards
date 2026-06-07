@@ -14,25 +14,40 @@ import styles from '@/styles/Links.module.css';
 import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
   
-export default async  function LinksPage({searchParams}: {searchParams: Promise<{[key: string]: string  | undefined }> } ) {
-  const queryParams = await searchParams;
+
+// 1. Create a sub-component to handle the dynamic routing based on searchParams
+async function LinksContent({ searchParamsPromise }: { searchParamsPromise: Promise<{[key: string]: string | undefined }> }) {
+  const queryParams = await searchParamsPromise;
   const sectionId = queryParams.section;
   const linkId = queryParams.link;
   const content = linksPageContent;
-const fallback = <Spinner />
-  // Link detail view
+
   if (sectionId && linkId) {
-    return <Suspense fallback={fallback}><LinkDetailView sectionId={sectionId} linkId={linkId} content={content} /></Suspense> ;
+    return <LinkDetailView sectionId={sectionId} linkId={linkId} content={content} />;
   }
 
-  // Section view
   if (sectionId) {
-    return  <Suspense fallback={fallback}><SectionDetailView sectionId={sectionId} content={content} /></Suspense> ;
+    return <SectionDetailView sectionId={sectionId} content={content} />;
   }
 
-  // Default view - all sections
-  return  <Suspense fallback={fallback}> <AllSectionsView content={content} /></Suspense>;
+  return <AllSectionsView content={content} />;
 }
+
+// 2. The Main Page remains clean, static, and completely prerenderable!
+export default function LinksPage({ searchParams }: { searchParams: Promise<{[key: string]: string | undefined }> }) {
+  const fallback = <Spinner />;
+
+  return (
+    <>
+      {/* You can put global page layouts, headers, or nav bars here to be prerendered instantly */}
+      <Suspense fallback={fallback}>
+        {/* Pass the unresolved promise down to the suspense boundary */}
+        <LinksContent searchParamsPromise={searchParams} />
+      </Suspense>
+    </>
+  );
+}
+
 
 async function LinkDetailView({
   sectionId,
