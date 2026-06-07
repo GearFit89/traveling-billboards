@@ -1,3 +1,6 @@
+
+import { D1Database } from "@cloudflare/workers-types";
+
 export type SearchType = "signs" | "billboard" | "links" | "thoughts";
 export type SignColumns =
   | "*"

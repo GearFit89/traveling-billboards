@@ -20,14 +20,7 @@ export function ThemeStyles() {
       --theme-muted: ${colors.muted};
       --theme-muted-foreground: ${colors.mutedForeground};
       --theme-border: ${colors.border};
-      --theme-mood-reflective: ${colors.moodReflective};
-      --theme-mood-reflective-text: ${colors.moodReflectiveText};
-      --theme-mood-excited: ${colors.moodExcited};
-      --theme-mood-excited-text: ${colors.moodExcitedText};
-      --theme-mood-curious: ${colors.moodCurious};
-      --theme-mood-curious-text: ${colors.moodCuriousText};
-      --theme-mood-peaceful: ${colors.moodPeaceful};
-      --theme-mood-peaceful-text: ${colors.moodPeacefulText};
+    
       --theme-mode: ${mode};
     }
   `;

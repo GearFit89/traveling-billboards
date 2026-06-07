@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon } from '@/lib/icons';
+import { Icon, IconKey } from '@/lib/icons';
 import styles from '@/styles/Links.module.css';
 
 interface SectionCardProps {
@@ -16,7 +16,7 @@ export function SectionCard({ id, name, description, iconKey, linkCount }: Secti
   return (
     <Link href={`/links?section=${id}`} className={styles.sectionCard}>
       <div className={styles.sectionIcon}>
-        <Icon name={iconKey} size={24} />
+        <Icon name={iconKey as IconKey} size={24} />
       </div>
       <h2 className={styles.sectionName}>{name}</h2>
       <p className={styles.sectionDescription}>{description}</p>

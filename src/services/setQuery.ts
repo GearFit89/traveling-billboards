@@ -4,6 +4,7 @@ import {
   SetQueryOptions as Options,
   setQueryReturnData,
 } from "@/types";
+import { D1Database } from "@cloudflare/workers-types";
 import { safeTypes, unSafeColumns } from "@/const";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Console from "@/utils/console";

@@ -1,7 +1,7 @@
 
-import { Comments as IComments, SignData } from '@/types';
+import { ThoughtData as IComments, SignData } from '@/types';
 
-import React, { useState, useEffect,  } from 'react'; // Import React and necessary hooks
+import React from 'react'; // Import React and necessary hooks
 import "./../app/globals.css"
 
 import styles from "./Comments.module.css"
@@ -30,7 +30,7 @@ const MessageCard: React.FC<MessageCardProps> = ({ title, htmlStr  }) => { // De
 
 export function Comments({signData}:{signData:SignData}) { // Export default App component
      // Empty dependency array means this runs once on mount
-const comments = signData.comments 
+const comments = signData.thoughts 
     // Simulate data that might be fetched based on a URL parameter // Example data comment
     // End mock data object
     // const {isDesktop } = useWindowSize()
@@ -51,7 +51,7 @@ const comments = signData.comments
                 </header> 
                 {/* End header area */}
                 {comments.map(comment => (
-                    <MessageCard title={comment.title} htmlStr={comment.html} />
+                    <MessageCard title={comment.title as string} htmlStr={comment.html as string} />
                      
                 ))}
                 <section className={styles.resourceGrid}> {/* Render grid for action buttons */}

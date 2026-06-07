@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon } from '@/lib/icons';
+import { Icon, IconKey } from '@/lib/icons';
 import { LinkCard } from './LinkCard';
 import styles from '@/styles/Links.module.css';
 
@@ -50,7 +50,7 @@ export function SectionView({
             className={styles.sectionIcon}
             style={{ display: 'inline-flex', marginRight: '0.5rem', verticalAlign: 'middle' }}
           >
-            <Icon name={sectionIcon} size={32} />
+            <Icon name={sectionIcon as IconKey} size={32} />
           </span>
           {sectionName}
         </h1>

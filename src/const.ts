@@ -15,3 +15,5 @@ export const safeTypes = new Set<SearchType>([
   "thoughts",
 ]);
 export const APP_IMAGE_URL = "/";
+
+

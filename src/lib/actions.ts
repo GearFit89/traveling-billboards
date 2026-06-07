@@ -8,12 +8,12 @@ import * as v from 'valibot';
 import Fuse from 'fuse.js';
 import { LinkData, LinkSection, ReturnData } from '@/types';
 import { link } from 'fs';
+import { D1Database } from '@cloudflare/workers-types';
 
 // custom console keeps logs clean 
 // in const.ts turn DEBUG to false to remove these logs
 // do console.llog(msg, 0) to bypass debug mode logging.
 const console = new Console("actions");
-
 
 
 export const getAllSections = async () => {
