@@ -12,9 +12,11 @@ import Skeleton from "@/components/fallbacks/Skeleton";
 import { redirect } from "next/navigation";
 import { AppError } from "@/utils/error";
 import errorHandler from "@/lib/error-handler";
+import { ErrorPageSigns } from "@/components/signs/SignError";
 
 
 export  async function LoadSign( { params }: { params: Promise<Params>}) {
+    try {
     const { id } = await params;
     const {data:sign , error} = await  getSignById(id);
 
@@ -31,13 +33,15 @@ export  async function LoadSign( { params }: { params: Promise<Params>}) {
         
         </div>
     )
-
+    }catch {
+        return <ErrorPageSigns message={`Failed to get sign.`} />
+    }
 }
 interface Params{
     id:string;
 }
 export  default  function SignPage({ params }: { params: Promise<Params>}) {
-       
+       try {
     return (<div>
 
 
@@ -50,5 +54,8 @@ export  default  function SignPage({ params }: { params: Promise<Params>}) {
     
     
     </div>)
+       }catch(e:any){
+        return <ErrorPageSigns message={e.mesaage}/>
 
+       }
 }

@@ -8,13 +8,15 @@ interface ErrorPageProps {
   message: string;
 }
 
-export function ErrorPageLinks({ message }: ErrorPageProps) {
+export function ErrorPageSigns({ message }: ErrorPageProps) {
   return (
     <div className={styles.container}>
       <Navigation />
       <main className={styles.main}>
+        
         <div className={styles.header}>
           <h1>{message}</h1>
+          <h4> Error happen in the signs page</h4>
         </div>
       </main>
      
