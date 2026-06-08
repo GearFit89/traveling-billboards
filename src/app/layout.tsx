@@ -5,7 +5,7 @@ import { ThemeStyles } from '@/components/theme/ThemeStyles'
 import { siteContent } from '@/lib/content'
 import './globals.css'
 
-import styles from "Home.module.css"
+import styles from "@/app/Home.module.css"
 
 const brainJunk = "6-7";// this is not needed
 
