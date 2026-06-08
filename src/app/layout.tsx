@@ -58,7 +58,13 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
-
+ <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          {siteContent.siteName.split(' ')[0]}
+          <span className={styles.footerAccent}>.</span>{' '}
+          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
+        </p>
+      </footer>
       </body>
       <footer className={styles.footer}>
         <p className={styles.footerText}>
