@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import "@/styles/globals.css"
 import { Navigation } from '@/components/navigation/Navigation';
 import { siteContent, homePageContent } from '@/lib/content';
 import { Icon } from '@/lib/icons';
 import styles from './Home.module.css';
-
+import BibleVerse from '@/components/home/BibleVerse';
+import { Suspense } from 'react';
+import Skeleton from '@/components/fallbacks/Skeleton';
 export default function HomePage() {
   const { hero, stats, features } = homePageContent;
 
@@ -60,13 +63,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <p className={styles.footerText}>
-          {siteContent.siteName.split(' ')[0]}
-          <span className={styles.footerAccent}>.</span>{' '}
-          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
-        </p>
-      </footer>
+      <Suspense fallback={<Skeleton/>}>
+
+       <BibleVerse />
+
+       </Suspense>
+      
     </div>
   );
 }

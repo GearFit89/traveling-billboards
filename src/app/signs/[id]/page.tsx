@@ -11,6 +11,7 @@ import { Icon } from '@/lib/icons';
 import Skeleton from "@/components/fallbacks/Skeleton";
 import { redirect } from "next/navigation";
 import { AppError } from "@/utils/error";
+import errorHandler from "@/lib/error-handler";
 
 
 export  async function LoadSign( { params }: { params: Promise<Params>}) {
@@ -19,7 +20,7 @@ export  async function LoadSign( { params }: { params: Promise<Params>}) {
 
 
    if(!sign || error){
-    throw new AppError(error || "Sign not found", 404)
+    errorHandler(error || "Sign not found", 404);
    }
 
     return (

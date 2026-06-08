@@ -5,6 +5,11 @@ import { ThemeStyles } from '@/components/theme/ThemeStyles'
 import { siteContent } from '@/lib/content'
 import './globals.css'
 
+import styles from "Home.module.css"
+
+const brainJunk = "6-7";// this is not needed
+
+
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
@@ -55,6 +60,13 @@ export default function RootLayout({
         {children}
 
       </body>
+      <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          {siteContent.siteName.split(' ')[0]}
+          <span className={styles.footerAccent}>.</span>{' '}
+          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
+        </p>
+      </footer>
     </html>
   )
 }

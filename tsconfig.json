@@ -30,15 +30,16 @@
   },
   "include": [
     "next-env.d.ts",
-    "src/**/*",                    // 👈 Forces TS to look ONLY inside your actual source code
-    ".next/types/**/*.ts"          // 👈 Required for Next.js App Router type safety
+    "src/**/*", // 👈 Forces TS to look ONLY inside your actual source code
+    ".next/types/**/*.ts" // 👈 Required for Next.js App Router type safety
+    ,
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     ".next",
-    ".wrangler",                   // 👈 Keeps wrangler's messy cache out
-    "env.d.ts",                    // 👈 Completely ignores the old file
-    "worker-configuration.d.ts"    // 👈 Completely ignores the other messy file
+    ".wrangler", // 👈 Keeps wrangler's messy cache out
+    "env.d.ts", // 👈 Completely ignores the old file
+    "worker-configuration.d.ts" // 👈 Completely ignores the other messy file
   ]
-
 }
