@@ -5,7 +5,7 @@
   right: 0;
   z-index: 50;
   padding: 1rem 1.5rem;
-  background: var(--theme-background);
+  background: var(--theme-primary);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--theme-border);
 }
@@ -21,13 +21,13 @@
 .logo {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--theme-foreground);
+  color: var(--theme-primary-foreground);
   text-decoration: none;
   letter-spacing: -0.02em;
 }
 
 .logoAccent {
-  color: var(--theme-primary);
+  color: var(--theme-accent-foreground);
 }
 
 .navLinks {
@@ -37,18 +37,18 @@
 
 .navLink {
   font-size: 0.875rem;
-  color: var(--theme-muted-foreground);
+  color: var(--theme-primary-foreground);
   text-decoration: none;
   transition: color 0.2s ease;
   position: relative;
 }
 
 .navLink:hover {
-  color: var(--theme-foreground);
+  color: var(--theme-accent-foreground);
 }
 
 .navLinkActive {
-  color: var(--theme-primary);
+  color: var(--theme-primary-foreground);
 }
 
 .navLinkActive::after {
@@ -58,7 +58,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--theme-primary);
+  background: var(--theme-primary-foreground);
   border-radius: 1px;
 }
 
@@ -67,7 +67,7 @@
   display: none;
   background: none;
   border: none;
-  color: var(--theme-foreground);
+  color: var(--theme-primary-foreground);
   cursor: pointer;
   padding: 0.5rem;
 }

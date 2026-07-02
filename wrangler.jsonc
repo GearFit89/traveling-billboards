@@ -8,20 +8,19 @@
 	"main": ".open-next/worker.js",
 	"compatibility_date": "2026-06-06",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"account_id": "bb30f718d1554a9e59439f2a23fdff92",
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".open-next/assets"
 	},
-	"d1_databases": [
-		{
-			"binding": "D1", // This is the name you use in your code (env.SQL_DB)
-			"database_name": "storage-for-traveling-billboards-site", // The name in your dashboard
-			"database_id": "22e97f03-4c93-409c-a211-f53e638ffac8" // Get this from the Cloudflare Dashboard
-		}
-	],
+	"d1_databases": [{
+    "binding": "D1",
+    "database_name": "d1-database-id-1",
+    "database_id": "69b4628f-11c7-496e-9bf6-095452ea019a"
+ }],
 	"kv_namespaces": [{
                     "binding": "KV",
-                    "id": "152f82e786af4eb0a2b3e361fcb67945"
+                    "id": "25028869eff645c1b663d9d94aec0598"
                  }],
 	"observability": {
 		"enabled": true

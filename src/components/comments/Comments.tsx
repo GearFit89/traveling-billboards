@@ -1,10 +1,10 @@
 
-import { ThoughtData as IComments, SignData } from '@/types';
+import { ThoughtData as IComments, SignData, ThoughtData } from '@/types';
 
 import React from 'react'; // Import React and necessary hooks
-import "./../app/globals.css"
+import "@/app/globals.css"
 
-import styles from "./Comments.module.css"
+import styles from "@/styles/Comments.module.css"
 
 // --- COMPONENTS --- // Start component definitions
 
@@ -28,9 +28,9 @@ const MessageCard: React.FC<MessageCardProps> = ({ title, htmlStr  }) => { // De
 
 // --- MAIN APP COMPONENT --- // Start main App definition
 
-export function Comments({signData}:{signData:SignData}) { // Export default App component
+export function Comments({thoughtData}:{thoughtData: ThoughtData[]}) { // Export default App component
      // Empty dependency array means this runs once on mount
-const comments = signData.thoughts 
+const comments = thoughtData
     // Simulate data that might be fetched based on a URL parameter // Example data comment
     // End mock data object
     // const {isDesktop } = useWindowSize()
@@ -46,8 +46,8 @@ const comments = signData.thoughts
             <main className={contentStyle}> {/* Render main content area with dynamic styles */}
 
                 <header className={styles.headerSection}> {/* Header area for sign context */}
-                    <div className={styles.signBadge}>Scanned Sign #{signData.id}</div> {/* Display which sign was scanned */}
-                    <p >A message from Gary's tailgate.</p> {/* Context subtitle */}
+                    <div className={styles.signBadge}>Scanned Sign #{thoughtData[0].sign_id}</div> {/* Display which sign was scanned */}
+                    {/* <p >A message from Gary's tailgate.</p> Context subtitle */}
                 </header> 
                 {/* End header area */}
                 {comments.map(comment => (

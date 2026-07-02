@@ -25,6 +25,7 @@
 		"ioredis": "^5.10.1",
 		"lucide-react": "^1.17.0",
 		"next": "^16.2.3",
+		"next-auth": "^5.0.0-beta.31",
 		"next-themes": "^0.4.6",
 		"radix-ui": "^1.5.0",
 		"react": "19.2.1",
@@ -42,29 +43,41 @@
 		"vaul": "^1.1.2"
 	},
 	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.16.14",
 		"@cloudflare/workers-types": "^4.20260606.1",
 		"@eslint/eslintrc": "3",
 		"@tailwindcss/postcss": "4.1.17",
 		"@types/node": "24.12.2",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.2",
 		"dotenv-cli": "^11.0.0",
+		"esbuild": "^0.28.0",
 		"eslint": "9.39.2",
 		"eslint-config-next": "16.0.7",
+		"jsdom": "^29.1.1",
 		"tailwindcss": "4.1.17",
 		"typescript": "5.9.3",
+		"vitest": "^4.1.8",
 		"wrangler": "^4.81.0"
 	},
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"build:next": "next build",
-		"preview": "npm run build && opennextjs-cloudflare preview",
-		"deploy": "npm run build && opennextjs-cloudflare deploy",
+		"build:cf": "next build && opennextjs-cloudflare build",
+		"preview": "npm run build:cf && opennextjs-cloudflare preview",
+		"deploy": "npm run build:cf && opennextjs-cloudflare deploy",
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-		"check": "npm run build && tsc",
-		"lint": "next lint"
-		
+		"check": "next build && tsc",
+		"lint": "next lint",
+		"seed": "npx wrangler d1 execute d1-database-id-1 --remote --file=./seed.sql",
+		"seed:local": "npx wrangler d1 execute storage-for-traveling-billboards-site --local --file=./seed.sql",
+		"build:worker": "cloudflare",
+		"preview:remote": "npm run build:worker && wrangler dev --remote",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:debug": "vitest --inspect --no-file-parallelism",
+		"preview:debug": "OPEN_NEXT_DEBUG=true opennextjs-cloudflare build && opennextjs-cloudflare preview"
 	}
 }

@@ -2,18 +2,22 @@
 /* ─── Verse card ─────────────────────────────────────────────────────────────── */
 .verseSection {
   width: 100%;
-  max-width: 44rem;
+  max-width: 52rem;
   margin: 0 auto;
-  padding: 0 var(--spacing-large) var(--spacing-xlarge);
+  
+  background: var(--theme-background);
+  border-radius: 1.5rem;
+  border: 1px solid var(--theme-border);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 
 .verseCard {
   position: relative;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radii-card);
-  padding: var(--spacing-large) calc(var(--spacing-large) + 0.5rem);
-  box-shadow: var(--shadow-card);
+  background: var(--theme-card);
+  border: 1px solid var(--theme-border);
+  border-radius: 1.25rem;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
   overflow: hidden;
 }
 
@@ -25,7 +29,7 @@
   top: 0;
   bottom: 0;
   width: 0.25rem;
-  background-color: var(--color-primary);
+  background-color: var(--theme-primary);
   border-radius: var(--radii-card) 0 0 var(--radii-card);
 }
 
@@ -34,7 +38,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--theme-primary);
   margin-bottom: var(--spacing-small);
   display: block;
 }
@@ -44,7 +48,7 @@
   font-size: 1.25rem;
   font-style: italic;
   line-height: 1.55;
-  color: var(--color-text);
+  color: var(--theme-card-foreground);
   margin-bottom: var(--spacing-small);
 }
 
@@ -52,6 +56,6 @@
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: var(--theme-muted-foreground);
 }
 

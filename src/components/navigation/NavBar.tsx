@@ -7,7 +7,7 @@ import {
   SignpostIcon,
 } from "lucide-react"; // Import icons from lucide
 import { capitalizeFirstLetter } from "@/utils/strings"; // Import string utility
-import "@/app/globals.css"; // Use @ alias to point directly to global variables
+import "@/atyles/globals.css"; // Use @ alias to point directly to global variables
 import styles from "./Comments.module.css"; // Use scoped module for specific layout
 import { Suspense } from "react"; // Import Suspense for loading boundaries
 import Image from "next/image";
@@ -43,7 +43,7 @@ export default function NavBar({
             fill
             style={{ objectFit: "contain", objectPosition: "left" }}
           />*/}
-          Travelingbillboards
+        
         </div>{" "}
       </Link>
       {/* Fixed: Added navBar class from styles */}

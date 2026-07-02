@@ -129,6 +129,13 @@
   letter-spacing: 0.1em;
 }
 
+/* Content wrapper for verse section */
+.VerseContent {
+  padding: 4rem 1.5rem 6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 /* Features section */
 .features {
   padding: 4rem 1.5rem 6rem;

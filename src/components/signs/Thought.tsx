@@ -1,6 +1,6 @@
 
 import { getAllSigns} from '@/lib/actions';
-import { siteContent, thoughtsPageContent } from '@/lib/content';
+import {  siteContent, thoughtsPageContent } from '@/lib/content';
 import { Icon } from '@/lib/icons';
 import styles from '@/styles/Thoughts.module.css';
 import { redirect } from 'next/navigation'
@@ -19,7 +19,7 @@ function formatDate(dateStr: string) {
 
 
 export  async function Thought({ thought }: {thought: ThoughtData}) {
-  const content = thoughtsPageContent;
+  const content =  thoughtsPageContent
 
   return (
     <div className={styles.container}>

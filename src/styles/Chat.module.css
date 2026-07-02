@@ -1,0 +1,315 @@
+.page {
+  padding: 5.5rem 1.5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--theme-foreground);
+}
+
+.heroSection {
+  background: color-mix(in srgb, var(--theme-muted) 80%, var(--theme-background) 20%);
+  border: 1px solid var(--theme-border);
+  border-radius: 1.5rem;
+  padding: 2rem 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.heroInner {
+  max-width: 760px;
+}
+
+.label {
+  display: inline-flex;
+  color: var(--theme-primary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.description {
+  margin: 1.1rem 0 0;
+  max-width: 720px;
+  color: var(--theme-muted-foreground);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* Fluid Layout Grid Transitions */
+.optionsGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 900px) {
+  .formActiveGrid {
+    grid-template-columns: 1fr 1.4fr; /* Broadens text-panel space gracefully when open */
+  }
+}
+
+.optionCard {
+  background: var(--theme-card);
+  border: 1px solid var(--theme-border);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.04);
+  transition: transform 0.3s ease, opacity 0.3s ease, blur 0.3s ease;
+}
+
+/* Smooth Dim effect when focus shifts */
+.cardDimmed {
+  opacity: 0.65;
+  transform: scale(0.98);
+}
+
+.optionCard h2 {
+  margin: 0 0 0.85rem;
+  font-size: 1.35rem;
+}
+
+.optionCard p {
+  margin: 0 0 1.5rem;
+  color: var(--theme-muted-foreground);
+  line-height: 1.75;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Button & Action Overhauls */
+.primaryButton,
+.sendButton,
+.submitBtn {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  font-weight: 700;
+  background: var(--theme-msg-accent-color, var(--theme-primary));
+  color: var(--theme-primary-foreground, #fff);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.secondaryButton {
+  border: 1px solid var(--theme-border);
+  border-radius: 9999px;
+  padding: 0.85rem 1.5rem;
+  background: transparent;
+  color: var(--theme-foreground);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover,
+.sendButton:hover,
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--theme-msg-accent-color, var(--theme-primary)) 30%, transparent);
+}
+
+.secondaryButton:hover {
+  background: var(--theme-muted);
+  border-color: var(--theme-msg-accent-color, var(--theme-primary));
+}
+
+/* Text Panel container with dynamic custom fallback logic */
+.textPanel {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-msg-background-color, color-mix(in srgb, var(--theme-muted) 90%, var(--theme-background) 10%));
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
+  min-height: 420px;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+}
+
+/* Container Switch Animations */
+.fadeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+.slideIn {
+  animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 600;
+}
+
+.statusBadge {
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  background: #3ca811;
+  color: var(--theme-primary-foreground, #fff);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.inlineCloseBtn, .cancelBtn {
+  background: transparent;
+  border: none;
+  color: var(--theme-muted-foreground);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.inlineCloseBtn:hover, .cancelBtn:hover {
+  color: var(--theme-foreground);
+}
+
+/* Chat bubble aesthetics */
+.bubbleList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex-grow: 1;
+}
+
+.bubbleIncoming,
+.bubbleOutgoing {
+  max-width: 85%;
+  padding: 0.85rem 1.15rem;
+  border-radius: 1.25rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.bubbleIncoming {
+  background: var(--theme-card);
+  border: 1px solid var(--theme-border);
+  align-self: flex-start;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.bubbleOutgoing {
+  background: #1389c0;
+  color: var(--theme-primary-foreground, #fff);
+  align-self: flex-end;
+  border-bottom-right-radius: 0.25rem;
+}
+
+/* Form Styling integration */
+.inlineFormLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  flex-grow: 1;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.formLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.optionalText {
+  font-size: 0.75rem;
+  color: var(--theme-muted-foreground);
+  font-style: italic;
+}
+
+.textarea,
+.inputField,
+.textInput {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-background);
+  color: var(--theme-foreground);
+  padding: 0.75rem 1rem;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.textInput {
+  border-radius: 9999px;
+}
+
+.textarea:focus, .inputField:focus, .textInput:focus {
+  border-color: var(--theme-msg-accent-color, var(--theme-primary));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-msg-accent-color, var(--theme-primary)) 20%, transparent);
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.submitBtn {
+  width: 100%;
+  border-radius: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .actionsContainer {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .submitBtn {
+    width: auto;
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 680px) {
+  .heroSection {
+    padding: 1.75rem 1.25rem;
+  }
+  .optionsGrid, .formActiveGrid {
+    grid-template-columns: 1fr;
+  }
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+}

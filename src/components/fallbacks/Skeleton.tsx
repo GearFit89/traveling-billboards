@@ -1,5 +1,5 @@
-import "@/app/globals.css"
-import styles from "@/app.module.css"
+import "@/styles/globals.css"
+import styles from "@/styles/app.module.css"
 
 export default function Skeleton() { // Component for the loading state
     return (

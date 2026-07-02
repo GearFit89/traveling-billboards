@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import "@/styles/globals.css"
-import { Navigation } from '@/components/navigation/Navigation';
+
 import { siteContent, homePageContent } from '@/lib/content';
 import { Icon } from '@/lib/icons';
-import styles from './Home.module.css';
+import styles from '@/styles/Home.module.css';
 import BibleVerse from '@/components/home/BibleVerse';
 import { Suspense } from 'react';
 import Skeleton from '@/components/fallbacks/Skeleton';
@@ -12,8 +12,7 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
-      <Navigation />
-
+     
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <p className={styles.tagline}>{hero.tagline}</p>
@@ -62,13 +61,13 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
+   <section className={styles.VerseContent } >
       <Suspense fallback={<Skeleton/>}>
 
        <BibleVerse />
 
        </Suspense>
-      
+      </section>
     </div>
   );
 }

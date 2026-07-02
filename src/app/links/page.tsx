@@ -67,11 +67,11 @@ async function LinkDetailView({
 
     return (
       <div className={styles.container}>
-        <Navigation />
+      
         <main className={styles.main}>
           <LinkDetail
             title={link.title}
-            description={link.discription}
+            description={link.description}
             url={link.link}
             sectionId={sectionId}
             sectionName={sectionId}
@@ -100,7 +100,7 @@ async function SectionDetailView({
     
     return (
       <div className={styles.container}>
-        <Navigation />
+      
         <main className={styles.main}>
           <SectionView
             sectionId={sectionId}
@@ -126,7 +126,7 @@ async function AllSectionsView({ content }: { content: any }) {
 
     return (
       <div className={styles.container}>
-        <Navigation />
+     
         <main className={styles.main}>
           <header className={styles.header}>
             <h1 className={styles.title}>

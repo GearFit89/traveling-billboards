@@ -8,7 +8,7 @@ import styles from '@/styles/Links.module.css';
 interface Link {
   id: string;
   title: string;
-  discription: string;
+  description: string;
 }
 
 interface SectionViewProps {
@@ -38,20 +38,20 @@ export function SectionView({
       </Link>
 
       <header className={styles.header}>
-        <nav className={styles.breadcrumb}>
+        {/* <nav className={styles.breadcrumb}>
           <Link href="/links" className={styles.breadcrumbLink}>
             {pageTitle}
           </Link>
           <span className={styles.breadcrumbSeparator}>/</span>
           <span className={styles.breadcrumbCurrent}>{sectionName}</span>
-        </nav>
+        </nav> */}
         <h1 className={styles.title}>
-          <span
+          {/* <span
             className={styles.sectionIcon}
             style={{ display: 'inline-flex', marginRight: '0.5rem', verticalAlign: 'middle' }}
           >
             <Icon name={sectionIcon as IconKey} size={32} />
-          </span>
+          </span> */}
           {sectionName}
         </h1>
         <p className={styles.subtitle}>{sectionDescription}</p>
@@ -63,7 +63,7 @@ export function SectionView({
             key={link.id}
             id={link.id}
             title={link.title}
-            description={link.discription}
+            description={link.description}
             sectionId={sectionId}
           />
         ))}

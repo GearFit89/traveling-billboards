@@ -46,12 +46,14 @@ export function stableCache<F extends (...args: any[]) => any>(fn: F, id: string
 
       if (cachedResult) {   /// Determine the get type, defaulting to "text" if not specified
 
+        console.log("using cache ", cacheKey)
         // if the cached result is a string and the get type is json, parse it before returning
         if (getType === "json" && typeof cachedResult === "string") {
           return JSON.parse(cachedResult) as ReturnType<F>;
         }
         return cachedResult as ReturnType<F>;
       }
+      console.log("no data in cache, calling the fn")
 const result = await fn(...args);
       // Execute function if not cachedexport function stableCache<F extends (...args: any[]) => any>(fn: F, id: string, options?: Options): F {
  
@@ -79,7 +81,7 @@ const result = await fn(...args);
     },
     [id], // Unique cache key per id
     {
-      tags: options?.tags , // Shared tag for invalidation
+      tags: [TAGS.GLOBAL, ...options?.tags || []] , // Shared tag for invalidation
       revalidate: options?.ttl,
     }
   );

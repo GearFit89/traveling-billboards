@@ -27,18 +27,9 @@ export function Sign({ sign }: { sign: SignData }) {
         {/* 2. Thoughts Container */}
         <div className={styles.thoughtsSection}>
           <h2 className={styles.signTitle}>{sign.title}</h2>
-          <p className={styles.signDescription}>{sign.discription}</p>
+          <p className={styles.signDescription}>{sign.description}</p>
           
-          {sign.thoughts && sign.thoughts.length > 0 && (
-            <div className={styles.thoughtsList}>
-              {sign.thoughts.map((thought, index) => (
-                <div key={thought.id || index} className={styles.thoughtCard}>
-                  <Thought thought={thought} /> 
-                  {index < sign.thoughts.length - 1 && <div className={styles.divider} />}
-                </div>
-              ))}
-            </div>
-          )}
+        
         </div>
       </div>
       

@@ -29,7 +29,7 @@ export function Navigation() {
       <div className={styles.navInner}>
         <Link href="/" className={styles.logo}>
           {siteContent.siteName.split(' ')[0]}
-          <span className={styles.logoAccent}>.</span>
+          <span className={styles.logoAccent}></span>
         </Link>
 
         <div className={styles.navLinks}>

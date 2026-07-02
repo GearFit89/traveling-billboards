@@ -4,12 +4,14 @@ import { stableCache, Options } from './stableCache';
 import Console from '@/utils/console';
 import { AppError } from '@/utils/error';
 import { ReturnData } from '@/types';
+import { getEnvContext, getIsBuildPharse } from '@/lib/utils';
+import { revalidateTag, updateTag } from 'next/cache';
+import { TAGS } from '@/const';
+
 // custom console keeps thigns clean 
 const console = new Console("schema_validation");
-interface QueryFnRetrun<T> {
-  results: T
 
-}
+
 export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
   schema: S
 ) => {
@@ -24,13 +26,16 @@ export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v
     try {
       let data;
       // Make sure the function exist and we in development 
-      if ( process.env.NODE_ENV === "development" && getDevData){
+      if ( false ){
         console.log("dev mode enabled")
-        data =  await getDevData();
+        // data =  await getDevData();
         console.log("dev data got. ", data);
       }else {
         console.log("using stable cache");
-        data = stableCache(queryBuilder, cacheKey,  options)
+        //type json since the sql lite data is array of objects
+       const  cacheFn = stableCache(queryBuilder, cacheKey,  {getOptions:{type:"json"}, ...options}) 
+        data = await cacheFn();
+       // forces async
       }
      
       if(!data){
@@ -56,3 +61,20 @@ export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v
     }
   };
 };
+
+
+export async function clearKVCache() {
+  // cloudflare env for open next workers
+  const env = getEnvContext();
+
+  const { keys } = await env.KV.list({ prefix: '' });
+
+  // Fire all deletes at once and wait for them to finish
+  await Promise.all(
+    keys.map(key => env.KV.delete(key.name))
+  );
+  // for ( const tag in TAGS) {
+
+  //   revalidateTag(tag)
+  // }
+}

@@ -19,6 +19,8 @@ export interface ThemeColors {
   mutedForeground: string;
   border: string;
   
+  //message Board colors 
+  msgOnlineColor?:string
   // // Mood badge colors (for Thoughts page)
   // moodReflective: string;
   // moodReflectiveText: string;
@@ -46,37 +48,77 @@ export interface Theme {
 }
 
 export const themes: Record<string, Theme> = {
-  'light-blue': {
-    id: 'light-blue',
-    name: 'Light Blue',
+  'blue-white': {
+    id: 'blue-white',
+    name: 'Blue / White',
     mode: 'light',
     colors: {
-      // Core - light background with dark text
       background: 'oklch(0.98 0.01 240)',
-      foreground: 'oklch(0.15 0.02 240)',
-      card: 'oklch(1 0 0)',
-      cardForeground: 'oklch(0.15 0.02 240)',
-      
-      // Brand - blue accent
-      primary: 'oklch(0.55 0.2 240)',
+      foreground: 'oklch(0.12 0.02 240)',
+      card: 'oklch(0.99 0.01 240)',
+      cardForeground: 'oklch(0.12 0.02 240)',
+      primary: 'oklch(0.44 0.20 254)',
       primaryForeground: 'oklch(1 0 0)',
-      accent: 'oklch(0.55 0.2 240)',
+      accent: 'oklch(0.65 0.20 254)',
       accentForeground: 'oklch(1 0 0)',
-      
-      // UI
-      muted: 'oklch(0.95 0.01 240)',
-      mutedForeground: 'oklch(0.45 0.02 240)',
-      border: 'oklch(0.9 0.02 240)',
-      
-      // // Mood badges
-      // moodReflective: 'oklch(0.92 0.08 280)',
-      // moodReflectiveText: 'oklch(0.4 0.15 280)',
-      // moodExcited: 'oklch(0.92 0.1 45)',
-      // moodExcitedText: 'oklch(0.45 0.15 45)',
-      // moodCurious: 'oklch(0.92 0.08 220)',
-      // moodCuriousText: 'oklch(0.4 0.15 220)',
-      // moodPeaceful: 'oklch(0.92 0.08 160)',
-      // moodPeacefulText: 'oklch(0.4 0.15 160)',
+      muted: 'oklch(0.94 0.02 240)',
+      mutedForeground: 'oklch(0.35 0.02 240)',
+      border: 'oklch(0.84 0.02 254)',
+      msgOnlineColor:  'rgb(39, 148, 6)',
+    },
+  },
+  'blue-sky': {
+    id: 'blue-sky',
+    name: 'Sky Blue',
+    mode: 'light',
+    colors: {
+      background: 'oklch(0.97 0.01 240)',
+      foreground: 'oklch(0.10 0.03 240)',
+      card: 'oklch(1 0 0)',
+      cardForeground: 'oklch(0.10 0.03 240)',
+      primary: 'oklch(0.48 0.20 220)',
+      primaryForeground: 'oklch(1 0 0)',
+      accent: 'oklch(0.55 0.18 210)',
+      accentForeground: 'oklch(1 0 0)',
+      muted: 'oklch(0.93 0.03 240)',
+      mutedForeground: 'oklch(0.42 0.02 240)',
+      border: 'oklch(0.88 0.02 240)',
+    },
+  },
+  'red-white': {
+    id: 'red-white',
+    name: 'Red / White',
+    mode: 'light',
+    colors: {
+      background: 'oklch(0.98 0.01 90)',
+      foreground: 'oklch(0.12 0.02 260)',
+      card: 'oklch(1 0 0)',
+      cardForeground: 'oklch(0.12 0.02 260)',
+      primary: 'oklch(0.66 0.22 35)',
+      primaryForeground: 'oklch(1 0 0)',
+      accent: 'oklch(0.53 0.20 30)',
+      accentForeground: 'oklch(1 0 0)',
+      muted: 'oklch(0.95 0.01 80)',
+      mutedForeground: 'oklch(0.40 0.02 260)',
+      border: 'oklch(0.88 0.02 35)',
+    },
+  },
+  'white-black': {
+    id: 'white-black',
+    name: 'White / Black',
+    mode: 'light',
+    colors: {
+      background: 'oklch(0.99 0.01 80)',
+      foreground: 'oklch(0.07 0.01 260)',
+      card: 'oklch(1 0 0)',
+      cardForeground: 'oklch(0.07 0.01 260)',
+      primary: 'oklch(0.06 0.01 260)',
+      primaryForeground: 'oklch(1 0 0)',
+      accent: 'oklch(0.10 0.01 260)',
+      accentForeground: 'oklch(1 0 0)',
+      muted: 'oklch(0.95 0.01 80)',
+      mutedForeground: 'oklch(0.45 0.02 260)',
+      border: 'oklch(0.84 0.01 260)',
     },
   },
   'dark-amber': {
@@ -115,10 +157,10 @@ export const themes: Record<string, Theme> = {
 };
 
 // Set the active theme here - change this value to switch themes
-export const ACTIVE_THEME_ID = 'light-blue';
+export const ACTIVE_THEME_ID = 'blue-white';
 
 export function getActiveTheme(): Theme {
-  return themes[ACTIVE_THEME_ID] || themes['light-blue'];
+  return themes[ACTIVE_THEME_ID] || themes['blue-white'];
 }
 
 export function getThemeById(id: string): Theme | undefined {

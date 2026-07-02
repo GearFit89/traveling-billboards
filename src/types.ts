@@ -54,3 +54,8 @@ export type LinkData = v. InferOutput<typeof s.LinkDataSchema>;
 export type SignData = v. InferOutput<typeof s.SignDataSchema>;
 export type ThoughtData = v. InferOutput<typeof s.ThoughtSchema>;
 export type CommentData = v. InferOutput<typeof s.CommentSchema>;
+
+
+
+export type Table = "signs" | "thoughts"| "sections" | "links";
+export type MessageType = "support"|"prayer"|"question";

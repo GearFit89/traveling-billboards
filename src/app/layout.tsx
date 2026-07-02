@@ -3,9 +3,10 @@ import { Geist, Geist_Mono } from 'next/font/google'
 
 import { ThemeStyles } from '@/components/theme/ThemeStyles'
 import { siteContent } from '@/lib/content'
-import './globals.css'
+import '@/styles/globals.css'
 
-import styles from "@/app/Home.module.css"
+import styles from '@/styles/Home.module.css';
+import { Navigation } from '@/components/navigation/Navigation';
 
 const brainJunk = "6-7";// this is not needed
 
@@ -57,22 +58,17 @@ export default function RootLayout({
         <ThemeStyles />
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
+        <Navigation />
         {children}
  <footer className={styles.footer}>
         <p className={styles.footerText}>
           {siteContent.siteName.split(' ')[0]}
-          <span className={styles.footerAccent}>.</span>{' '}
+          {/* <span className={styles.footerAccent}>.</span>{' '} */}
           {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
         </p>
       </footer>
       </body>
-      <footer className={styles.footer}>
-        <p className={styles.footerText}>
-          {siteContent.siteName.split(' ')[0]}
-          <span className={styles.footerAccent}>.</span>{' '}
-          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
-        </p>
-      </footer>
+    
     </html>
   )
 }

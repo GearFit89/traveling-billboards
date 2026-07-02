@@ -2,7 +2,7 @@ import { getEnvContext } from './utils'
 import * as s from './schemas';
 import Console from "@/utils/console";
 import { AppError } from '@/utils/error';
-import { getCacheAndValidation } from '@/services/cacher';
+import {  getCacheAndValidation } from '@/services/cacher';
 import { TAGS } from '@/const';
 import * as v from 'valibot';
 import Fuse from 'fuse.js';
@@ -120,12 +120,13 @@ export const getAllSigns = async () => {
  
     const query = 'SELECT * FROM signs';
     console.log("Fetching all signs from D1 with query: ", query);
+   
     const env = getEnvContext();
     const getSigns = getCacheAndValidation(v.array(s.SignDataSchema));
     return (await getSigns(
       async () => {
         const result = await env.D1.prepare(query).all();
-      
+       
         return result?.results;
       },
       query, // using the query as the cache key',
@@ -137,41 +138,18 @@ export const getAllSigns = async () => {
   ); 
 }
 
-// helper function to search links with fuse.js
-export const searchLinks = async (query: string) => {
-  try {
-  const allLinks = await getAllLinks();
-  if(!allLinks.data || allLinks.data?.length === 0){
-    return { success:false, error: ("No links found to search through")};
-  }
-    const fuse = new Fuse(allLinks.data , {
-      keys: ['title', 'discription', 'section'],
-      threshold: 0.3,
-    });
-    const results = fuse.search(query);
-    console.log(`Search results for query "${query}": `, results);
-
-    return results.length > 0 ? results.map(result => result.item) : []; // stop from mapping an empty array if no results
-  } catch (e) {
-    // more likey an error will be caused here, then in the other actions. 
-    
-    console.error(`Error in searchLinks for query ${query}: `, e);
-    return { success:false, error: (`Failed to search links with query ${query}` )}
-  }
-}
-
   export async function getSectionById(sectionId:string):Promise<ReturnData< LinkSection>>{
     const env = getEnvContext();
 
     // we need to get the section names and other data AND all the links
     // that's why two calls are needed.
     const linkQuery =  `SELECT * FROM links WHERE section = ?`
-    const sectionQuery = 'SELECT * FROM sections WHERE id = ?'
-     console.log(`Fetching links for section ${sectionId} from D1 with query: `, linkQuery, sectionQuery);
+  
+     console.log(`Fetching links for section ${sectionId} from D1 with query: `, linkQuery, );
 
      const getLinks = getCacheAndValidation(s.SectionSchema)  // return an arrya of links
     return getLinks(async ()=> {
-      const section = await env.D1.prepare(sectionQuery).first();
+    
       return{
       id:sectionId, //it must have a name 
       name:sectionId,
@@ -202,7 +180,7 @@ export const searchLinks = async (query: string) => {
 
     const getLink = getCacheAndValidation(s.LinkDataSchema);
     return getLink(
-      env.D1.prepare(query).bind(linkId).first,
+     async () => await env.D1.prepare(query).bind(linkId).first(),
       `link_${linkId}`,
 
       {tags: [TAGS.LINKS]},
@@ -210,3 +188,25 @@ export const searchLinks = async (query: string) => {
       async ()=> (await  import("@/lib/mock-db")).links?.[Number(linkId)]
     )
   } 
+
+  export const getThoughtSignById = async (id: string) => {
+  
+    const env = getEnvContext();
+    
+    const query = 'SELECT * FROM thoughts WHERE sign_id = ?';
+    console.log(`Fetching sign  thoughtswith id ${id} from D1 with query: `, query);
+
+    const getSign = getCacheAndValidation(v.array(s.ThoughtSchema));
+    return await getSign(
+      async () => {
+        const result = await env.D1.prepare(query).bind(id).all(); // in cas thier are multiple thoughts
+       console.warn("", "debug result this", result)
+        return result?.results;
+      },
+      `sign_thought_${id}`, // using a unique cache key for each sign
+      {
+        tags: [TAGS.SIGNS], // tag for invalidation
+      }
+    );
+ 
+};  

@@ -27,13 +27,13 @@ export function LinkDetail({
 }: LinkDetailProps) {
   return (
     <>
-      <Link href="/links" className={styles.backLink}>
+      <Link href={`/links?section=${sectionId}`} className={styles.backLink}>
         <Icon name="arrowLeft" size={16} className={styles.backIcon} />
         {backToAllText}
       </Link>
 
       <header className={styles.header}>
-        <nav className={styles.breadcrumb}>
+        {/* <nav className={styles.breadcrumb}>
           <Link href="/links" className={styles.breadcrumbLink}>
             {pageTitle}
           </Link>
@@ -46,14 +46,14 @@ export function LinkDetail({
           </Link>
           <span className={styles.breadcrumbSeparator}>/</span>
           <span className={styles.breadcrumbCurrent}>{title}</span>
-        </nav>
+        </nav> */}
       </header>
 
       <div className={styles.linkDetail}>
         <div className={styles.linkDetailCard}>
-          <div className={styles.linkDetailIcon}>
+          {/* <div className={styles.linkDetailIcon}>
             <Icon name="externalLink" size={28} className={styles.linkDetailIconSvg} />
-          </div>
+          </div> */}
           <h1 className={styles.linkDetailTitle}>{title}</h1>
           <p className={styles.linkDetailDescription}>{description}</p>
           <a

@@ -1,7 +1,7 @@
 "use client"
 
 interface ButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   [key: string]: any;
 }
 

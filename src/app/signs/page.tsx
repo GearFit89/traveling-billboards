@@ -1,4 +1,4 @@
-import { Navigation } from '@/components/navigation/Navigation';
+
 import { getAllSigns} from '@/lib/actions';
 import { siteContent, thoughtsPageContent } from '@/lib/content';
 import { Icon } from '@/lib/icons';
@@ -12,6 +12,7 @@ import { Spinner }from "@/components/ui/spinner" //scdu ui component for loading
 import { Sign } from '@/components/signs/Sign';
 import errorHandler from '@/lib/error-handler';
 import { ErrorPageSigns } from '@/components/signs/SignError';
+import Link from 'next/link';
 
 // This page will fetch all signs from the database and display them in a list format. Each sign will show its content, location, and date. The page will also include a header with a title and subtitle.
 export  async function LoadSignsList() {
@@ -29,7 +30,13 @@ if(!signs || error ){ // the !signs is only for the type checking
      
 
          {signs?.map((sign) => (
+          
+          <Link href={`/signs/${sign.id}`} key={sign.id}  >
+
             <Sign key={sign.id} sign={sign} />
+
+           </Link>
+            
 
           ))}
          
@@ -45,7 +52,7 @@ export default function  SignListPage (){
   try {
   return (<>
  
- <Navigation />
+ 
 
     <Suspense fallback={<Spinner />}>
     

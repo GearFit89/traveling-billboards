@@ -5,6 +5,12 @@
   margin: 0 auto;
 }
 
+.pageContent {
+  padding: 5.5rem 1.5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 /* The main page wrapper - holds image & thoughts together in one cohesive background */
 .container {
   background: var(--theme-background, rgba(255, 255, 255, 0.03));

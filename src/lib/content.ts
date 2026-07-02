@@ -58,15 +58,24 @@ export interface LinksPageContent {
   backToAllText: string;
   visitSiteText: string;
 }
+export interface ToastMessageConfig {
+    success: string;
+    error: string;
+}
+
+export interface ToastContentRegistry {
+    copy: ToastMessageConfig;
+    share: ToastMessageConfig;
+}
 
 // ===========================================
 // SITE CONTENT - Edit values below
 // ===========================================
 
 export const siteContent: SiteContent = {
-  siteName: 'Traveling Billboards',
-  tagline: 'Ideas on the Move',
-  description: 'Capturing thoughts from the endless road. [More brand description goes here to explain the overarching mission of Traveling Billboards].',
+  siteName: 'Tailgates4Jesus.com',
+  tagline: 'Travel with the Gospel',
+  description: 'Signs that advertise the gospel on trucks',
   
   navLinks: [
     { href: '/', label: 'Home' },
@@ -74,7 +83,7 @@ export const siteContent: SiteContent = {
     { href: '/links', label: 'Links' },
   ],
   
-  footerText: '© Traveling Billboards. Ideas on the move.',
+  footerText: '© Traveling Billboards. - Travel with the Gospel' 
 };
 
 export const homePageContent: HomePageContent = {
@@ -127,6 +136,143 @@ export const thoughtsPageContent: ThoughtsPageContent = {
 export const linksPageContent: LinksPageContent = {
   title: 'Curated Links',
   subtitle: 'Resources organized by travel and tech categories. [More subtitle description goes here to explain how these links help drivers].',
-  backToAllText: 'All Sections',
+  backToAllText: 'Back',
   visitSiteText: 'Visit Link',
 };
+
+
+export interface SiteContent {
+  siteName: string;
+  tagline: string;
+  description: string;
+  navLinks: Array<{ href: string; label: string }>;
+  footerText: string;
+}
+
+export interface HomePageContent {
+  hero: {
+    tagline: string;
+    titleLine1: string;
+    titleLine2: string;
+    description: string;
+    primaryButtonText: string;
+    primaryButtonHref: string;
+    secondaryButtonText: string;
+    secondaryButtonHref: string;
+  };
+  stats: Array<{ value: string; label: string }>;
+  features: {
+    sectionTagline: string;
+    sectionHeading: string;
+    items: Array<{ iconKey: IconKey; title: string; description: string }>;
+  };
+}
+
+export interface ThoughtsPageContent {
+  badge: string;
+  title: string;
+  subtitle: string;
+  badgeIconKey: IconKey;
+}
+
+export interface LinksPageContent {
+  title: string;
+  subtitle: string;
+  backToAllText: string;
+  visitSiteText: string;
+}
+
+export interface MessageBoardContent {
+  hero: { label: string; title: string; description: string };
+  liveChatCard: { title: string; description: string; primaryBtnText: string; secondaryBtnText: string };
+  textPanel: {
+    headerTitle: string;
+    statusBadge: string;
+    messages: Array<{ type: 'incoming' | 'outgoing'; text: string }>;
+    inputPlaceholder: string;
+    sendBtnText: string;
+  };
+    submit:{
+      optional: string;
+      emailText:string;
+      placeholder:string;
+      sending:string;
+      sendBtn:string;
+      backBtn:string;
+      requestTitle:string;
+    }
+
+}
+
+// Master interface mapping keys to content structures
+export interface FullSiteContent {
+  site: SiteContent;
+  home: HomePageContent;
+  thoughts: ThoughtsPageContent;
+  links: LinksPageContent;
+  messageBoard: MessageBoardContent;
+}
+
+// ===========================================
+// RAW DATA OBJECTS
+// ===========================================
+
+
+
+export const messageBoardContent: MessageBoardContent = {
+  hero: {
+    label: 'Need a thoughtful answer?',
+    title: 'Questions',
+    description: 'Choose the best way to connect. Chat live with a person or use the text-style panel for a faster message conversation.',
+  },
+  liveChatCard: {
+    title: 'Chat with a person',
+    description: 'Speak directly with someone who can help answer faith questions, explain Bible passages, and share encouragement.',
+    primaryBtnText: 'Start live chat',
+    secondaryBtnText: 'Chat options',
+  },
+  textPanel: {
+    headerTitle: 'Text message panel',
+    statusBadge: 'Online',
+    messages: [
+      { type: 'incoming', text: 'Hi there! How can we help with your question today?' },
+      { type: 'outgoing', text: 'I want a clear Bible answer and a friendly response.' },
+      { type: 'incoming', text: 'Great! You can send your message here and we’ll reply in chat style.' },
+    ],
+    inputPlaceholder: 'Talk to someone',
+    sendBtnText: 'Send a message',
+  },
+  submit:{
+    placeholder:"Write a message...",
+    sendBtn:"Send a message",
+    backBtn:"Close",
+    sending: "Sending...",
+    optional: "Optional",
+    emailText: "Enter Email",
+    requestTitle: "Send Message"
+  }
+};
+
+// Map everything to a central registry
+const contentRegistry: FullSiteContent = {
+  site: siteContent,
+  home: homePageContent,
+  thoughts: thoughtsPageContent,
+  links: linksPageContent,
+  messageBoard: messageBoardContent,
+};
+// Create the typed object containing the actual text
+export const toastContent: ToastContentRegistry = {
+    copy: {
+        success: "Copied to clipboard",
+        error: "Failed to copy text",
+    },
+    share: {
+        success: "Share successful",
+        error: "Failed to share text",
+    },
+};
+
+/**
+ * Retrieves specific layout configuration context safely with type inferences
+ */
