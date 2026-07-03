@@ -16,7 +16,7 @@ export function ErrorPageSigns({ message }: ErrorPageProps) {
         
         <div className={styles.header}>
           <h1>{message}</h1>
-          <h4> Error happen in the signs page</h4>
+          
         </div>
       </main>
      

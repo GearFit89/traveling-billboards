@@ -1,25 +1,23 @@
 import { createColumnSchema, getEnvContext } from '@/lib/utils';
 import { Table } from '@/types';
+import { SORT } from "@/const"
 import Fuse, { Expression, FuseResult, FuseSearchOptions, IFuseOptions } from 'fuse.js';
 import * as v from "valibot"
 
 
 
 
-const SORT = {
-    ASC: "ASC",
-    DESC : "DESC"
-}
-export class SearchDB<T, S extends v.ObjectEntries> {
+
+export class SearchDB<T, > {
     private table : Table;
     private options: IFuseOptions<T>={}
     private data: T[]=[];
     private query : string;
     private bindings: (string|number)[]=[];
-    private objectSchema: v.ObjectSchema<S, undefined>;
+    private objectSchema: v.ObjectSchema<any, undefined>;
 
 
-    constructor(   objectSchema: v.ObjectSchema<S, undefined>, SQLTable:Table,  options: IFuseOptions<T> = {}) {
+    constructor(   objectSchema: v.ObjectSchema<any, undefined>, SQLTable:Table,  options: IFuseOptions<T> = {}) {
        
          this.table = SQLTable;
       
@@ -36,13 +34,13 @@ export class SearchDB<T, S extends v.ObjectEntries> {
 
   filter(
  
-    filters: Record<string, string | number>
+    filters: Record<string, (string | number)[]|"*">
   ) {
     //  Generate the column schema dynamically
-    const schema = createColumnSchema<S>(this.objectSchema);
+    const schema = createColumnSchema<any>(this.objectSchema);
 
     //  Reduce the filters object to append to this.query
-    this.query = Object.entries(filters).reduce((sqlAccumulator, [col, val]) => {
+    this.query = Object.entries(filters).reduce((sqlAccumulator, [col, values]) => {
       
       // Validate the column name. 
       // If 'col' isn't in the schema, v.parse automatically throws a ValibotError
@@ -55,12 +53,16 @@ export class SearchDB<T, S extends v.ObjectEntries> {
         //throw the error to break the chain
         throw new Error(errorMsg);
       }
-
+      if(values === "*" || (Array.isArray(values) && values.length === 0)){
+        // If the filter is a wildcard or an empty array, skip adding it to the query
+        return sqlAccumulator;
+      }
       // Safely push the value to the D1 prepare bindings
-      this.bindings.push(val);
-
-    
-      return `${sqlAccumulator} AND ${col} = ?`;
+      values.forEach((val) => {
+        this.bindings.push(val);
+      });
+      
+      return `${sqlAccumulator} AND ${col} IN (${values.map(() => '?').join(', ')})`;
       
     }, this.query); // 'this.query' acts as the initial value for the string reduction
 

@@ -7,7 +7,7 @@ import styles from "@/styles/Thoughts.module.css";
 import "@/styles/globals.css";
 
 import { Suspense } from 'react';
-import { Thought } from '@/components/signs/Thought';
+import { Thoughts } from '@/components/signs/Thought';
 import { Spinner }from "@/components/ui/spinner" //scdu ui component for loading state
 import { Sign } from '@/components/signs/Sign';
 import errorHandler from '@/lib/error-handler';
@@ -50,18 +50,13 @@ if(!signs || error ){ // the !signs is only for the type checking
 }
 export default function  SignListPage (){
   try {
-  return (<>
- 
- 
-
-    <Suspense fallback={<Spinner />}>
-    
-    <LoadSignsList />
-</Suspense>
-
- 
-  
-  </>)
+    return (
+      <div className={styles.signPageWrapper}>
+        <Suspense fallback={<Spinner />}>
+          <LoadSignsList />
+        </Suspense>
+      </div>
+    );
   }catch(e:any) {
     return <ErrorPageSigns message={e.message}/>
   }

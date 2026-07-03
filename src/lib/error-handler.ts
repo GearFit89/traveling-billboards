@@ -23,7 +23,8 @@ export default  function errorHandler(error: Error|string, code:number=600, shou
          redirect(`/error/${message}`);
     }
 
-
+    //send directly to the error.tsx page, which is the global error page for the app
+    lConsole.error("errorHandler caught error", error)  //custom console to log the error, for debugging
     throw new AppError(message, code);
            
 }

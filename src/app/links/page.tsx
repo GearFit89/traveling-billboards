@@ -13,6 +13,7 @@ import "@/styles/globals.css";
 import styles from '@/styles/Links.module.css';
 import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
+import errorHandler from '@/lib/error-handler';
   
 
 // 1. Create a sub-component to handle the dynamic routing based on searchParams
@@ -151,7 +152,9 @@ async function AllSectionsView({ content }: { content: any }) {
         {/* <LinksFooter /> */}
       </div>
     );
-  } catch(e) {
+  } catch(e:  any) {
+    // const error = e as Error;
+    errorHandler("Failed to load sections. Error: " + (e as Error). message || 'Unknown error', 404);
     return <ErrorPageLinks message="Failed to load sections" />;
   }
 };

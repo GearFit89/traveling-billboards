@@ -72,7 +72,7 @@
 		"check": "next build && tsc",
 		"lint": "next lint",
 		"seed": "npx wrangler d1 execute d1-database-id-1 --remote --file=./seed.sql",
-		"seed:local": "npx wrangler d1 execute storage-for-traveling-billboards-site --local --file=./seed.sql",
+		"seed:local": "npx wrangler d1 execute d1-database-id-1 --local --file=./seed.sql",
 		"build:worker": "cloudflare",
 		"preview:remote": "npm run build:worker && wrangler dev --remote",
 		"test": "vitest run",

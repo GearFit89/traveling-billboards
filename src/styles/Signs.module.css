@@ -6,23 +6,22 @@
 }
 
 .pageContent {
-  padding: 5.5rem 1.5rem 4rem;
+  padding: 7.5rem 1.5rem 4rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 /* The main page wrapper - holds image & thoughts together in one cohesive background */
 .container {
-  background: var(--theme-background, rgba(255, 255, 255, 0.03));
-  color: var(--theme-foreground);
-  border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.08));
-  border-radius: 1rem;
-  padding: clamp(1rem, 4%, 2rem); /* Fluid padding using % and rem */
-  
-  /* Grid layout collapses automatically if the image is missing */
+  background: var(--theme-card);
+  color: var(--theme-card-foreground);
+  border: 1px solid var(--theme-border);
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 4%, 2.25rem);
+  margin-top: 1.25rem;
   display: grid;
   grid-template-columns: 100%;
-  gap: clamp(1rem, 3vh, 2rem); 
+  gap: clamp(1rem, 3vh, 2rem);
 }
 
 /* The frame containing the Next.js Image */

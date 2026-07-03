@@ -193,19 +193,79 @@
   height: 16px;
 }
 
+.detailToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
 /* Link detail */
 .linkDetail {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: clamp(2rem, 6vw, 4rem) 1.5rem;
 }
 
 .linkDetailCard {
-  max-width: 500px;
+  max-width: 680px;
+  width: min(100%, 680px);
   margin: 0 auto;
-  padding: 2.5rem;
+  padding: clamp(2rem, 3vw, 3rem);
   background: var(--theme-card);
   border: 1px solid var(--theme-border);
   border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.06);
+  text-align: left;
+}
+
+.linkDetailActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem auto 2rem;
+}
+
+.linkDetailSecondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.35rem;
+  border-radius: 9999px;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-muted);
+  color: var(--theme-foreground);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.linkDetailSecondaryBtn:hover {
+  background: color-mix(in srgb, var(--theme-primary) 12%, var(--theme-muted));
+  border-color: var(--theme-primary);
+}
+
+.searchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: var(--theme-primary);
+  color: var(--theme-primary-foreground);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.searchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.15);
 }
 
 .linkDetailIcon {
@@ -306,6 +366,22 @@
 }
 
 /* Footer */
+.footer {
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--theme-border);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .linkDetail {
+    padding: 2.5rem 1rem;
+  }
+
+  .linkDetailCard {
+    padding: 1.75rem;
+  }
+}
+
 .footer {
   padding: 2rem 1.5rem;
   border-top: 1px solid var(--theme-border);

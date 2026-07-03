@@ -6,7 +6,7 @@ export const BaseNoteSchema = v.object({
   content: v.optional(v.string( "BaseNoteSchema.content must be a string" )),
   location: v.optional(v.string( "BaseNoteSchema.location must be a string" )),
   title: v.optional(v.string( "BaseNoteSchema.title must be a string" )),
-  html: v.optional(v.string( "BaseNoteSchema.html must be a string" )),
+ 
 });
 
 export const metadataSchema = v.optional(
@@ -27,10 +27,15 @@ export const metadataSchema = v.optional(
     ])
   )
 );
+//the thought SQL table
 export const ThoughtSchema = v.object({
   ...BaseNoteSchema.entries,
-  sign_id: v.string("ThoughtDataScheam.sign id is bad")
+  sign_id: v.string("ThoughtDataScheam.sign id is bad"),
+   html: v.optional(v.string( "ThoughtDataSchema.html must be a string" )),
 })
+
+
+//the comment  SQL table
 export const CommentSchema = BaseNoteSchema;
 
 export const SignDataSchema = v.object({
@@ -44,7 +49,7 @@ export const SignDataSchema = v.object({
   qr_hits: v.number( "SignDataSchema.qr_hits must be a number" ),
   metadata: metadataSchema,
 });
-
+// the link SQL table
 export const LinkDataSchema = v.object({
   id: v.string( "LinkDataSchema.id must be a string" ),
   link: v.string( "LinkDataSchema.link must be a string" ),
@@ -56,7 +61,7 @@ export const LinkDataSchema = v.object({
   hits: v.number( "LinkDataSchema.hits must be a number" ),
   metadata: metadataSchema,
 });
-
+// the section SQL table
 export const SectionSchema = v.object({
   id: v.string( "SectionSchema.id must be a string" ),
   name: v.string( "SectionSchema.name must be a string" ),

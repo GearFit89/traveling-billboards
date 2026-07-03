@@ -1,6 +1,9 @@
+import { clearKVCache } from "@/services/cacher";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+
+import { TAGS } from "@/const";
 import * as v from 'valibot';
 
 export function cn(...inputs: ClassValue[]) {
@@ -132,3 +135,13 @@ export function JSONCParse<T>(jsonString: string): T | null {
     return null;
   }
 }
+
+export function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+

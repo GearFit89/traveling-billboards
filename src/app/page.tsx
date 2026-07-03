@@ -51,13 +51,13 @@ export default function HomePage() {
         
         <div className={styles.featuresGrid}>
           {features.items.map((feature, index) => (
-            <div key={index} className={styles.featureCard}>
+            <Link key={index} href={feature.link} className={styles.featureCard}>
               <div className={styles.featureIcon}>
-                <Icon name={feature.iconKey} size={24} />
+                {feature.iconKey && <Icon name={feature.iconKey} size={32} />}
               </div>
               <h3 className={styles.featureTitle}>{feature.title}</h3>
               <p className={styles.featureDescription}>{feature.description}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

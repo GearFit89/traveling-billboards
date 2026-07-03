@@ -32,7 +32,7 @@ export default function MessageSubmit({ type, onSuccess }: { type: MessageType, 
         type,
         message: textInput,
         email,
-        hasAccount: false,
+       
       });
 
       if (!data || !data?.success || !data.token) {

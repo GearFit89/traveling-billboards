@@ -7,6 +7,8 @@ import '@/styles/globals.css'
 
 import styles from '@/styles/Home.module.css';
 import { Navigation } from '@/components/navigation/Navigation';
+import DevDashboard from '@/client/DevDashboard';
+import { Toaster } from '@/components/ui/toaster';
 
 const brainJunk = "6-7";// this is not needed
 
@@ -15,7 +17,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: `${siteContent.siteName} | ${siteContent.tagline}`,
+  title: ` ${siteContent.tagline}`,
   description: siteContent.description,
   authors: [{ name: "J.S.C" }],
   keywords: [
@@ -60,6 +62,10 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-background text-foreground">
         <Navigation />
         {children}
+        {process.env.NODE_ENV === 'development' && <DevDashboard /> }
+
+        <Toaster />
+        
  <footer className={styles.footer}>
         <p className={styles.footerText}>
           {siteContent.siteName.split(' ')[0]}

@@ -1,11 +1,16 @@
 
 --This is the seed of my project. This is the mock data, but this is not to be used in production 
 --only in local development;
-
+PRAGMA foreign_keys = OFF;
+-- 1. Drop child tables first to avoid foreign key violations
 DROP TABLE IF EXISTS thoughts;
-DROP TABLE IF EXISTS signs;
 DROP TABLE IF EXISTS links;
+DROP TABLE IF EXISTS comments;
+
+-- 2. Now it's safe to drop the parent tables
+DROP TABLE IF EXISTS signs;
 DROP TABLE IF EXISTS sections;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE sections (
   id TEXT PRIMARY KEY,
@@ -23,9 +28,11 @@ CREATE TABLE links (
   img_key TEXT,
   img_alt TEXT,
   description TEXT, -- Fixed typo
-  section TEXT,
+  section TEXT NOT NULL,
+  
   hits INTEGER,
   metadata TEXT
+ 
 );
 
 CREATE TABLE signs (
@@ -47,8 +54,28 @@ CREATE TABLE thoughts (
   date TEXT,
   FOREIGN KEY(sign_id) REFERENCES signs(id)
 );
+ 
+CREATE TABLE messages (
+  id TEXT PRIMARY KEY,
+  content TEXT NOT NULL,
+  date TEXT,
+  sender_id TEXT,
+  type TEXT,
+  had_reply BOOLEAN,
+  unread BOOLEAN
 
+);
 
+CREATE TABLE comments (
+  id TEXT PRIMARY KEY,
+  message_id TEXT NOT NULL,
+  content TEXT NOT NULL,
+  date TEXT,
+  user_id TEXT
+ 
+  
+);
+PRAGMA foreign_keys = ON;
 -- Insert statements for 'signs' table
 INSERT INTO signs (id, title, img_key, img_alt, description, web_hits, qr_hits) VALUES
 ('1', 'Hollywood Sign', 'https://images.unsplash.com/photo-1519999482648-25049ddd37b1', 'The iconic Hollywood sign in Los Angeles', 'American landmark and cultural icon overlooking Hollywood, Los Angeles.', 4500, 1200),
@@ -82,8 +109,9 @@ INSERT INTO links (id, title, link, img_key, img_alt, description, section, hits
 ('10', 'Got Questions', 'https://www.gotquestions.org', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac', 'Group of people talking inside an office space', 'An expansive database answering difficult questions about faith, theology, and the Bible.', 'Apologetics and Theology', 118900);
 
 INSERT INTO sections (id, name, description, icon_key, img_key, img_alt) VALUES
-('Bible_Text and Translations', 'Bible Text and Translations', 'Bible study resources, translations, and searchable scripture text.', 'link', 'https://images.unsplash.com/photo-1519410280451-146429a310fc', 'Bible open to scripture under soft light'),
+('Bible Text and Translations', 'Bible Text and Translations', 'Bible study resources, translations, and searchable scripture text.', 'link', 'https://images.unsplash.com/photo-1519410280451-146429a310fc', 'Bible open to scripture under soft light'),
 ('Gospel Resources and Commentaries', 'Gospel Resources and Commentaries', 'In-depth Gospel articles, commentaries, and discipleship resources.', 'thought', 'https://images.unsplash.com/photo-1516979187457-637abb4f9353', 'Stack of devotional books and notes'),
 ('Study Tools and Academics', 'Study Tools and Academics', 'Reference tools, lexicons, and academic resources for Bible study.', 'backpack', 'https://images.unsplash.com/photo-1517842645767-c639042777db', 'Academic study materials on a desk'),
 ('Video and Visual Education', 'Video and Visual Education', 'Video lessons, animated guides, and visual teaching resources.', 'sparkle', 'https://images.unsplash.com/photo-1536440136628-849c177e76a1', 'Video content displayed on a screen'),
 ('Apologetics and Theology', 'Apologetics and Theology', 'Resources for defending the faith and understanding theology.', 'users', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c', 'Group conversation around a table');
+

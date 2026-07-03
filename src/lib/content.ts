@@ -38,7 +38,8 @@ export interface HomePageContent {
     sectionTagline: string;
     sectionHeading: string;
     items: Array<{
-      iconKey: IconKey;
+      iconKey?: IconKey;
+      link: string;
       title: string;
       description: string;
     }>;
@@ -88,12 +89,21 @@ export const siteContent: SiteContent = {
 
 export const homePageContent: HomePageContent = {
   hero: {
-    tagline: 'Ideas on the Move',
-    titleLine1: 'Traveling',
-    titleLine2: 'Billboards',
-    description: 'A curated collection of reflections, signs, and resources gathered from journeys across America. [More hero description goes here to capture user attention].',
-    primaryButtonText: 'Read Thoughts',
-    primaryButtonHref: '/thoughts',
+    tagline: siteContent.tagline,
+    titleLine1: 'The Gospel',
+    titleLine2: 'On the Road',
+    description: `
+
+    Let's spead the message of hope and faith across the highways.
+     By puting the gospel on your tailgate, we can reach people on the road with a message of encouragement and inspiration. 
+     Join us in this journey to share the good news  with travelers everywhere.
+
+
+    `
+    
+    ,
+    primaryButtonText: 'Explore Signs',
+    primaryButtonHref: '/signs',
     secondaryButtonText: 'Browse Links',
     secondaryButtonHref: '/links',
   },
@@ -109,19 +119,29 @@ export const homePageContent: HomePageContent = {
     items: [
       {
         iconKey: 'thought',
-        title: 'Fresh Thoughts',
-        description: 'Reflections captured straight from the pavement. [More body description goes here to flesh out the thought card mockup].',
+        title: 'Inspiring Thoughts',
+        description: 'We put thoghts related to each sign made. To share the gospel in new ways.',
+        link: '/signs',
       },
       {
         iconKey: 'link',
         title: 'Curated Links',
-        description: 'Handpicked resources and tools trusted on the journey. [More body description goes here to fill out the link card layout].',
+        description: 'Handpicked resources and tools trusted on the journey. ',
+        link: '/links',
       },
       {
-        iconKey: 'location',
-        title: 'Sign Context',
-        description: 'Every idea tied back to its physical origin and location. [More body description goes here to explain map and sign data].',
+        
+        title: 'Questions & Answers',
+        description: 'We have a live chat and text panel to answer questions about the gospel and faith.',
+        link: '/chat',
       },
+      {
+        title: "Join the Journey",
+        iconKey: 'users',
+        link: '/join',
+        description: 'Be part of the movement to share the gospel on the road. Join us in spreading hope and faith. Join the Tailgate Club and add our signs to your tailgate, and help us reach more travelers with the message of the gospel.',
+      }
+
     ],
   },
 };
@@ -131,6 +151,7 @@ export const thoughtsPageContent: ThoughtsPageContent = {
   title: 'Roadside Thoughts',
   subtitle: 'Short reflections captured directly from the highway. [More subtitle description goes here to introduce the feed of scanned sign thoughts].',
   badgeIconKey: 'qrCode',
+  noThoughtsMessage: 'No thoughts found for this sign.',
 };
 
 export const linksPageContent: LinksPageContent = {
@@ -164,7 +185,7 @@ export interface HomePageContent {
   features: {
     sectionTagline: string;
     sectionHeading: string;
-    items: Array<{ iconKey: IconKey; title: string; description: string }>;
+    items: Array<{ iconKey?: IconKey; title: string; description: string, link: string }>;
   };
 }
 
@@ -173,6 +194,8 @@ export interface ThoughtsPageContent {
   title: string;
   subtitle: string;
   badgeIconKey: IconKey;
+  noThoughtsMessage: string;
+  
 }
 
 export interface LinksPageContent {

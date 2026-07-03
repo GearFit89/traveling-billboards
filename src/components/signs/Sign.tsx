@@ -2,7 +2,7 @@ import "@/styles/globals.css"
 import styles from "@/styles/Signs.module.css"
 import { SignData } from "@/types"
 import Image from "next/image"
-import { Thought } from "./Thought"
+
 
 export function Sign({ sign }: { sign: SignData }) {
   // Check if an image actually exists
@@ -11,7 +11,7 @@ export function Sign({ sign }: { sign: SignData }) {
   return (
     <div className={styles.signWrapper}>
       <div className={styles.container}>
-        {/* 1. Image Container - Only renders if img_key is present */}
+        {/*  Image Container - Only renders if img_key is present */}
         {hasImage && (
           <div className={styles.imageFrame}>
             <Image
@@ -24,7 +24,6 @@ export function Sign({ sign }: { sign: SignData }) {
           </div>
         )}
 
-        {/* 2. Thoughts Container */}
         <div className={styles.thoughtsSection}>
           <h2 className={styles.signTitle}>{sign.title}</h2>
           <p className={styles.signDescription}>{sign.description}</p>
@@ -33,7 +32,7 @@ export function Sign({ sign }: { sign: SignData }) {
         </div>
       </div>
       
-      {/* 3. Separator Between Signs */}
+      {/*  Separator Between Signs */}
       <div className={styles.signSeparator} />
     </div>
   )

@@ -162,12 +162,7 @@ export const getAllSigns = async () => {
 
       { tags: [ TAGS.LINKS] },
 
-      async ()=> ({
-      id:sectionId, //it must have a name 
-      name:sectionId,
-       links:  (await import("@/lib/mock-db")).links.filter(l=>l.section === sectionId) as LinkData[],
-     
-      })
+    
 
     )
   }

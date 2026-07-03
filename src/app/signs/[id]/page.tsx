@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { Suspense } from 'react';
-import { Thought } from '@/components/signs/Thought';
+import {  Thoughts } from '@/components/signs/Thought';
 import { Spinner }from "@/components/ui/spinner" //scdu ui component for loading state
 import { Sign } from '@/components/signs/Sign';
 
@@ -33,16 +33,13 @@ export  async function LoadSign( { params }: { params: Promise<Params>}) {
         <div>
             
         <Sign sign={sign} />
-          {thoughts && thoughts.length > 0 && (
+         
             <div className={styles.thoughtsList}>
-              {thoughts.map((thought, index) => (
-                <div key={thought.id || index} className={styles.thoughtCard}>
-                  <Thought thought={thought} /> 
-                  {index < thoughts.length - 1 && <div className={styles.divider} />}
-                </div>
-              ))}
-            </div>
-          )}
+           
+            
+           <Thoughts thoughts={thoughts} /> 
+
+           </div>
         
         </div>
     )

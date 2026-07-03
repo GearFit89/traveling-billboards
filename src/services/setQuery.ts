@@ -1,6 +1,6 @@
 import {
   SearchType,
-  SearchParams,
+  
   SetQueryOptions as Options,
   setQueryReturnData,
 } from "@/types";
@@ -10,7 +10,11 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import Console from "@/utils/console";
 const console = new Console("setQuery");
 export async function setQuery(
-  searchParams: SearchParams,
+  searchParams: {
+    tables: SearchType[];
+    columns?: string[];
+    id?: string | number;
+  },
   options: Options = {
     first: true,
     extraSql: "",

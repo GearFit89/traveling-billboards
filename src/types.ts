@@ -23,11 +23,34 @@ export type LinkColumns =
   | "section"
   | "title";
 
-export interface SearchParams {
-  id: string;
-  columns?: string[];
-  tables: SearchType[];
+
+export type SetAction = "UPDATE" | "UPSERT" | "INSERT" | "DELETE";
+
+// valibot schemas, mapped to types. Creates nice, clean code.
+export type LinkSection = v. InferOutput<typeof s.SectionSchema>;
+export type LinkData = v. InferOutput<typeof s.LinkDataSchema>;
+export type SignData = v. InferOutput<typeof s.SignDataSchema>;
+export type ThoughtData = v. InferOutput<typeof s.ThoughtSchema>;
+export type CommentData = v. InferOutput<typeof s.CommentSchema>;
+
+
+
+export type Table = "signs" | "thoughts"| "sections" | "links";
+export type MessageType = "support"|"prayer"|"question";
+
+export interface LinkFilters {
+    
+    sections: string[];
+    //TODO: Add more filters as needed
 }
+
+
+export interface SetQueryOptions extends QueryOptions {
+  action: SetAction;
+  insertValues?: string;
+}
+
+
 export interface QueryOptions {
   first?: boolean;
   extraSql?: string; // Optional parameter to indicate if only the first result is needed, default is false
@@ -43,19 +66,3 @@ export interface setQueryReturnData {
 
   error?: string;
 }
-export type SetAction = "UPDATE" | "UPSERT" | "INSERT" | "DELETE";
-export interface SetQueryOptions extends QueryOptions {
-  action: SetAction;
-  insertValues?: string;
-}
-// valibot schemas, mapped to types. Creates nice, clean code.
-export type LinkSection = v. InferOutput<typeof s.SectionSchema>;
-export type LinkData = v. InferOutput<typeof s.LinkDataSchema>;
-export type SignData = v. InferOutput<typeof s.SignDataSchema>;
-export type ThoughtData = v. InferOutput<typeof s.ThoughtSchema>;
-export type CommentData = v. InferOutput<typeof s.CommentSchema>;
-
-
-
-export type Table = "signs" | "thoughts"| "sections" | "links";
-export type MessageType = "support"|"prayer"|"question";

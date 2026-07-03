@@ -7,10 +7,10 @@ import SearchDB from "@/utils/search";
 import Fuse from "fuse.js";
 import { revalidateTag } from "next/cache";
 import * as s from "@/lib/schemas"
-import { getEnvContext, getRandomUUID } from "./utils";
+import {  getEnvContext, getRandomUUID } from "./utils";
 import { send } from "process";
 import { safeToString } from "@/utils/strings";
-import { MessageType, ReturnData } from "@/types";
+import { LinkData, MessageType, ReturnData } from "@/types";
 import Console from "@/utils/console";
 import { error } from "console";
 import { cookies } from "next/headers";
@@ -18,12 +18,26 @@ import { cookies } from "next/headers";
 
 
 const console = new Console("server-actions")
-
-export async function clearCache() {
+ async function clearCache() {
    await  clearKVCache();
 
    //updates all tags to clear the unstable cache instantly 
    revalidateTag(TAGS.GLOBAL, "max");
+
+};
+
+export async function clearAllCache(key: string): Promise<{ success: boolean; message?: string; error?: string }> {
+    if (key !== process.env.CACHE_CLEAR_KEY) {
+        return { success: false, error: "Invalid cache clear key." };
+    }
+    try {
+        await clearCache();
+        console.log("Cache cleared successfully.");
+        return { success: true, message: "Cache cleared successfully." };
+    } catch (e: any) {
+        console.error("Error clearing cache:", e);
+        return { success: false, error: e.message };
+    }   
 
 };
 
@@ -32,19 +46,19 @@ export async function clearCache() {
 
 
 // This is a plain, safe, serializable function
-export async function getSLinkearchResults(filters: { section: string }, searchQuery?: string) {
-    // 1. Instantiate the class completely inside the server layer
-    const engine = new SearchDB(s.LinkDataSchema, "links");
+export async function getLinkSearchResults(filters: { section: string[] }, searchQuery?: string): Promise<LinkData[]|[]> {
+    // Instantiate the class completely inside the server layer
+    const engine = new SearchDB<LinkData >(s.LinkDataSchema, "links");
 
-    // 2. Build and run the database commands locally on the server
+    //  Build and run the database commands locally on the server
     await engine
         .filter(filters)
         .runQuery();
 
-    // 3. Handle the search logic if a query exists
+    //  Handle the search logic if a query exists
     if (searchQuery) {
         // Return flat, serializable arrays of data back to the client
-        return engine.search(searchQuery);
+        return engine.search(searchQuery).map(result => result.item);
     }
 
     return engine.getData();
@@ -119,11 +133,12 @@ export async function postMessage( payload: MessagePayload){
     const env = getEnvContext();
     const { type, senderId, message, email } = payload;
 
-    const uuid = getRandomUUID();
+   
 
     //compose random keys, based wether email was submited. 
     // Note this doesn't track wther the email is from an account or just entered
-    const key = email ? `msg_id:no_email:${uuid}` : `msg_id:${email}:${uuid}`
+    const key = !email ? `msg_id:no_email:${getRandomUUID()}` : `msg_id:${email}`;
+  
     const query = `
     INSERT INTO
      messages (type, sender_id, timestamp, had_reply, message, unread)
