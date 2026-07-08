@@ -66,6 +66,7 @@ export default function RootLayout({
 
         <Toaster />
         
+        
  <footer className={styles.footer}>
         <p className={styles.footerText}>
           {siteContent.siteName.split(' ')[0]}

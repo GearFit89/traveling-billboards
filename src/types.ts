@@ -41,6 +41,7 @@ export type MessageType = "support"|"prayer"|"question";
 export interface LinkFilters {
     
     sections: string[];
+    [key: string]: (string | number )[]|(string | number | null) ; // Allow any other key with an array of strings, numbers, or null values
     //TODO: Add more filters as needed
 }
 
@@ -65,4 +66,11 @@ export interface setQueryReturnData {
   success: boolean;
 
   error?: string;
+}
+export interface SuccessReturn{
+   success: boolean;
+ 
+  error?: string;
+  fullError?: Error;
+
 }

@@ -51,6 +51,8 @@ export interface ThoughtsPageContent {
   title: string;
   subtitle: string;
   badgeIconKey: IconKey;
+  noThoughtsMessage: string;
+  thankYouMessage: string;
 }
 
 export interface LinksPageContent {
@@ -58,6 +60,13 @@ export interface LinksPageContent {
   subtitle: string;
   backToAllText: string;
   visitSiteText: string;
+  searchHeaderTitle: string;
+  searchHeaderDescription: string;
+  searchPlaceholder: string;
+  searchPanelTitle: string;
+  searchPanelSubtitle: string;
+  searchNoResults: string;
+  searchHint: string;
 }
 export interface ToastMessageConfig {
     success: string;
@@ -152,13 +161,21 @@ export const thoughtsPageContent: ThoughtsPageContent = {
   subtitle: 'Short reflections captured directly from the highway. [More subtitle description goes here to introduce the feed of scanned sign thoughts].',
   badgeIconKey: 'qrCode',
   noThoughtsMessage: 'No thoughts found for this sign.',
+  thankYouMessage: 'Thanks for scanning the QR code!',
 };
 
 export const linksPageContent: LinksPageContent = {
-  title: 'Curated Links',
-  subtitle: 'Resources organized by travel and tech categories. [More subtitle description goes here to explain how these links help drivers].',
+  title: 'Gospel Links',
+  subtitle: 'Explore all gospel links.',
   backToAllText: 'Back',
   visitSiteText: 'Visit Link',
+  searchHeaderTitle: 'Search the entire links library',
+  searchHeaderDescription: 'Search by title or description in real time, with instant results as you type.',
+  searchPlaceholder: 'Search all links...',
+  searchPanelTitle: 'Find links quickly',
+  searchPanelSubtitle: 'Type a keyword and we’ll show matching resources immediately.',
+  searchNoResults: 'No matching links found. Try another keyword.',
+  searchHint: 'Search any link from the current list.'
 };
 
 

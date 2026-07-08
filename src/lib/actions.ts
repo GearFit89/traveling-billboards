@@ -119,14 +119,14 @@ export const getSignById = async (id: string) => {
 export const getAllSigns = async () => {
  
     const query = 'SELECT * FROM signs';
-    console.log("Fetching all signs from D1 with query: ", query);
+  
    
     const env = getEnvContext();
     const getSigns = getCacheAndValidation(v.array(s.SignDataSchema));
     return (await getSigns(
       async () => {
         const result = await env.D1.prepare(query).all();
-       
+         console.log("Fetching all signs from D1 with query: ", query);
         return result?.results;
       },
       query, // using the query as the cache key',
@@ -144,15 +144,16 @@ export const getAllSigns = async () => {
     // we need to get the section names and other data AND all the links
     // that's why two calls are needed.
     const linkQuery =  `SELECT * FROM links WHERE section = ?`
-  
-     console.log(`Fetching links for section ${sectionId} from D1 with query: `, linkQuery, );
+    const sectionQuery = `SELECT *  FROM sections WHERE id = ?`
+     console.log(`Fetching links for section ${sectionId} from D1 with query: `, linkQuery, "\n", sectionQuery);
 
      const getLinks = getCacheAndValidation(s.SectionSchema)  // return an arrya of links
     return getLinks(async ()=> {
-    
+    const section =  ((await env.D1.prepare(sectionQuery).bind(sectionId).first<LinkSection>()))
+    console.log("\n\n\n\n ", `${JSON.stringify(section)} \n\n\n\n\n\n`)
       return{
-      id:sectionId, //it must have a name 
-      name:sectionId,
+        ...section,
+   
          links:  (await env.D1.prepare(linkQuery).bind(sectionId).all()).results as LinkData[],
      
       }
@@ -199,6 +200,28 @@ export const getAllSigns = async () => {
         return result?.results;
       },
       `sign_thought_${id}`, // using a unique cache key for each sign
+      {
+        tags: [TAGS.SIGNS], // tag for invalidation
+      }
+    );
+ 
+};  
+
+export const getAllThoughts= async () => {
+  
+    const env = getEnvContext();
+    
+    const query = 'SELECT * FROM thoughts';
+    console.log(`Fetching sign  thoughts `, query);
+
+    const getSign = getCacheAndValidation(v.array(s.ThoughtSchema));
+    return await getSign(
+      async () => {
+        const result = await env.D1.prepare(query).all(); // in cas thier are multiple thoughts
+       console.warn("", "debug result this", result)
+        return result?.results;
+      },
+      `sign_thoughts`, // using a unique cache key for each sign
       {
         tags: [TAGS.SIGNS], // tag for invalidation
       }

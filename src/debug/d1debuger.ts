@@ -1,4 +1,4 @@
-import { D1Result  } from "@cloudflare/workers-types/experimental";
+import { D1Result  } from  "@cloudflare/workers-types/experimental";
 
 
 const DEBUG_MODE = process.env.DEBUG_MODE === 'true';

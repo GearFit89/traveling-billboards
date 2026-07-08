@@ -19,14 +19,19 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
+        
+      },
+      {
+        "name": "typescript-plugin-css-modules" 
       }
     ],
     "paths": {
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    
   },
   "include": [
     "next-env.d.ts",

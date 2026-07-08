@@ -1,12 +1,16 @@
 
+'use client';
+
+import { useEffect, useState } from 'react';
 import { ThoughtData as IComments, SignData, ThoughtData } from '@/types';
 
-import React from 'react'; 
 import { Icon } from '@/lib/icons';
 import { formatDate } from '@/lib/utils';
 
-import styles from "@/styles/Thoughts.module.css"
+import styles from '@/styles/Thoughts.module.css';
 import { thoughtsPageContent } from '@/lib/content';
+import QRCodeSuccessModal from '../confetti';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 
 
@@ -43,7 +47,7 @@ const MessageCard = ({ thought }: { thought: ThoughtData }  ) => {
            the database so it is safe to use dangerouslySetInnerHTML */}
           
           
-            <div dangerouslySetInnerHTML={{__html:thought.html || "<p>No content available</p>"}} className={styles.articleContent} /> 
+            <div dangerouslySetInnerHTML={{__html:thought.content|| "<p>No content available</p>"}} className={styles.articleContent} /> 
                
             
         </article> 
@@ -55,7 +59,24 @@ const MessageCard = ({ thought }: { thought: ThoughtData }  ) => {
 export function Thoughts({thoughts}:{thoughts: ThoughtData[]}) { 
      
 const content = thoughtsPageContent;
-    
+    const [showPopup, setShowPopup] = useState(false);
+    const searchParams = useSearchParams();
+ useEffect(() => {
+    let timer = null;
+
+    // Check if we are running in the browser and look for the hash
+    if (typeof window !== 'undefined' && window.location.hash === '#qr-code') {
+      setShowPopup(true);
+
+      timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 90000); // 90 seconds
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [searchParams]); 
     if(thoughts.length === 0 || thoughts === undefined || thoughts === null) {
         return (
             <div className={styles.container}>
@@ -72,7 +93,11 @@ const content = thoughtsPageContent;
  
     return ( 
         <div className={styles.container}> {/* Apply main wrapper styles */}
-
+          {showPopup && (
+          
+            <QRCodeSuccessModal isOpen={showPopup} onClose={()=>setShowPopup(false)} /> 
+            
+          )}
           <header className={styles.pageHeader}>
           <div className={styles.badge}>
             <span className={styles.badgeIcon}>

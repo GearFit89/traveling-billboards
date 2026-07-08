@@ -11,7 +11,7 @@ interface ErrorPageProps {
 export function ErrorPageLinks({ message }: ErrorPageProps) {
   return (
     <div className={styles.container}>
-      <Navigation />
+    
       <main className={styles.main}>
         <div className={styles.header}>
           <h1>{message}</h1>

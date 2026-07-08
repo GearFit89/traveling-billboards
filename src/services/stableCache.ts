@@ -4,6 +4,7 @@ import { safeToString } from "@/utils/strings";
 import { undefined } from "valibot";
 import Console from "@/utils/console";
 import { TAGS } from "@/const";
+import { constructFromSymbol } from "date-fns/constants";
 
 type KVGetTypes = "text" | "json" | "arrayBuffer" | "stream";
 
@@ -25,12 +26,13 @@ export interface Options {
   tags?: string[]; // Shared tag for cache invalidation across multiple entries
   getOptions?: GetOptions;
   putOptions?: PutOptions;
+  revalidate?: number | false | undefined
 }
 // clean use of a logging system 
 
 const console = new Console("stable_cache");
 
-export function stableCache<F extends (...args: any[]) => any>(fn: F, id: string, options?: Options): F {
+export function _stableCache<F extends (...args: any[]) => any>(fn: F, id: string, options?: Options): F {
   const cachedFn = unstable_cache(
     async (...args: Parameters<F>): Promise<ReturnType<F> | null> => {
       try{
@@ -89,4 +91,26 @@ const result = await fn(...args);
   return cachedFn as F;
 
 }
+
+//kv does not need to be the cache system. 
+//so i got rid of that function and shorten down to this to avoid breaking the app.
+//pdate Options to reflect Next.js expectations if necessary
+
+function stableCache<F extends (...args: any[]) => any>(
+  fn: F, 
+  id: string, 
+  options?: Options
+): (...args: Parameters<F>) => Promise<ReturnType<F>> {
+  
+  // Pass the unique 'id' as a keyPart, and pass along tags/revalidate options
+  return unstable_cache(
+    async (...args: any[]) => fn(...args),
+    [id], // <-- CRITICAL: This separates 'links' cache from 'signs' cache!
+    {
+      revalidate: options?.revalidate,
+      tags: options?.tags || [id], // Fallback to id as a tag for easy revalidation
+    }
+  );
+}
+
 export default stableCache;

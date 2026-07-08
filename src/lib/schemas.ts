@@ -66,7 +66,7 @@ export const SectionSchema = v.object({
   id: v.string( "SectionSchema.id must be a string" ),
   name: v.string( "SectionSchema.name must be a string" ),
   description: v.optional(v.string( "SectionSchema.description must be a string" )),
-  iconKey: v.optional(v.string( "SectionSchema.iconKey must be a string" )),
+  link_count: v.optional(v.number("SectionSchema.link_count needs a number")),
   icon_key: v.optional(v.string( "SectionSchema.icon_key must be a string" )),
   img_key: v.optional(v.string( "SectionSchema.img_key must be a string" )),
   img_alt: v.optional(v.string( "SectionSchema.img_alt must be a string" )),

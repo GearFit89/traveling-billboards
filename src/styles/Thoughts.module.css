@@ -11,6 +11,8 @@
         system-ui,
         -apple-system,
         sans-serif; /* Modern system font stack */
+    position: relative;
+    overflow: hidden;
 } /* End app container style */
 
 .navBrand {
@@ -169,6 +171,169 @@
         --spacing-xlarge
     ); /* Extra large space before resources */
 } /* End message card style */
+
+.articleHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.articleTitle {
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    margin: 0;
+    color: var(--color-text);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.articleMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    align-items: center;
+}
+
+.metaItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.metaIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    color: var(--color-primary);
+}
+
+.articleContent {
+    color: var(--color-text);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.pageHeader {
+    margin-bottom: 2rem;
+    gap: 0.75rem;
+}
+
+.confettiPopup {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.72);
+    z-index: 60;
+    pointer-events: auto;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.confettiMessage {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-text);
+    padding: 1rem 1.5rem;
+    border-radius: 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 0.75rem 2rem rgba(15, 23, 42, 0.18);
+    margin-bottom: 1rem;
+}
+
+.confettiBurst {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: radial-gradient(circle at 25% 20%, rgba(236, 72, 153, 0.5) 0px, transparent 16px),
+        radial-gradient(circle at 75% 22%, rgba(59, 130, 246, 0.45) 0px, transparent 16px),
+        radial-gradient(circle at 50% 45%, rgba(34, 197, 94, 0.45) 0px, transparent 20px),
+        radial-gradient(circle at 20% 70%, rgba(251, 191, 36, 0.45) 0px, transparent 18px),
+        radial-gradient(circle at 80% 65%, rgba(14, 165, 233, 0.45) 0px, transparent 20px);
+    opacity: 0.9;
+    animation: burst 1.4s ease-out;
+    pointer-events: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes burst {
+    0% {
+        opacity: 0.8;
+        transform: scale(0.85);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.35);
+    }
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.85rem;
+}
+
+.badgeIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: rgba(59, 130, 246, 0.15);
+    border-radius: 9999px;
+    color: var(--color-surface);
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(2.2rem, 4vw, 2.9rem);
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.titleAccent {
+    color: var(--color-primary);
+}
+
+.subtitle {
+    margin: 0;
+    max-width: 44rem;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+}
+
+.thoughtsCountMessage {
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+}
 
 .messageTitle {
     /* Title inside the message card style */

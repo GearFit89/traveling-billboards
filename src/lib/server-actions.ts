@@ -2,8 +2,8 @@
 
 import { COOKIE_KEYS, TAGS } from "@/const";
 import { getAllLinks } from "@/lib/actions";
-import { clearKVCache } from "@/services/cacher";
-import SearchDB from "@/utils/search";
+
+import SearchDB from "@/services/search";
 import Fuse from "fuse.js";
 import { revalidateTag } from "next/cache";
 import * as s from "@/lib/schemas"
@@ -14,12 +14,12 @@ import { LinkData, MessageType, ReturnData } from "@/types";
 import Console from "@/utils/console";
 import { error } from "console";
 import { cookies } from "next/headers";
-
+import { AppError } from "@/utils/error";
 
 
 const console = new Console("server-actions")
  async function clearCache() {
-   await  clearKVCache();
+   
 
    //updates all tags to clear the unstable cache instantly 
    revalidateTag(TAGS.GLOBAL, "max");
@@ -27,9 +27,7 @@ const console = new Console("server-actions")
 };
 
 export async function clearAllCache(key: string): Promise<{ success: boolean; message?: string; error?: string }> {
-    if (key !== process.env.CACHE_CLEAR_KEY) {
-        return { success: false, error: "Invalid cache clear key." };
-    }
+   
     try {
         await clearCache();
         console.log("Cache cleared successfully.");

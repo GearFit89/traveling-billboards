@@ -20,9 +20,9 @@ export function SectionCard({ id, name, description, iconKey, linkCount }: Secti
       </div>
       <h2 className={styles.sectionName}>{name}</h2>
       <p className={styles.sectionDescription}>{description}</p>
-      <span className={styles.sectionCount}>
-        {linkCount} link{linkCount !== 1 ? 's' : ''}
-      </span>
+   {linkCount != 0 && ( <span className={styles.sectionCount}>
+       {linkCount} link{linkCount !== 1 ? 's' : ''}  
+      </span>)}
     </Link>
   );
 }

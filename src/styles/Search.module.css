@@ -1,0 +1,262 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-right: none; /* Merges the border with the button */
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+  border-color: #0066cc;
+}
+
+/* Optional: Targets the button if your Button component forwards the className */
+.searchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background-color: #0066cc;
+  color: white;
+  border: 1px solid #0066cc;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  cursor: pointer;
+  height: 100%; /* Ensures it matches the input height */
+  transition: background-color 0.2s ease;
+}
+
+.searchButton:hover {
+  background-color: #0052a3;
+  border-color: #0052a3;
+}
+
+.searchWrapper {
+  margin-bottom: 1.75rem;
+  width: 100%;
+  max-width: 980px;
+}
+
+.searchHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.searchHeaderTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.searchHeaderTitle h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.searchHeaderTitle p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.searchToggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 9999px;
+  background-color: #fff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchToggleButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+}
+
+.searchModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 9999px;
+}
+
+.searchResults {
+  display: grid;
+  gap: 1rem;
+}
+
+.searchResultCard {
+  padding: 1rem 1.15rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.searchResultTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.searchResultDescription {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.noResults {
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+/* --- Filter Modal Layout --- */
+
+/* Backdrop overlay that covers the entire viewport */
+.filterModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* Dimmed backdrop */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px); /* Modern frosted-glass finish */
+}
+
+/* The modal wrapper box */
+.filterContent {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.filterContent h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* --- Form Fields & Filter Item Styling --- */
+
+.filterLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a4a4a;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Select element styling */
+.filterSelect {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.filterSelect:focus {
+  border-color: #0066cc;
+}
+
+/* Range Inputs layout (Min & Max side-by-side) */
+.filterRangeGroup {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.filterRangeInput {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.filterRangeInput:focus {
+  border-color: #0066cc;
+}
+
+/* --- Action Buttons Container --- */
+.filterButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+}
+
+/* Animation for smooth popup entry */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.searchStatus {
+}
+.searchResults{
+  margin: 20%;
+
+}

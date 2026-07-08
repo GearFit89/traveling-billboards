@@ -18,7 +18,9 @@ CREATE TABLE sections (
   description TEXT,
   icon_key TEXT,
   img_key TEXT,
-  img_alt TEXT
+  img_alt TEXT,
+  link_count INTEGER
+  
 );
 
 CREATE TABLE links (
@@ -108,10 +110,10 @@ INSERT INTO links (id, title, link, img_key, img_alt, description, section, hits
 ('9', 'The Chosen TV', 'https://thechosen.tv', 'https://images.unsplash.com/photo-1536440136628-849c177e76a1', 'Movie projector beams in a dark room', 'Multi-season historical drama series based on the life of Jesus and those who knew him.', 'Video and Visual Education', 195000),
 ('10', 'Got Questions', 'https://www.gotquestions.org', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac', 'Group of people talking inside an office space', 'An expansive database answering difficult questions about faith, theology, and the Bible.', 'Apologetics and Theology', 118900);
 
-INSERT INTO sections (id, name, description, icon_key, img_key, img_alt) VALUES
-('Bible Text and Translations', 'Bible Text and Translations', 'Bible study resources, translations, and searchable scripture text.', 'link', 'https://images.unsplash.com/photo-1519410280451-146429a310fc', 'Bible open to scripture under soft light'),
-('Gospel Resources and Commentaries', 'Gospel Resources and Commentaries', 'In-depth Gospel articles, commentaries, and discipleship resources.', 'thought', 'https://images.unsplash.com/photo-1516979187457-637abb4f9353', 'Stack of devotional books and notes'),
-('Study Tools and Academics', 'Study Tools and Academics', 'Reference tools, lexicons, and academic resources for Bible study.', 'backpack', 'https://images.unsplash.com/photo-1517842645767-c639042777db', 'Academic study materials on a desk'),
-('Video and Visual Education', 'Video and Visual Education', 'Video lessons, animated guides, and visual teaching resources.', 'sparkle', 'https://images.unsplash.com/photo-1536440136628-849c177e76a1', 'Video content displayed on a screen'),
-('Apologetics and Theology', 'Apologetics and Theology', 'Resources for defending the faith and understanding theology.', 'users', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c', 'Group conversation around a table');
+INSERT INTO sections (id, name, description, icon_key, img_key, img_alt, link_count) VALUES
+('Bible Text and Translations', 'Bible Text and Translations', 'Bible study resources, translations, and searchable scripture text.', 'link', 'https://images.unsplash.com/photo-1519410280451-146429a310fc', 'Bible open to scripture under soft light', 4),
+('Gospel Resources and Commentaries', 'Gospel Resources and Commentaries', 'In-depth Gospel articles, commentaries, and discipleship resources.', 'thought', 'https://images.unsplash.com/photo-1516979187457-637abb4f9353', 'Stack of devotional books and notes', 5),
+('Study Tools and Academics', 'Study Tools and Academics', 'Reference tools, lexicons, and academic resources for Bible study.', 'backpack', 'https://images.unsplash.com/photo-1517842645767-c639042777db', 'Academic study materials on a desk', 5),
+('Video and Visual Education', 'Video and Visual Education', 'Video lessons, animated guides, and visual teaching resources.', 'sparkle', 'https://images.unsplash.com/photo-1536440136628-849c177e76a1', 'Video content displayed on a screen', 6),
+('Apologetics and Theology', 'Apologetics and Theology', 'Resources for defending the faith and understanding theology.', 'users', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c', 'Group conversation around a table', 9);
 

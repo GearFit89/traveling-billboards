@@ -2,5 +2,6 @@
 	"files.associations": {
 		"wrangler.json": "jsonc"
 	},
-	"js/ts.format.semicolons": "insert"
+	"js/ts.format.semicolons": "insert",
+	"js/ts.tsdk.path": "node_modules/typescript/lib"
 }

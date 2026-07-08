@@ -8,7 +8,7 @@ import * as v from "valibot"
 
 
 
-export class SearchDB<T, > {
+export class ServerSearchDB<T extends Record<string, any>> {
     private table : Table;
     private options: IFuseOptions<T>={}
     private data: T[]=[];
@@ -34,7 +34,7 @@ export class SearchDB<T, > {
 
   filter(
  
-    filters: Record<string, (string | number)[]|"*">
+    filters: Record<string, (string | number | null)[]>
   ) {
     //  Generate the column schema dynamically
     const schema = createColumnSchema<any>(this.objectSchema);
@@ -53,12 +53,12 @@ export class SearchDB<T, > {
         //throw the error to break the chain
         throw new Error(errorMsg);
       }
-      if(values === "*" || (Array.isArray(values) && values.length === 0)){
-        // If the filter is a wildcard or an empty array, skip adding it to the query
-        return sqlAccumulator;
-      }
+      
       // Safely push the value to the D1 prepare bindings
       values.forEach((val) => {
+        if(!val && val !== 0) {
+          throw new Error(`[SQL Filter Error]: Value for column "${col}" cannot be null or undefined.`);
+        }
         this.bindings.push(val);
       });
       
@@ -117,4 +117,4 @@ export class SearchDB<T, > {
 
 }
 
-export default SearchDB;
+export default ServerSearchDB;

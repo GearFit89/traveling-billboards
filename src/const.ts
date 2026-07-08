@@ -28,7 +28,8 @@ export const COOKIE_KEYS = {
   MESSAGE_TOKEN: 'message_token',
   LINK_HIT: 'link_hit',
   ACCESS_TOKEN: 'access_token',
-  REFRESH_TOKEN: 'refresh_token'
+  REFRESH_TOKEN: 'refresh_token',
+  ADMIN_COOKIE: 'admin_cookie'
 }
 
 //pages sizes

@@ -9,11 +9,15 @@ import { LinkDetail } from '@/components/links/LinkDetail';
 import { SectionView } from '@/components/links/SectionView';
 import { ErrorPageLinks } from '@/components/links/ErrorPageLinks';
 import { LinksFooter } from '@/components/links/LinksFooter';
+
+
+
 import "@/styles/globals.css";
 import styles from '@/styles/Links.module.css';
 import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
 import errorHandler from '@/lib/error-handler';
+import { ArrowBigDown } from 'lucide-react';
   
 
 // 1. Create a sub-component to handle the dynamic routing based on searchParams
@@ -63,7 +67,7 @@ async function LinkDetailView({
     const {data:link} = await getLinkById(linkId);
   
     if (!link) { 
-      return <ErrorPageLinks message="Link not found" />;
+     errorHandler("Link not found", 404.2)
     }
 
     return (
@@ -85,7 +89,7 @@ async function LinkDetailView({
       </div>
     );
   } catch {
-    return <ErrorPageLinks message="Link not found" />;
+   errorHandler("Link not found", 404.3)
   }
 }
 
@@ -103,11 +107,12 @@ async function SectionDetailView({
       <div className={styles.container}>
       
         <main className={styles.main}>
+        
           <SectionView
             sectionId={sectionId}
             sectionName={section.name}
             sectionDescription={section.description || ''}
-            sectionIcon={section.icon_key || section.iconKey || 'link'}
+            sectionIcon={section.icon_key || "link"}
             links={section.links|| []}
             pageTitle={content.title}
             backToAllText={content.backToAllText}
@@ -117,7 +122,7 @@ async function SectionDetailView({
       </div>
     );
   } catch {
-    return <ErrorPageLinks message="Section not found" />;
+     errorHandler("Link not found", 404.3);
   }
 }
 
@@ -125,16 +130,24 @@ async function AllSectionsView({ content }: { content: any }) {
   try {
     const { data:sections } = await getAllSections();
 
+    
+
     return (
       <div className={styles.container}>
-     
         <main className={styles.main}>
-          <header className={styles.header}>
-            <h1 className={styles.title}>
-              {content.title}<span className={styles.titleAccent}>.</span>
-            </h1>
-            <p className={styles.subtitle}>{content.subtitle}</p>
-          </header>
+         
+            <header className={styles.header}>
+              <h1 className={styles.title}>
+                {content.title}<span className={styles.titleAccent}>.</span>
+              </h1>
+              <p className={styles.subtitle}>{content.subtitle}</p>
+              <div className={styles.linksHeaderSearch}>
+              
+                <p className={styles.searchHint}>{content.searchHeaderDescription}</p>
+              </div>
+            </header>
+
+          
 
           <div className={styles.sectionsGrid}>
             {sections.map((section) => (
@@ -143,7 +156,7 @@ async function AllSectionsView({ content }: { content: any }) {
                 id={section.id}
                 name={section.name}
                 description={section.description || ''}
-                iconKey={section.icon_key || section.iconKey || 'link'}
+                iconKey={section.icon_key || 'link'}
                 linkCount={section.links?.length || 0}
               />
             ))}
@@ -155,6 +168,6 @@ async function AllSectionsView({ content }: { content: any }) {
   } catch(e:  any) {
     // const error = e as Error;
     errorHandler("Failed to load sections. Error: " + (e as Error). message || 'Unknown error', 404);
-    return <ErrorPageLinks message="Failed to load sections" />;
+   
   }
 };
