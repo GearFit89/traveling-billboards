@@ -54,7 +54,7 @@ export const FnMap: Record<Ids, (id?: string)=> Promise<any>> = {
 
 }
 /** How a single box (column) on a form behaves. */
-export type FieldType = "text" | "url" | "longtext" | "date" | "html"
+export type FieldType = "text" | "url" | "longtext" | "date" | "html"| "image"
 
 export interface Field {
   /** The real database column name. Do not change this. */
@@ -309,7 +309,7 @@ const signs: Collection = {
       key: "img_key",
       label: "Sign Image",
       hint: "The file name of the photo of the sign.",
-      type: "text",
+      type: "image",
       example: "lobby-welcome.jpg",
       icon: ImageIcon,
     },

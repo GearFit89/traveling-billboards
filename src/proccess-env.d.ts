@@ -19,6 +19,7 @@ declare global {
             CACHE_CLEAR_KEY:string;
             UPSTASH_REDIS_REST_URL:string;
             UPSTASH_REDIS_REST_TOKEN:string;
+            R2_IMAGE_KEY: string;
 
         }
     }

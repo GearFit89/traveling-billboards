@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from "react"
 import { toast } from "sonner"
+import ImageUploader from "@/components/image-uploader"
 import type { Collection, Field } from "./content"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,7 +25,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { RichTextEditor } from "./rich-text-editor"
-import { Pencil, Plus, Save, Trash2, Inbox, Loader2 } from "lucide-react"
+import { Pencil, Plus, Save, Trash2, Inbox, Loader2, ImagePlus } from "lucide-react"
 
 // Import your actual D1 server actions
 import {
@@ -33,6 +34,8 @@ import {
   upsertSign, deleteSign,
   upsertThought, deleteThought
 } from "@/lib/admin-actions" // Adjust this path if your actions file name varies
+import { IMAGE_UPLOAD_URL } from "@/const";
+import { useToast } from "@/hooks/use-toast";
 
 type Row = Record<string, string>
 
@@ -62,7 +65,7 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
   if(!collection){
     console.error("failed to load collection")
     return <h4>
-      Loaging Collections...
+      Loaging
       If this message remains, please reset.
        If this still remains, an interal error has occured
        </h4>
@@ -258,24 +261,30 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
                           {field.key}
                         </code>
                       </dt>
-                      <dd className="text-sm">
-                        {row[field.key]?.trim() ? (
-                          field.type === "html" ? (
-                            <div
-                              className="prose prose-sm max-w-none dark:prose-invert"
-                              dangerouslySetInnerHTML={{ __html: row[field.key] }}
-                            />
-                          ) : field.type === "url" ? (
-                            <span className="break-all text-primary underline-offset-2">
-                              {row[field.key]}
-                            </span>
-                          ) : (
-                            <span className="break-words">{row[field.key]}</span>
-                          )
-                        ) : (
-                          <span className="italic text-muted-foreground/60">Not set</span>
-                        )}
-                      </dd>
+                     <dd className="text-sm">
+  {row[field.key]?.trim() ? (
+    field.type === "html" ? (
+      <div
+        className="prose prose-sm max-w-none dark:prose-invert"
+        dangerouslySetInnerHTML={{ __html: row[field.key] }}
+      />
+    ) : field.type === "url" ? (
+      <span className="break-all text-primary underline-offset-2">
+        {row[field.key]}
+      </span>
+    ) : field.type === "image" ? (
+      <img
+        src={row[field.key]}
+        alt={field.label}
+        className="max-h-48 rounded-md border object-contain"
+      />
+    ) : (
+      <span className="break-words">{row[field.key]}</span>
+    )
+  ) : (
+    <span className="italic text-muted-foreground/60">Not set</span>
+  )}
+</dd>
                     </div>
                   ))}
                 </dl>
@@ -354,7 +363,36 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
                         className="resize-none"
                         disabled={isPending}
                       />
-                    ) : (
+                  ) : field.type === "image" ? (
+  <div className="space-y-3">
+    {draft[field.key] && (
+      <img
+        src={draft[field.key]}
+        alt={field.label}
+        className="max-h-40 rounded-md border object-contain"
+      />
+    )}
+
+    <ImageUploader
+      uploadUrl={IMAGE_UPLOAD_URL}
+      authToken={adminToken}
+      onSuccess={({ success, imgKey }) => {
+        console.warn("succes", success)
+        if (!success) return;
+        toast.message("Image loaded successfully")
+        setDraft((d) => ({
+          ...d,
+          [field.key]: `${IMAGE_UPLOAD_URL}/${imgKey}`,
+        }));
+      }}
+    >
+      <Button type="button" variant="outline">
+        <ImagePlus className="mr-2 h-4 w-4" />
+        {draft[field.key] ? "Replace Image" : "Upload Image"}
+      </Button>
+    </ImageUploader>
+  </div>
+) : (
                       <Input
                         id={fieldId}
                         type={field.type === "date" ? "date" : "text"}

@@ -9,7 +9,7 @@ export const BaseNoteSchema = v.object({
  
 });
 
-export const metadataSchema = v.optional(
+export const metadataSchema = v.nullish(
   v.nullable(
     v.union([
       // If it's an empty string, just treat it as an empty object (or undefined)
@@ -42,7 +42,7 @@ export const SignDataSchema = v.object({
   id: v.string( "SignDataSchema.id must be a string" ),
   title: v.string( "SignDataSchema.title must be a string" ),
   img_key: v.string( "SignDataSchema.img_key must be a string" ),
-  img_alt: v.string( "SignDataSchema.img_alt must be a string" ),
+  img_alt: v.nullish(v.string( "SignDataSchema.img_alt must be a string" )),
   description: v.string( "SignDataSchema.description must be a string" ),
  
   web_hits: v.number( "SignDataSchema.web_hits must be a number" ),

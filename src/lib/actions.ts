@@ -201,7 +201,7 @@ export const getAllSigns = async () => {
       },
       `sign_thought_${id}`, // using a unique cache key for each sign
       {
-        tags: [TAGS.SIGNS], // tag for invalidation
+        tags: [TAGS.SIGNS, TAGS.THOUGHTS], // tags for revalidation if sign changes
       }
     );
  

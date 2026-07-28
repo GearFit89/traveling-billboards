@@ -6,7 +6,7 @@ import { cookies, headers } from "next/headers";
 import { getEnvContext } from "@/lib/utils";
 import { COOKIE_KEYS } from "@/const";
 import { ReturnData, SuccessReturn } from "@/types";
-
+import { revalidateTag } from "next/cache";
 
 import * as s from './schemas';
 import Console from "@/utils/console";
@@ -19,6 +19,7 @@ import { LinkData, LinkSection } from '@/types';
 import { link } from 'fs';
 import { D1Database } from '@cloudflare/workers-types';
 
+const cacheProfile: string = "max"; // state while revaildate, when next user vists state is mark as stale.
 const env = getEnvContext()
 
 function checkAdminCode(token: string) {
@@ -46,8 +47,10 @@ export async function upsertSection(token: string, data: { id: string, name: str
                 img_alt = excluded.img_alt;
         `;
         console.log(`running query', ${query}`);
+
         
         await env.D1.prepare(query).bind(data.id, data.name, data.description || null, data.icon_key || null, data.img_key || null, data.img_alt || null).run();
+       revalidateTag(TAGS.SECTIONS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert section", status: 500 };
@@ -59,6 +62,7 @@ export async function deleteSection(token: string, id: string) {
 
     try {
         await env.D1.prepare("DELETE FROM sections WHERE id = ?").bind(id).run();
+        revalidateTag(TAGS.SECTIONS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to delete section", status: 500 };
@@ -70,7 +74,7 @@ export async function deleteSection(token: string, id: string) {
 // ==========================================
 export async function upsertLink(token: string, data: { id: string, title: string, link: string, img_key?: string, img_alt?: string, description?: string, section: string, metadata?: string }) {
     checkAdminCode(token);
-
+   
     try {
         // Optimized the redundant subquery out since it preserves original values on conflict automatically
         const query = `
@@ -87,6 +91,7 @@ export async function upsertLink(token: string, data: { id: string, title: strin
         `;
         console.log(`running query', ${query}`);
         await env.D1.prepare(query).bind(data.id, data.title, data.link, data.img_key || null, data.img_alt || null, data.description || null, data.section, data.metadata || null).run();
+        revalidateTag(TAGS.LINKS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert link", status: 500 };
@@ -95,9 +100,10 @@ export async function upsertLink(token: string, data: { id: string, title: strin
 
 export async function deleteLink(token: string, id: string) {
     checkAdminCode(token);
-
+  
     try {
         await env.D1.prepare("DELETE FROM links WHERE id = ?").bind(id).run();
+        revalidateTag(TAGS.LINKS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to delete link", status: 500 };
@@ -109,6 +115,7 @@ export async function deleteLink(token: string, id: string) {
 // ==========================================
 export async function upsertSign(token: string, data: { id: string, title: string, img_key?: string, img_alt?: string, description?: string, metadata?: string }) {
     checkAdminCode(token);
+   
 
     try {
         // Optimized the redundant subqueries out as well
@@ -124,6 +131,7 @@ export async function upsertSign(token: string, data: { id: string, title: strin
         `;
         console.log(`running query', ${query}`);
         await env.D1.prepare(query).bind(data.id, data.title, data.img_key || null, data.img_alt || null, data.description || null, data.metadata || null).run();
+        revalidateTag(TAGS.SIGNS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert sign", status: 500 };
@@ -132,9 +140,11 @@ export async function upsertSign(token: string, data: { id: string, title: strin
 
 export async function deleteSign(token: string, id: string) {
     checkAdminCode(token);
+  
 
     try {
         await env.D1.prepare("DELETE FROM signs WHERE id = ?").bind(id).run();
+          revalidateTag(TAGS.SIGNS, cacheProfile );
         return { success: true };
     } catch (e: any) {
         return { 
@@ -162,6 +172,7 @@ export async function upsertThought(token: string, data: { id: string, sign_id: 
                 date = excluded.date;
         `;
         await env.D1.prepare(query).bind(data.id, data.sign_id, data.content || null, data.location || null, data.date || null).run();
+        revalidateTag(TAGS.THOUGHTS, cacheProfile ); 
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert thought", status: 500 };
@@ -173,6 +184,7 @@ export async function deleteThought(token: string, id: string) {
 
     try {
         await env.D1.prepare("DELETE FROM thoughts WHERE id = ?").bind(id).run();
+          revalidateTag(TAGS.THOUGHTS, cacheProfile ); 
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to delete thought", status: 500 };
@@ -207,6 +219,7 @@ export async function deleteComment(token: string, id: string) {
 
 
 import { SignJWT, jwtVerify } from "jose";
+
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 

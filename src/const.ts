@@ -1,3 +1,4 @@
+import { Thought } from "./components/comments/Comments";
 import { SearchType } from "./types";
 
 
@@ -6,7 +7,8 @@ export const TAGS = {
   SIGNS: "signs",
   LINKS: "links",
   SECTIONS: "sections",
-  GLOBAL: "global"
+  GLOBAL: "global",
+  THOUGHTS: 'thoughts'
 
 } as const;
 
@@ -43,3 +45,8 @@ export const SORT = {
     ASC: "ASC",
     DESC : "DESC"
 }
+
+export const IMAGE_UPLOAD_URL = "https://r2actions.tailgates4Jesus.com"
+
+
+export const FILE_SIZE_LIMIT =  5 * 1024 * 1024;
