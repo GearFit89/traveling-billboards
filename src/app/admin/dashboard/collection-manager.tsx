@@ -279,7 +279,7 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
         className="max-h-48 rounded-md border object-contain"
       />
     ) : (
-      <span className="break-words">{row[field.key]}</span>
+      <span className="wrap-break-words">{row[field.key]}</span>
     )
   ) : (
     <span className="italic text-muted-foreground/60">Not set</span>

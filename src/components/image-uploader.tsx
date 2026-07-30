@@ -1,5 +1,7 @@
 import { FILE_SIZE_LIMIT } from "@/const";
+import { uploadImageToR2 } from "@/lib/admin-actions";
 import { Button } from "@base-ui/react";
+import { env } from "process";
 import React, { Children, useState, useRef } from "react";
 
 type ImageUploaderProps = {
@@ -8,6 +10,7 @@ type ImageUploaderProps = {
   children: React.ReactNode;
   onSuccess?: (response: any) => void;
   onError?: (error: string) => void;
+
 };
 
 
@@ -16,7 +19,8 @@ export default function ImageUploader({
   authToken,
   onSuccess,
   onError,
-  children
+  children,
+
 }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
 const inputRef = useRef<HTMLInputElement>(null);
@@ -38,23 +42,12 @@ const inputRef = useRef<HTMLInputElement>(null);
     setUploading(true);
 
     try {
-      const response = await fetch(
-        `${uploadUrl}?fileName=${encodeURIComponent(file.name)}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: authToken,
-            "Content-Type": file.type,
-          },
-          body: file,
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error ?? "Upload failed.");
+      const { data, success } = await uploadImageToR2(authToken, uploadUrl, file )
+      
+      if(!success || !data){
+        throw new Error("Image Upload failed")
       }
+     
 
       onSuccess?.(data);
     } catch (err) {
@@ -97,6 +90,7 @@ const inputRef = useRef<HTMLInputElement>(null);
         accept="image/*"
         onChange={handleChange}
     />
+    {children}
 </label>
 </div>
   )

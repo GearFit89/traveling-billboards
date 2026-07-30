@@ -22,10 +22,16 @@
                     "binding": "KV",
                     "id": "25028869eff645c1b663d9d94aec0598"
                  }],
-					"r2_buckets": [
+
+	"r2_buckets": [
   {
     "binding": "NEXT_INC_CACHE_R2_BUCKET", // What OpenNext searches for
-    "bucket_name": "open-next-r2-bucket-1" // Your actual bucket name
+    "bucket_name": "open-next-r2-bucket-1",
+
+  },
+  {
+	"binding": "R2_IMAGES",
+	"bucket_name": "r2-images-tailgates4jesus"
   }
 ],
 	"observability": {

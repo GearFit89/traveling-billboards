@@ -4,7 +4,7 @@ import { heavyRatelimit } from "@/services/ratelimits";
 import { AppError } from "@/utils/error"
 import { cookies, headers } from "next/headers";
 import { getEnvContext } from "@/lib/utils";
-import { COOKIE_KEYS } from "@/const";
+import { COOKIE_KEYS, FILE_SIZE_LIMIT } from "@/const";
 import { ReturnData, SuccessReturn } from "@/types";
 import { revalidateTag } from "next/cache";
 
@@ -17,7 +17,7 @@ import * as v from 'valibot';
 import Fuse from 'fuse.js';
 import { LinkData, LinkSection } from '@/types';
 import { link } from 'fs';
-import { D1Database } from '@cloudflare/workers-types';
+import { D1Database, R2Object } from '@cloudflare/workers-types';
 
 const cacheProfile: string = "max"; // state while revaildate, when next user vists state is mark as stale.
 const env = getEnvContext()
@@ -219,6 +219,7 @@ export async function deleteComment(token: string, id: string) {
 
 
 import { SignJWT, jwtVerify } from "jose";
+import { buffer } from "stream/consumers";
 
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -501,3 +502,32 @@ export const getAllThoughts= async () => {
       }
     );
 };
+
+
+export async  function uploadImageToR2(token: string, key: string, file: File):Promise<Partial< ReturnData<R2Object| null>>>{
+  checkAdminCode(token);
+
+
+  if(!file.type.startsWith("image") ){;
+    console.error("file not image")
+    return { error: "File not image", success: false}
+  }
+  
+  if(file.size > FILE_SIZE_LIMIT ){
+    return { error: "File size too big", success: false}
+  }
+
+
+ const bufferData = await file.arrayBuffer();
+  const data = await env.R2_IMAGES.put(`images/${key}`, bufferData, {
+    httpMetadata:{
+
+      // To avoid mixing the defualt binary type, with this actual image type
+      contentType: file.type
+    }
+  })
+
+  return { success: true, data}
+
+
+}
