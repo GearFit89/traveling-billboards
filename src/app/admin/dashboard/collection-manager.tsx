@@ -376,13 +376,15 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
     <ImageUploader
       uploadUrl={IMAGE_UPLOAD_URL}
       authToken={adminToken}
-      onSuccess={({ success, imgKey }) => {
-        console.warn("succes", success)
+      onSuccess={({ success, data }) => {
+        const url = `${IMAGE_UPLOAD_URL}/${data.imageUrl}`;
+        console.warn("succes", success, data, url)
+
         if (!success) return;
         toast.message("Image loaded successfully")
         setDraft((d) => ({
           ...d,
-          [field.key]: `${IMAGE_UPLOAD_URL}/${imgKey}`,
+          [field.key]: url
         }));
       }}
     >

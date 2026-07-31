@@ -47,9 +47,12 @@ const inputRef = useRef<HTMLInputElement>(null);
       if(!success || !data){
         throw new Error("Image Upload failed")
       }
-     
+     const resData = {
+      success,
+      data
+     }
 
-      onSuccess?.(data);
+      onSuccess?.(resData);
     } catch (err) {
       onError?.((err as Error).message);
     } finally {

@@ -504,22 +504,22 @@ export const getAllThoughts= async () => {
 };
 
 
-export async  function uploadImageToR2(token: string, key: string, file: File):Promise<Partial< ReturnData<R2Object| null>>>{
+export async  function uploadImageToR2(token: string, key: string, file: File):Promise<Partial< ReturnData<Record<"imageUrl", string>>>>{
   checkAdminCode(token);
-
-
+const imageUrl = 'images/' + file.name;
+console.log("key", key, file.name)
   if(!file.type.startsWith("image") ){;
     console.error("file not image")
     return { error: "File not image", success: false}
   }
-  
+
   if(file.size > FILE_SIZE_LIMIT ){
     return { error: "File size too big", success: false}
   }
 
 
  const bufferData = await file.arrayBuffer();
-  const data = await env.R2_IMAGES.put(`images/${key}`, bufferData, {
+  const data = await env.R2_IMAGES.put(imageUrl, bufferData, {
     httpMetadata:{
 
       // To avoid mixing the defualt binary type, with this actual image type
@@ -527,7 +527,11 @@ export async  function uploadImageToR2(token: string, key: string, file: File):P
     }
   })
 
-  return { success: true, data}
+  
+
+  return { success: true, data: {
+    imageUrl
+  }}
 
 
 }
