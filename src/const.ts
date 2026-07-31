@@ -38,7 +38,6 @@ export const COOKIE_KEYS = {
 export const DEFAULT_PAGE_SIZE = 10;
 export const MAX_PAGE_SIZE = 100;
 
-
 export const IS_DEVELOPMENT = process.env.NODE_ENV === "development";
 
 export const SORT = {
@@ -47,6 +46,6 @@ export const SORT = {
 }
 
 export const IMAGE_UPLOAD_URL = "https://r2actions.tailgates4Jesus.com"
-export const IMAGE_URL =  "http://assets.tailgates4Jeus.com"
+export const IMAGE_URL =  "https://assets.tailgates4Jesus.com"
 
 export const FILE_SIZE_LIMIT =  5 * 1024 * 1024; // 5 MB
