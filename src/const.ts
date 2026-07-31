@@ -47,6 +47,6 @@ export const SORT = {
 }
 
 export const IMAGE_UPLOAD_URL = "https://r2actions.tailgates4Jesus.com"
-
+export const IMAGE_URL =  "http://assets.tailgates4Jeus.com"
 
 export const FILE_SIZE_LIMIT =  5 * 1024 * 1024; // 5 MB

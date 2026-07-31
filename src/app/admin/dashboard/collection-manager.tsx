@@ -34,7 +34,7 @@ import {
   upsertSign, deleteSign,
   upsertThought, deleteThought
 } from "@/lib/admin-actions" // Adjust this path if your actions file name varies
-import { IMAGE_UPLOAD_URL } from "@/const";
+import { IMAGE_UPLOAD_URL, IMAGE_URL } from "@/const";
 import { useToast } from "@/hooks/use-toast";
 
 type Row = Record<string, string>
@@ -377,7 +377,7 @@ export function CollectionManager({ collection, adminToken }: CollectionManagerP
       uploadUrl={IMAGE_UPLOAD_URL}
       authToken={adminToken}
       onSuccess={({ success, data }) => {
-        const url = `${IMAGE_UPLOAD_URL}/${data.imageUrl}`;
+        const url = `${IMAGE_URL}/${data.imageUrl}`;
         console.warn("succes", success, data, url)
 
         if (!success) return;
