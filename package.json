@@ -77,6 +77,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"dev:remote": "npx wrangler dev --remote",
+		"dev:local": "opennextjs-cloudflare dev --local",
 		"build": "next build",
 		"build:cf": "next build && opennextjs-cloudflare build",
 		"preview": "npm run build:cf && opennextjs-cloudflare preview",

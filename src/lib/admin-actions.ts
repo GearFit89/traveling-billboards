@@ -440,7 +440,7 @@ export const getAllSigns = async () => {
 
       { tags: [ TAGS.LINKS] },
 
-    )
+    ) as Promise<ReturnData< LinkSection>>; // cast to the correct type
   }
 
   export async function getLinkById (linkId:string){

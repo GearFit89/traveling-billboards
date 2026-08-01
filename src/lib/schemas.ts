@@ -2,10 +2,10 @@ import * as v from "valibot";
 
 export const BaseNoteSchema = v.object({
   id: v.string( "BaseNoteSchema.id must be a string" ),
-  date: v.string( "BaseNoteSchema.date must be a string" ),
-  content: v.optional(v.string( "BaseNoteSchema.content must be a string" )),
-  location: v.optional(v.string( "BaseNoteSchema.location must be a string" )),
-  title: v.optional(v.string( "BaseNoteSchema.title must be a string" )),
+  date:v.nullish( v.string( "BaseNoteSchema.date must be a string" )),
+  content: v.nullish(v.string( "BaseNoteSchema.content must be a string" )),
+  location:v.nullish( v.nullish(v.string( "BaseNoteSchema.location must be a string" ))),
+  title: v.nullish(v.string( "BaseNoteSchema.title must be a string" )),
  
 });
 
@@ -31,7 +31,7 @@ export const metadataSchema = v.nullish(
 export const ThoughtSchema = v.object({
   ...BaseNoteSchema.entries,
   sign_id: v.string("ThoughtDataScheam.sign id is bad"),
-   html: v.optional(v.string( "ThoughtDataSchema.html must be a string" )),
+   html: v.nullish(v.string( "ThoughtDataSchema.html must be a string" )),
 })
 
 
@@ -65,10 +65,10 @@ export const LinkDataSchema = v.object({
 export const SectionSchema = v.object({
   id: v.string( "SectionSchema.id must be a string" ),
   name: v.string( "SectionSchema.name must be a string" ),
-  description: v.optional(v.string( "SectionSchema.description must be a string" )),
-  link_count: v.optional(v.number("SectionSchema.link_count needs a number")),
-  icon_key: v.optional(v.string( "SectionSchema.icon_key must be a string" )),
-  img_key: v.optional(v.string( "SectionSchema.img_key must be a string" )),
-  img_alt: v.optional(v.string( "SectionSchema.img_alt must be a string" )),
-  links: v.optional(v.array(LinkDataSchema)),
+  description: v.nullish(v.string( "SectionSchema.description must be a string" )),
+  link_count: v.nullish(v.number("SectionSchema.link_count needs a number")),
+  icon_key: v.nullish(v.string( "SectionSchema.icon_key must be a string" )),
+  img_key: v.nullish(v.string( "SectionSchema.img_key must be a string" )),
+  img_alt: v.nullish(v.string( "SectionSchema.img_alt must be a string" )),
+  links: v.nullish(v.array(LinkDataSchema)),
 });

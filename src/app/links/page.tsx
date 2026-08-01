@@ -18,6 +18,7 @@ import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
 import errorHandler from '@/lib/error-handler';
 import { ArrowBigDown } from 'lucide-react';
+import { LinkSection } from '@/types';
   
 
 // 1. Create a sub-component to handle the dynamic routing based on searchParams
@@ -128,7 +129,7 @@ async function SectionDetailView({
 
 async function AllSectionsView({ content }: { content: any }) {
   try {
-    const { data:sections } = await getAllSections();
+    const { data:sections } = await getAllSections() as { success: boolean; data: LinkSection[]; error?: string };
 
     
 

@@ -37,7 +37,7 @@ const MessageCard = ({ thought }: { thought: ThoughtData }  ) => {
                 <span className={styles.metaIcon}>
                   <Icon name="calendar" size={14} />
                 </span>
-                {formatDate(thought.date)}
+                {formatDate(thought.date || '')}
               </span>
             </div>
           </header>

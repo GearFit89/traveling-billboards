@@ -1,78 +1,73 @@
 import * as v from 'valibot';
-// Fixed the typo in stable_cache
-import  stableCache, {Options } from './stableCache'; 
+import stableCache, { Options } from './stableCache'; 
 import Console from '@/utils/console';
-import { AppError } from '@/utils/error';
 import { ReturnData } from '@/types';
-import { getEnvContext, getIsBuildPharse } from '@/lib/utils';
+import { getIsBuildPharse } from '@/lib/utils';
 
-
-// custom console keeps thigns clean 
 const console = new Console("schema_validation");
 
-
-export const getCacheAndValidation = <S extends v.BaseSchema<unknown, unknown, v.BaseIssue<unknown>>>(
+export const getCacheAndValidation = <
+  S extends v.GenericSchema
+>(
   schema: S
 ) => {
-  // This function returns another function that will handle caching and validation
-
   return async <T>(
-    queryBuilder: () => Promise<T | unknown>, // the type of the data returned by the query builder can be anything, we will validate it against the schema
+    queryBuilder: () => Promise<T | unknown>,
     cacheKey: string,
     options?: Options,
-    getDevData?:  Function
+    getDevData?: Function // Restored 4th parameter so existing calls don't break
   ): Promise<ReturnData<v.InferOutput<S>>> => {
     try {
-      let data:  v.InferOutput<S>;
-      // Make sure the function exist and we in development 
-      if ( false ){
-        console.log("dev mode enabled")
-        // data =  await getDevData();
-        console.log("dev data got. ", data);
-      }else {
-
-        
-
-        // 1. Check if we are currently building the app
-  const isBuildPhase = getIsBuildPharse(); 
-
-  if (isBuildPhase) {
-    console.log("Build phase detected. Skipping D1 execution.");
-    // Return empty fallback data so the build succeeds
-    return { success: true, data: [] as unknown as v.InferOutput<S> };
-  }
-        
-        const vailationFn = async ()=>{
-           const data = await  queryBuilder();
-
-            if(!data){
-        console.log("data not found")
-       throw new Error("data not found")
-       
-            
+      // 1. Skip execution during static build phase
+      const isBuildPhase = getIsBuildPharse(); 
+      if (isBuildPhase) {
+        console.log("Build phase detected. Skipping D1 execution.");
+        return { success: true, data: [] as unknown as v.InferOutput<S> };
       }
-        return  v.parse<S>(schema, data);
-  
+      const itemSchema = 'item' in schema ? (schema as any).item : schema;
+      // 2. Validation runner
+      const validationFn = async (): Promise<v.InferOutput<S>> => {
+        const rawData = await queryBuilder();
 
+        if (rawData === null || rawData === undefined) {
+          console.log("data not found");
+          throw new Error("Data not found");
         }
-        //type json since the sql lite data is array of objects
-       const  cacheFn = stableCache(vailationFn, cacheKey,  {getOptions:{type:"json"}, ...options}) 
-        data = await cacheFn();
-      
-      }
-     
 
+        const isArray = Array.isArray(rawData);
 
-     
-        
-        return { success: true, data};
-      
-      
+        // If data is an array, validate item-by-item and filter out invalid rows
+        if (isArray) {
+          if (rawData.length === 0) {
+            return [] as unknown as v.InferOutput<S>;
+          }
+
+          return (rawData as unknown[]).filter(
+            (item) => v.safeParse(itemSchema, item).success
+          ) as unknown as v.InferOutput<S>;
+        }
+
+        // Single object validation
+        return v.parse(schema, rawData);
+      };
+
+      // 3. Execute query
+      const cacheFn = stableCache(validationFn, cacheKey, {
+        getOptions: { type: "json" },
+        ...options,
+      });
+
+      const data = await cacheFn();
+
+      return { success: true, data };
+
     } catch (error) {
-      console.error('Error fetching or parsing cached data:', error);
-      return {data:{}, success: false, error: 'Error fetching or parsing cached data' };
+      console.error('Error fetching or parsing data:', error);
+      return { 
+        success: false, 
+        data: null as unknown as v.InferOutput<S>, 
+        error: 'Error fetching or parsing data' 
+      };
     }
   };
 };
-
-

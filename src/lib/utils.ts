@@ -136,7 +136,9 @@ export function JSONCParse<T>(jsonString: string): T | null {
   }
 }
 
-export function formatDate(dateStr: string) {
+export function formatDate(dateStr?: string) {
+
+  if (!dateStr) return "Unknown Date";
   const date = new Date(dateStr);
   return date.toLocaleDateString('en-US', {
     month: 'short',
