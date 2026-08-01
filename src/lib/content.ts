@@ -138,12 +138,12 @@ export const homePageContent: HomePageContent = {
         description: 'Handpicked resources and tools trusted on the journey. ',
         link: '/links',
       },
-      {
+      // {
         
-        title: 'Questions & Answers',
-        description: 'We have a live chat and text panel to answer questions about the gospel and faith.',
-        link: '/chat',
-      },
+      //   title: 'Questions & Answers',
+      //   description: 'We have a live chat and text panel to answer questions about the gospel and faith.',
+      //   link: '/chat',
+      // },
       {
         title: "Join the Journey",
         iconKey: 'users',
