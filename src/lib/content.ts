@@ -60,13 +60,13 @@ export interface LinksPageContent {
   subtitle: string;
   backToAllText: string;
   visitSiteText: string;
-  searchHeaderTitle: string;
-  searchHeaderDescription: string;
-  searchPlaceholder: string;
-  searchPanelTitle: string;
-  searchPanelSubtitle: string;
-  searchNoResults: string;
-  searchHint: string;
+  searchHeaderTitle?: string;
+  searchHeaderDescription?: string;
+  searchPlaceholder?: string;
+  searchPanelTitle?: string;
+  searchPanelSubtitle?: string;
+  searchNoResults?: string;
+  searchHint?: string;
 }
 export interface ToastMessageConfig {
     success: string;
@@ -158,9 +158,22 @@ export const homePageContent: HomePageContent = {
 export const thoughtsPageContent: ThoughtsPageContent = {
   badge: 'QR Landing Page',
   title: 'Roadside Thoughts',
-  subtitle: 'Short reflections captured directly from the highway. [More subtitle description goes here to introduce the feed of scanned sign thoughts].',
+  subtitle: `
+  Each sign holds a deeper message tied to the Gospel. 
+  As you explore, leave a comment, join the Tailgates Club,
+  and help us share the message along the road.
+  `,
   badgeIconKey: 'qrCode',
   noThoughtsMessage: 'No thoughts found for this sign.',
+  qrModal: { 
+    dynamicLabel: (path: string) => {
+    const match = path.match(/\/signs\/(\d+)/);
+    return  match ?  `Sign  ${match[1]} found! ` : "Oops no sign found";
+  },
+  description: `Every sign on a tailgate carries a story. 
+  Explore reflections, notes, 
+  and encouragement shared along the highway.`,
+},
   thankYouMessage: 'Thanks for scanning the QR code!',
 };
 
@@ -168,14 +181,15 @@ export const linksPageContent: LinksPageContent = {
   title: 'Gospel Links',
   subtitle: 'Explore all gospel links.',
   backToAllText: 'Back',
-  visitSiteText: 'Visit Link',
-  searchHeaderTitle: 'Search the entire links library',
-  searchHeaderDescription: 'Search by title or description in real time, with instant results as you type.',
-  searchPlaceholder: 'Search all links...',
-  searchPanelTitle: 'Find links quickly',
-  searchPanelSubtitle: 'Type a keyword and we’ll show matching resources immediately.',
-  searchNoResults: 'No matching links found. Try another keyword.',
-  searchHint: 'Search any link from the current list.'
+   visitSiteText: 'Visit Link',
+  
+  // searchHeaderTitle: 'Search the entire links library',
+  // searchHeaderDescription: 'Search by title or description in real time, with instant results as you type.',
+  // searchPlaceholder: 'Search all links...',
+  // searchPanelTitle: 'Find links quickly',
+  // searchPanelSubtitle: 'Type a keyword and we’ll show matching resources immediately.',
+  // searchNoResults: 'No matching links found. Try another keyword.',
+  // searchHint: 'Search any link from the current list.'
 };
 
 
@@ -212,8 +226,16 @@ export interface ThoughtsPageContent {
   subtitle: string;
   badgeIconKey: IconKey;
   noThoughtsMessage: string;
+  thankYouMessage: string;
+  qrModal: {
+    description: string;
+     dynamicLabel: (path: string) => string
+   
+  },
+    
+  }
   
-}
+
 
 export interface LinksPageContent {
   title: string;

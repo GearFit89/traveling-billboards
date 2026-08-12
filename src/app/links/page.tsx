@@ -84,6 +84,7 @@ async function LinkDetailView({
             visitSiteText={content.visitSiteText}
             backToAllText={content.backToAllText}
             pageTitle={content.title}
+            sectionIcon={link.id}
           />
         </main>
         {/* <LinksFooter /> */}

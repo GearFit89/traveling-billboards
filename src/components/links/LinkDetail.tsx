@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon } from '@/lib/icons';
+import { Icon, IconKey } from '@/lib/icons';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipBoard, shareText } from '@/client/utils';
 import styles from '@/styles/Links.module.css';
@@ -16,6 +16,7 @@ interface LinkDetailProps {
   visitSiteText: string;
   backToAllText: string;
   pageTitle: string;
+  sectionIcon: string;
 }
 
 export function LinkDetail({
@@ -25,6 +26,7 @@ export function LinkDetail({
   sectionId,
   sectionName,
   visitSiteText,
+  sectionIcon,
   backToAllText,
   pageTitle,
 }: LinkDetailProps) {
@@ -40,13 +42,24 @@ export function LinkDetail({
 
   return (
     <>
-      <div className={styles.detailToolbar}>
+     
+
+         <div className="flex items-center justify-between mb-4">
+  
         <Link href={`/links?section=${sectionId}`} className={styles.backLink}>
           <Icon name="arrowLeft" size={16} className={styles.backIcon} />
           {backToAllText}
         </Link>
+  {/* FIXME: make it so that the link data has icons  */}
+         <Link href={`/links` } className={styles.backLink}>
+  <span className={styles.sectionIcon}>
+    <Icon name={sectionIcon as IconKey} size={32}  />
+  </span>
+  </Link>
+ 
+</div>
        
-      </div>
+     
 
       <header className={styles.header}>
         {/* <nav className={styles.breadcrumb}>

@@ -11,6 +11,7 @@ import styles from '@/styles/Thoughts.module.css';
 import { thoughtsPageContent } from '@/lib/content';
 import QRCodeSuccessModal from '../confetti';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { MessageSquare } from 'lucide-react';
 
 
 
@@ -118,8 +119,17 @@ const content = thoughtsPageContent;
 
                 
            
-                <p className={styles.thoughtsCountMessage}>{thoughts.length} thought{thoughts.length > 1 ? 's' : ''} found for this sign.</p>
-            
+              
+  {/* Container wrapping icon and badge */}
+<div className="relative inline-flex items-center">
+  {/* Modern, relevant icon */}
+  <MessageSquare className="h-5 w-5 text-muted-foreground" />
+
+  {/* Styled count badge */}
+  <span className="ml-1.5 flex h-6 min-w-6 items-center justify-center rounded-md border border-primary bg-background px-1.5 text-xs font-semibold text-foreground shadow-sm">
+    {thoughts.length}
+  </span>
+</div>
                 {thoughts.map(thought => (
                     <MessageCard key={thought.id} thought={thought} />
                      

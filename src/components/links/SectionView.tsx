@@ -33,22 +33,28 @@ export function SectionView({
 }: SectionViewProps) {
   return (
     <>
-      <Link href="/links" className={styles.backLink}>
-        <Icon name="arrowLeft" size={16} className={styles.backIcon} />
-        {backToAllText}
-      </Link>
+      <div className="flex items-center justify-between mb-4">
+  <Link href="/links" className={styles.backLink}>
+    <Icon name="arrowLeft" size={16} className={styles.backIcon} />
+    {backToAllText}
+  </Link>
+  
+  <Link href="/links" className={styles.backLink}>
+  <span className={styles.sectionIcon}>
+    <Icon name={sectionIcon as IconKey} size={32}  />
+  </span>
+  </Link>
+</div>
 
        <header className={styles.header}>
           <h1 className={`${styles.title} ${styles.sectionTitle}`}>
             {sectionName}
-            <span className={`${styles.sectionIcon} ${styles.sectionTitleIcon}`}>
-              <Icon name={sectionIcon as IconKey} size={32} />
-            </span>
+          
           </h1>
           <p className={styles.subtitle}>{sectionDescription}</p>
           <div className={styles.linksHeaderSearch}>
            
-            <p className={styles.searchHint}>Search this section instantly.</p>
+            
           </div>
         </header>
 

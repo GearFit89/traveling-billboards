@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <!-- Tailgate Body: Gray base with rounded top corners -->
+  <path d="M 12,25 
+           A 12,12 0 0,1 24,13 
+           L 76,13 
+           A 12,12 0 0,1 88,25 
+           L 88,88 
+           L 12,88 
+           Z" 
+        fill="#6B7280" />
+
+  <!-- Left Taillight -->
+  <rect x="14" y="28" width="10" height="44" rx="4" fill="#EF4444" />
+
+  <!-- Right Taillight -->
+  <rect x="76" y="28" width="10" height="44" rx="4" fill="#EF4444" />
+
+  <!-- Center Badge (Matching Gray Background) -->
+  <rect x="34" y="28" width="32" height="44" rx="3" fill="#6B7280" />
+
+  <!-- Brown Cross -->
+  <path d="M 46,34 H 54 V 44 H 61 V 51 H 54 V 65 H 46 V 51 H 39 V 44 H 46 Z" 
+        fill="#5C3A21" />
+</svg>
