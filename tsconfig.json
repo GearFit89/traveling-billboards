@@ -39,7 +39,7 @@
     ".next/types/**/*.ts" // 👈 Required for Next.js App Router type safety
     ,
     ".next/dev/types/**/*.ts"
-  ],
+, "src/lib/content/.ts"  ],
   "exclude": [
     "node_modules",
     ".next",

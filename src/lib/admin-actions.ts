@@ -21,20 +21,31 @@ import { D1Database, R2Object } from '@cloudflare/workers-types';
 
 const cacheProfile: string = "max"; // state while revaildate, when next user vists state is mark as stale.
 const env = getEnvContext()
+const console = new Console("ADMIN_ACTIONS")
 
 
-async function clearIncChache(path: string, type?: "layout"| "page"){
+async function clearIncCache(path: string, type?: "layout"| "page"){
 
-  revalidatePath(path, type)
+  revalidatePath(path, type);
+  console.log("revaildating path: ", path)
    await clearCache();
 
 }
+
+
 
 function checkAdminCode(token: string) {
     if (token !== process.env.ADMIN_KEY) {
       console.error("Not Approved")
         throw new AppError("Not Approved", 401);
     }
+}
+
+export async function clearAllCache(adminCode: string, type?: "layout" | "page") {
+  checkAdminCode(adminCode);
+  
+  await clearIncCache("/", type);
+
 }
 
 // ==========================================
@@ -58,7 +69,7 @@ export async function upsertSection(token: string, data: { id: string, name: str
 
         
         await env.D1.prepare(query).bind(data.id, data.name, data.description || null, data.icon_key || null, data.img_key || null, data.img_alt || null).run();
-       await clearIncChache("/links");
+       await clearIncCache("/links");
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert section", status: 500 };
@@ -70,7 +81,7 @@ export async function deleteSection(token: string, id: string) {
 
     try {
         await env.D1.prepare("DELETE FROM sections WHERE id = ?").bind(id).run();
-        await clearIncChache("/links");
+        await clearIncCache("/links");
         console.log(`Section with id ${id} deleted successfully. Revalidating path /links`);
         return { success: true };
     } catch (e: any) {
@@ -100,7 +111,7 @@ export async function upsertLink(token: string, data: { id: string, title: strin
         `;
         console.log(`running query', ${query}`);
         await env.D1.prepare(query).bind(data.id, data.title, data.link, data.img_key || null, data.img_alt || null, data.description || null, data.section, data.metadata || null).run();
-        await clearIncChache("/links");
+        await clearIncCache("/links");
         console.log(`Link with id ${data.id} upserted successfully. Revalidating path /links`);
         return { success: true };
     } catch (e: any) {
@@ -113,7 +124,7 @@ export async function deleteLink(token: string, id: string) {
   
     try {
         await env.D1.prepare("DELETE FROM links WHERE id = ?").bind(id).run();
-        await clearIncChache("/links");
+        await clearIncCache("/links");
         console.log(`Link with id ${id} deleted successfully. Revalidating path /links`);
         return { success: true };
     } catch (e: any) {
@@ -142,7 +153,7 @@ export async function upsertSign(token: string, data: { id: string, title: strin
         `;
         console.log(`running query', ${query}`);
         await env.D1.prepare(query).bind(data.id, data.title, data.img_key || null, data.img_alt || null, data.description || null, data.metadata || null).run();
-        await clearIncChache("/signs");
+        await clearIncCache("/signs");
         console.log(`Sign with id ${data.id} upserted successfully. Revalidating path /signs`);
         return { success: true };
     } catch (e: any) {
@@ -157,7 +168,7 @@ export async function deleteSign(token: string, id: string) {
     try {
         await env.D1.prepare("DELETE FROM signs WHERE id = ?").bind(id).run();
         console.log(`Sign with id ${id} deleted successfully.`, "\n Revalidating path /signs");
-          await clearIncChache("/signs");
+          await clearIncCache("/signs");
         return { success: true };
     } catch (e: any) {
         return { 
@@ -185,7 +196,7 @@ export async function upsertThought(token: string, data: { id: string, sign_id: 
                 date = excluded.date;
         `;
         await env.D1.prepare(query).bind(data.id, data.sign_id, data.content || null, data.location || null, data.date || null).run();
-       await clearIncChache('/signs', 'layout');
+       await clearIncCache('/signs', 'layout');
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to upsert thought", status: 500 };
@@ -197,7 +208,7 @@ export async function deleteThought(token: string, id: string) {
 
     try {
         await env.D1.prepare("DELETE FROM thoughts WHERE id = ?").bind(id).run();
-          await clearIncChache('/signs', 'layout'); 
+          await clearIncCache('/signs', 'layout'); 
         return { success: true };
     } catch (e: any) {
         return { success: false, error: e.message || "Failed to delete thought", status: 500 };
@@ -234,6 +245,7 @@ export async function deleteComment(token: string, id: string) {
 import { SignJWT, jwtVerify } from "jose";
 import { buffer } from "stream/consumers";
 import clearCache from "@/services/clearCache";
+import path from "path/win32";
 
 
 const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -258,7 +270,14 @@ export async function verifyToken(token: string) {
 }
 export async function setToken(token: string):Promise< SuccessReturn >{
     try{
+      if(token !== process.env.ADMIN_KEY){
+        return {
+          success: false,
+          error:"ADMIN key is not vaild"
+        }
+      }
     const cookieStore =await  cookies();
+
 
     const signedToken = await    signToken({ token })
   cookieStore.set(COOKIE_KEYS.ADMIN_COOKIE, signedToken, {maxAge: 60 * 60 * 24 * 7 * 6, //6 weeks

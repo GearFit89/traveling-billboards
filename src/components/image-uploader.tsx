@@ -3,11 +3,11 @@ import { uploadImageToR2 } from "@/lib/admin-actions";
 import { Button } from "@base-ui/react";
 import { env } from "process";
 import React, { Children, useState, useRef } from "react";
-
+import { ImagePlus  } from "lucide-react";
 type ImageUploaderProps = {
   uploadUrl: string;
   authToken: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onSuccess?: (response: any) => void;
   onError?: (error: string) => void;
 
@@ -83,6 +83,7 @@ const inputRef = useRef<HTMLInputElement>(null);
         disabled:opacity-50
     "
 >
+    <ImagePlus className="mr-2 h-4 w-4" />
     {uploading ? "Uploading..." : "Upload"}
 </Button>
 
@@ -98,3 +99,6 @@ const inputRef = useRef<HTMLInputElement>(null);
 </div>
   )
 }
+
+
+            

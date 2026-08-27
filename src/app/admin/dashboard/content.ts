@@ -50,11 +50,12 @@ export const FnMap: Record<Ids, (id?: string)=> Promise<any>> = {
     
    ,
   "sections" : async ()=> getAllSections(),
-  "thoughts": async ()=> getAllThoughts()
+  "thoughts": async ()=> getAllThoughts(),
+  "home":async ()=>{} // TODO add something 
 
 }
 /** How a single box (column) on a form behaves. */
-export type FieldType = "text" | "url" | "longtext" | "date" | "html"| "image"
+export type FieldType = "text" | "url" | "longtext" | "date" | "html"| "image"|"sign"|"section"
 
 export interface Field {
   /** The real database column name. Do not change this. */
@@ -72,7 +73,7 @@ export interface Field {
   /** The icon shown next to the label. */
   icon: LucideIcon
 }
-export type Ids = "sections"| "links" | "signs" |"thoughts";
+export type Ids = "sections"| "links" | "signs" |"thoughts"| "home";
 export interface Collection {
   /** Internal id used by the tabs. */
   id: Ids;
@@ -103,11 +104,11 @@ const sections: Collection = {
   fields: [
     {
       key: "id",
-      label: "Short Name (ID)",
-      hint: "A simple, lowercase nickname used behind the scenes. Use dashes instead of spaces.",
+      label: "The id",
+      hint: "use numbers",
       type: "text",
       required: true,
-      example: "development-links",
+      example: "7",
       icon: Hash,
     },
     {
@@ -214,7 +215,7 @@ const links: Collection = {
       key: "section",
       label: "Belongs To Section",
       hint: "The Short Name of the section this link should appear under.",
-      type: "text",
+      type: "section",
       required: true,
       example: "development-links",
       icon: FolderTree,
@@ -243,14 +244,7 @@ const links: Collection = {
       example: "Onboarding guide covering our tools, processes, and values.",
       icon: Text,
     },
-    {
-      key: "metadata",
-      label: "Advanced Settings",
-      hint: "Optional technical settings. Leave blank unless you were given something to paste here.",
-      type: "longtext",
-      example: '{ "featured": true }',
-      icon: Braces,
-    },
+  
   ],
   sampleRows: [
     {
@@ -261,7 +255,7 @@ const links: Collection = {
       img_key: "handbook-thumb.jpg",
       img_alt: "The cover of the team handbook.",
       description: "Onboarding guide covering our tools, processes, and values.",
-      metadata: '{ "featured": true }',
+      
     },
     {
       id: "status-page",
@@ -271,7 +265,7 @@ const links: Collection = {
       img_key: "",
       img_alt: "",
       description: "Live view of whether our services are online.",
-      metadata: "",
+      
     },
   ],
 }
@@ -282,15 +276,15 @@ const links: Collection = {
 
 const signs: Collection = {
   id: "signs",
-  label: "Physical Signs",
-  description: "Real-world signs and their details.",
+  label: "Signs",
+  description: "Gospel signs and their details.",
   icon: SignpostBig,
   singular: "Sign",
   fields: [
     {
       key: "id",
       label: "Short Name (ID)",
-      hint: "A simple nickname used behind the scenes. Use dashes instead of spaces.",
+      hint: "Usually a number",
       type: "text",
       required: true,
       example: "lobby-welcome",
@@ -323,20 +317,13 @@ const signs: Collection = {
     },
     {
       key: "description",
-      label: "Location & Notes",
+      label: "Short Description",
       hint: "Where the sign is and anything worth remembering about it.",
       type: "longtext",
       example: "Mounted on the wall behind the front desk on the ground floor.",
       icon: MapPin,
     },
-    {
-      key: "metadata",
-      label: "Advanced Settings",
-      hint: "Optional technical settings. Leave blank unless you were given something to paste here.",
-      type: "longtext",
-      example: '{ "size": "large" }',
-      icon: Braces,
-    },
+   
   ],
   sampleRows: [
     {
@@ -345,7 +332,7 @@ const signs: Collection = {
       img_key: "lobby-welcome.jpg",
       img_alt: "A wooden welcome sign in the office lobby.",
       description: "Mounted on the wall behind the front desk on the ground floor.",
-      metadata: '{ "size": "large" }',
+      
     },
   ],
 }
@@ -374,7 +361,7 @@ const thoughts: Collection = {
       key: "sign_id",
       label: "Attached To Sign",
       hint: "The Short Name of the sign this note belongs to.",
-      type: "text",
+      type: "sign",
       required: true,
       example: "lobby-welcome",
       icon: SignpostBig,
@@ -388,14 +375,14 @@ const thoughts: Collection = {
       example: "Welcome to the team! We're so glad you're here.",
       icon: Text,
     },
-    {
-      key: "location",
-      label: "Place",
-      hint: "Where this thought was written or is about.",
-      type: "text",
-      example: "San Francisco Office",
-      icon: MapPin,
-    },
+    // {
+    //   key: "location",
+    //   label: "Place",
+    //   hint: "Where this thought was written or is about.",
+    //   type: "text",
+    //   example: "San Francisco Office",
+    //   icon: MapPin,
+    // },
     {
       key: "date",
       label: "Date",
@@ -412,6 +399,26 @@ const thoughts: Collection = {
       content: "<h3>Welcome to the team!</h3><p>We're <strong>so glad</strong> you're here. A few things to check out:</p><ul><li>Read the team handbook</li><li>Say hi in the chat</li></ul>",
       location: "San Francisco Office",
       date: "2026-07-06",
+    },
+  ],
+}
+
+
+export const dashboardContent = {
+  greeting: "Greetings",
+  title: "ADMIN",
+  stats: [
+    {
+      id: "link-hits",
+      label: "Link hits",
+      collectionId: "links" as Ids,
+      getValue: (row: any) => Number(row.hitCount ?? row.hits ?? 0),
+    },
+    {
+      id: "sign-hits",
+      label: "Sign hits",
+      collectionId: "signs" as Ids,
+      getValue: (row: any) => Number(row.hitCount ?? row.hits ?? 0),
     },
   ],
 }

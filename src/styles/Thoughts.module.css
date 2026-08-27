@@ -414,8 +414,9 @@
     /* Bottom footer area style */
     padding: var(--spacing-large); /* Outer padding */
     text-align: center; /* Center text */
-    color: var(--color-text-muted); /* Use muted text variable */
+    color: #999999; /* Professional gray text */
     font-size: 0.875rem; /* Small font size */
     border-top: 0.1rem solid var(--color-border); /* Themed top separator line */
     margin-top: auto; /* Push to the bottom of the flex container */
+    background: #000000; /* Black background */
 } /* End footer style */

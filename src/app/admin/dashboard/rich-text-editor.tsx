@@ -3,9 +3,9 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Link from "@tiptap/extension-link"
-import { useEffect } from "react"
-import { cn } from "@/lib/utils"
+import { useEffect, useMemo, useState } from "react"
 import { Toggle } from "@/components/ui/toggle"
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import {
   Bold,
@@ -21,6 +21,8 @@ import {
   Link as LinkIcon,
   Unlink,
 } from "lucide-react"
+import { LinkDialog } from "./link-dialouge"
+import styles from "@/styles/rich-text-editor.module.css"
 
 interface RichTextEditorProps {
   value: string
@@ -29,25 +31,39 @@ interface RichTextEditorProps {
 }
 
 export function RichTextEditor({ value, onChange, id }: RichTextEditorProps) {
-  const editor = useEditor({
-    immediatelyRender: false,
-    extensions: [
-      StarterKit.configure({
-        heading: { levels: [2, 3] },
-      }),
+  // Every hook lives here, above any conditional return — this is what
+  // was crashing before (useState was declared after `if (!editor) return`,
+  // which changes how many hooks run between renders and React does not
+  // allow that).
+  const [linkOpen, setLinkOpen] = useState(false)
+
+  const extensions = useMemo(
+    () => [
+      StarterKit.configure({ heading: { levels: [2, 3] }, link: false }),
       Link.configure({
         openOnClick: false,
-        HTMLAttributes: { class: "text-primary underline underline-offset-2" },
+        protocols: ["http", "https", "mailto"],
+        HTMLAttributes: { class: styles.editorLink },
       }),
     ],
-    content: value || "",
-    editorProps: {
+    []
+  )
+
+  const editorProps = useMemo(
+    () => ({
       attributes: {
-        id: id ?? "",
-        class:
-          "prose prose-sm max-w-none min-h-40 px-3 py-2.5 focus:outline-none dark:prose-invert",
+        ...(id ? { id } : {}),
+        class: styles.editorContent,
       },
-    },
+    }),
+    [id]
+  )
+
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions,
+    content: value || "",
+    editorProps,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       onChange(html === "<p></p>" ? "" : html)
@@ -65,21 +81,7 @@ export function RichTextEditor({ value, onChange, id }: RichTextEditorProps) {
   }, [value, editor])
 
   if (!editor) {
-    return (
-      <div className="min-h-40 rounded-md border bg-muted/30" aria-hidden="true" />
-    )
-  }
-
-  function setLink() {
-    if (!editor) return
-    const previous = editor.getAttributes("link").href as string | undefined
-    const url = window.prompt("Enter the web address (URL):", previous ?? "https://")
-    if (url === null) return
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run()
-      return
-    }
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
+    return <div className="min-h-40 rounded-md border bg-muted/30" aria-hidden="true" />
   }
 
   return (
@@ -158,47 +160,68 @@ export function RichTextEditor({ value, onChange, id }: RichTextEditorProps) {
 
         <Separator orientation="vertical" className="mx-1 h-6" />
 
+        {/* Add link is a real toggle-able state (cursor is either inside a
+            link or not), so Toggle is correct here. */}
         <Toggle
           size="sm"
           pressed={editor.isActive("link")}
-          onPressedChange={setLink}
+          onPressedChange={() => setLinkOpen(true)}
           aria-label="Add link"
         >
           <LinkIcon className="size-4" />
         </Toggle>
-        <Toggle
-          size="sm"
-          pressed={false}
+
+        {/* Undo/Redo/Unlink are one-shot actions, not on/off states —
+            plain buttons are the correct component here. */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
           disabled={!editor.isActive("link")}
-          onPressedChange={() => editor.chain().focus().unsetLink().run()}
+          onClick={() => editor.chain().focus().unsetLink().run()}
           aria-label="Remove link"
         >
           <Unlink className="size-4" />
-        </Toggle>
+        </Button>
 
         <Separator orientation="vertical" className="mx-1 h-6" />
 
-        <Toggle
-          size="sm"
-          pressed={false}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
           disabled={!editor.can().undo()}
-          onPressedChange={() => editor.chain().focus().undo().run()}
+          onClick={() => editor.chain().focus().undo().run()}
           aria-label="Undo"
         >
           <Undo2 className="size-4" />
-        </Toggle>
-        <Toggle
-          size="sm"
-          pressed={false}
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
           disabled={!editor.can().redo()}
-          onPressedChange={() => editor.chain().focus().redo().run()}
+          onClick={() => editor.chain().focus().redo().run()}
           aria-label="Redo"
         >
           <Redo2 className="size-4" />
-        </Toggle>
+        </Button>
       </div>
 
-      <EditorContent editor={editor} className={cn("bg-background")} />
+      <LinkDialog
+        open={linkOpen}
+        onOpenChange={setLinkOpen}
+        initialUrl={editor.getAttributes("link").href ?? ""}
+        onSubmit={(url) => {
+          if (!url) {
+            editor.chain().focus().extendMarkRange("link").unsetLink().run()
+            return
+          }
+          editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
+        }}
+      />
+
+      <EditorContent editor={editor} />
     </div>
   )
 }

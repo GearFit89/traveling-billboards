@@ -33,13 +33,13 @@
 		"ioredis": "^5.10.1",
 		"jose": "^6.2.3",
 		"lucide-react": "^1.17.0",
-		"next": "^16.2.3",
+		"next": "^16.3.3",
 		"next-auth": "^5.0.0-beta.31",
 		"next-themes": "^0.4.6",
 		"radix-ui": "^1.5.0",
-		"react": "19.2.1",
+		"react": "^19.2.8",
 		"react-day-picker": "^10.0.1",
-		"react-dom": "19.2.1",
+		"react-dom": "^19.2.8",
 		"react-hook-form": "^7.77.0",
 		"react-resizable-panels": "^4.11.2",
 		"recharts": "^3.8.0",
@@ -51,11 +51,16 @@
 		"valibot": "^1.4.1",
 		"vaul": "^1.1.2"
 	},
+	"overrides": {
+		"sharp": "0.35.3",
+		"undici": "7.29.0"
+	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "^0.16.14",
-		"@cloudflare/workers-types": "^4.20260606.1",
+		"@cloudflare/vitest-pool-workers": "^0.22.0",
+		"@cloudflare/workers-types": "^5.20260826.1",
 		"@eslint/eslintrc": "3",
 		"@tailwindcss/postcss": "4.1.17",
+		"@tailwindcss/typography": "^0.5.20",
 		"@types/canvas-confetti": "^1.9.0",
 		"@types/node": "24.12.2",
 		"@types/react": "19.2.14",
@@ -72,15 +77,15 @@
 		"typescript": "5.9.3",
 		"typescript-plugin-css-modules": "^5.2.0",
 		"vitest": "^4.1.8",
-		"wrangler": "^4.81.0"
+		"wrangler": "^4.126.0"
 	},
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
 		"dev:remote": "npx wrangler dev --remote",
-		"dev:local": "opennextjs-cloudflare dev --local",
+		"dev:local": "npm run build:cf && npx wrangler dev --local",
 		"build": "next build",
-		"build:cf": "next build && opennextjs-cloudflare build",
+		"build:cf": "opennextjs-cloudflare build",
 		"preview": "npm run build:cf && opennextjs-cloudflare preview",
 		"deploy": "npm run build:cf && opennextjs-cloudflare deploy",
 		"cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
@@ -96,5 +101,13 @@
 		"test:watch": "vitest  --watch",
 		"test:debug": "vitest --inspect --no-file-parallelism",
 		"preview:debug": "OPEN_NEXT_DEBUG=true opennextjs-cloudflare build && opennextjs-cloudflare preview"
+	},
+	"allowScripts": {
+		"sharp@0.35.4": true,
+		"sharp@0.34.5": true,
+		"esbuild@0.25.4": true,
+		"esbuild@0.28.1": true,
+		"workerd@1.20260625.1": true,
+		"@parcel/watcher@2.5.6": true
 	}
 }

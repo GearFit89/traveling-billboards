@@ -14,10 +14,11 @@ import errorHandler from '@/lib/error-handler';
 import { ErrorPageSigns } from '@/components/signs/SignError';
 import Link from 'next/link';
 
+export const revalidate = 60;
 // This page will fetch all signs from the database and display them in a list format. Each sign will show its content, location, and date. The page will also include a header with a title and subtitle.
 export  async function LoadSignsList() {
-const {data:signs, error} = await getAllSigns();
-try {
+const { data:signs, error} = await getAllSigns();
+
 if(!signs || error ){ // the !signs is only for the type checking
   console.error("error", error);
   errorHandler  (error || "Sign not found", 404)
@@ -33,7 +34,7 @@ if(!signs || error ){ // the !signs is only for the type checking
           
           <Link href={`/signs/${sign.id}`} key={sign.id}  >
 
-            <Sign key={sign.id} sign={sign} />
+            <Sign  sign={sign} />
 
            </Link>
             
@@ -44,12 +45,10 @@ if(!signs || error ){ // the !signs is only for the type checking
       
     </div>
   );
-}catch {
-  return <ErrorPageSigns message="Failed to load signs" />;
-}
+
 }
 export default function  SignListPage (){
-  try {
+ 
     return (
       <div className={styles.signPageWrapper}>
         <Suspense fallback={<Spinner />}>
@@ -57,7 +56,5 @@ export default function  SignListPage (){
         </Suspense>
       </div>
     );
-  }catch(e:any) {
-    return <ErrorPageSigns message={e.message}/>
-  }
+ 
 }

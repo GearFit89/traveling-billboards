@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { usePathname } from "next/navigation";
-import { thoughtsPageContent } from "@/lib/content";
+import { thoughtsPageContent, getQrDynamicLabel } from "@/lib/content";
+
 
 
 export interface ThoughtsPageContent {
@@ -21,7 +22,7 @@ export interface ThoughtsPageContent {
 const sectionMeta = {
   id: "sections",
   label: "Signs",
-  dynamicLabel: thoughtsPageContent.qrModal.dynamicLabel,
+  dynamicLabel: getQrDynamicLabel,
   description: thoughtsPageContent.qrModal.description,
   icon: { displayName: "LayoutGrid" },
 };

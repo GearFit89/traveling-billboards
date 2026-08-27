@@ -1,0 +1,117 @@
+{
+  "site": {
+    "siteName": "Tailgates4Jesus.com",
+    "tagline": "Travel with the Gospel",
+    "description": "Signs that advertise the gospel on trucks",
+    "navLinks": [
+      { "href": "/", "label": "Home" },
+      { "href": "/signs", "label": "Signs" },
+      { "href": "/links", "label": "Links" }
+    ],
+    "footerText": "© Traveling Billboards. - Travel with the Gospel"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Travel with the Gospel",
+      "titleLine1": "The Gospel",
+      "titleLine2": "On the Road",
+      "description": "Let's spread the message of hope and faith across the highways. By putting the gospel on your tailgate, we can reach people on the road with a message of encouragement and inspiration. Join us in this journey to share the good news with travelers everywhere.",
+      "primaryButtonText": "Explore Signs",
+      "primaryButtonHref": "/signs",
+      "secondaryButtonText": "Browse Links",
+      "secondaryButtonHref": "/links"
+    },
+    "stats": [
+      { "value": "12+", "label": "Miles Traveled" },
+      { "value": "4", "label": "States Visited" },
+      { "value": "2+", "label": "Signs Shared" },
+      { "value": "50+", "label": "Gospel Links" }
+    ],
+    "features": {
+      "sectionTagline": "What You'll Find",
+      "sectionHeading": "Resourceful Content",
+      "items": [
+        {
+          "iconKey": "thought",
+          "title": "Inspiring Thoughts",
+          "description": "We put thoughts related to each sign made. To share the gospel in new ways.",
+          "link": "/signs"
+        },
+        {
+          "iconKey": "link",
+          "title": "Curated Links",
+          "description": "Handpicked resources and tools trusted on the journey.",
+          "link": "/links"
+        },
+        {
+          "iconKey": "users",
+          "title": "Join the Journey",
+          "description": "Be part of the movement to share the gospel on the road. Join us in spreading hope and faith. Join the Tailgate Club and add our signs to your tailgate, and help us reach more travelers with the message of the gospel.",
+          "link": "/join"
+        }
+      ]
+    }
+  },
+  "thoughts": {
+    "badge": "QR Landing Page",
+    "title": "Roadside Thoughts",
+    "subtitle": "Each sign holds a deeper message tied to the Gospel. As you explore, leave a comment, join the Tailgates Club, and help us share the message along the road.",
+    "badgeIconKey": "qrCode",
+    "noThoughtsMessage": "No thoughts found for this sign.",
+    "qrModal": {
+      "dynamicLabelTemplate": "Sign {id} found!",
+      "fallbackLabel": "Oops no sign found",
+      "description": "Every sign on a tailgate carries a story. Explore reflections, notes, and encouragement shared along the highway."
+    },
+    "thankYouMessage": "Thanks for scanning the QR code!"
+  },
+  "links": {
+    "title": "Gospel Links",
+    "subtitle": "Explore all gospel links.",
+    "backToAllText": "Back",
+    "visitSiteText": "Visit Link"
+  },
+  "messageBoard": {
+    "hero": {
+      "label": "Need a thoughtful answer?",
+      "title": "Questions",
+      "description": "Choose the best way to connect. Chat live with a person or use the text-style panel for a faster message conversation."
+    },
+    "liveChatCard": {
+      "title": "Chat with a person",
+      "description": "Speak directly with someone who can help answer faith questions, explain Bible passages, and share encouragement.",
+      "primaryBtnText": "Start live chat",
+      "secondaryBtnText": "Chat options"
+    },
+    "textPanel": {
+      "headerTitle": "Text message panel",
+      "statusBadge": "Online",
+      "messages": [
+        { "type": "incoming", "text": "Hi there! How can we help with your question today?" },
+        { "type": "outgoing", "text": "I want a clear Bible answer and a friendly response." },
+        { "type": "incoming", "text": "Great! You can send your message here and we’ll reply in chat style." }
+      ],
+      "inputPlaceholder": "Talk to someone",
+      "sendBtnText": "Send a message"
+    },
+    "submit": {
+      "placeholder": "Write a message...",
+      "sendBtn": "Send a message",
+      "backBtn": "Close",
+      "sending": "Sending...",
+      "optional": "Optional",
+      "emailText": "Enter Email",
+      "requestTitle": "Send Message"
+    }
+  },
+  "toasts": {
+    "copy": {
+      "success": "Copied to clipboard",
+      "error": "Failed to copy text"
+    },
+    "share": {
+      "success": "Share successful",
+      "error": "Failed to share text"
+    }
+  }
+}

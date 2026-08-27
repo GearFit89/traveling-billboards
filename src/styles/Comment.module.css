@@ -340,11 +340,12 @@
   padding: 2rem 1.5rem;
   border-top: 1px solid var(--theme-border);
   text-align: center;
+  background: #000000;
 }
 
 .footerText {
   font-size: 0.875rem;
-  color: var(--theme-muted-foreground);
+  color: #999999;
 }
 
 .footerAccent {

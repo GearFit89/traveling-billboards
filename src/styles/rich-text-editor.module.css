@@ -1,0 +1,105 @@
+/* Styling for the Tiptap editor's content area.
+   Plain CSS instead of Tailwind's `prose` plugin, since this project
+   isn't using @tailwindcss/typography. */
+
+.editorContent {
+  min-height: 10rem;
+  padding: 0.625rem 0.75rem;
+  outline: none;
+}
+
+.editorContent :global(p) {
+  margin: 0 0 0.75em 0;
+  line-height: 1.6;
+}
+
+.editorContent :global(h2) {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1.2em 0 0.5em 0;
+}
+
+.editorContent :global(h3) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 1em 0 0.4em 0;
+}
+
+.editorContent :global(strong) {
+  font-weight: 700;
+}
+
+.editorContent :global(em) {
+  font-style: italic;
+}
+
+.editorContent :global(s) {
+  text-decoration: line-through;
+}
+
+.editorContent :global(ul),
+.editorContent :global(ol) {
+  padding-left: 1.5rem;
+  margin: 0 0 0.75em 0;
+}
+
+.editorContent :global(ul) {
+  list-style-type: disc;
+}
+
+.editorContent :global(ol) {
+  list-style-type: decimal;
+}
+
+.editorContent :global(li) {
+  margin: 0.25em 0;
+}
+
+.editorContent :global(li) :global(p) {
+  margin: 0;
+}
+
+.editorContent :global(blockquote) {
+  border-left: 3px solid rgb(203, 213, 225);
+  padding-left: 1rem;
+  margin: 0.75em 0;
+  color: rgb(71, 85, 105);
+  font-style: italic;
+}
+
+.editorContent :global(a) {
+  color: rgb(37, 99, 235);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.editorContent :global(p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: rgb(148, 163, 184);
+}
+
+@media (prefers-color-scheme: dark) {
+  .editorContent :global(blockquote) {
+    border-left-color: rgb(71, 85, 105);
+    color: rgb(148, 163, 184);
+  }
+  .editorContent :global(a) {
+    color: rgb(96, 165, 250);
+  }
+}
+.editorLink {
+  color: var(--editor-link-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .editorLink {
+    color: rgb(96, 165, 250);
+  }
+}

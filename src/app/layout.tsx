@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 
 import { ThemeStyles } from '@/components/theme/ThemeStyles'
-import { siteContent } from '@/lib/content'
+import {  siteContent } from '@/lib/content/'
 import '@/styles/globals.css'
 
 import styles from '@/styles/Home.module.css';
@@ -17,37 +17,63 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: ` ${siteContent.tagline}`,
-  description: siteContent.description,
+  // Title Template: Keeps branding consistent while making pages dynamic
+  title: {
+    default: `${siteContent.tagline} | Tailgates 4 Jesus`,
+    template: `%s | Tailgates 4 Jesus`,
+  },
+  description: siteContent.description, // Ensure this is under 160 characters
   authors: [{ name: "J.S.C" }],
   keywords: [
-    "gospel signs",
-    "traveling ministry",
+    "tailgates 4 jesus",
+    "tailgates for jesus",
+    "truck tailgate gospel signs",
+    "gospel signs for trucks",
     "traveling billboards",
-    "christian outreach",
-    "faith based signs",
-    "gospel message",
-    "roadside ministry",
-    "mobile billboards",
+    "christian tailgate decals",
+    "faith based truck signs",
+    "mobile roadside ministry",
   ],
-  icons: {
-    icon: [
+  
+  // Open Graph: Crucial for social media preview cards (Facebook, X, iMessage)
+  openGraph: {
+    title: `Tailgates 4 Jesus - ${siteContent.tagline}`,
+    description: siteContent.description,
+    url: "https://tailgates4jesus.com",
+    siteName: "Tailgates 4 Jesus",
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/og-image.png", // Recommended size: 1200x630px
+        width: 1200,
+        height: 630,
+        alt: "Tailgates 4 Jesus - Traveling Billboards Ministry",
       },
     ],
-    apple: '/apple-icon.png',
+    locale: "en_US",
+    type: "website",
   },
-}
+
+  // Twitter Card metadata
+  twitter: {
+    card: "summary_large_image",
+    title: `Tailgates 4 Jesus - ${siteContent.tagline}`,
+    description: siteContent.description,
+    images: ["/og-image.png"],
+  },
+
+  // Canonical URLs prevent duplicate content issues
+  alternates: {
+    canonical: "https://tailgates4jesus.com",
+  },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico" }, // Fallback for older browsers
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -74,6 +100,12 @@ export default function RootLayout({
           {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
         </p>
       </footer>
+        {/* Footer */}
+      {/* <footer className={styles.footer}>
+        <p className={styles.footerText}>
+          © {new Date().getFullYear()} {siteContent?.siteName ?? 'Travel with the Gospel'}. All rights reserved.
+        </p>
+      </footer> */}
       </body>
     
     </html>
