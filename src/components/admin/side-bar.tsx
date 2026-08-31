@@ -8,17 +8,13 @@ import clearCache from "@/services/clearCache"
 
 interface SideBarProps {
   activeId: Ids
-  adminToken: string
   onSelectHome: () => void
-  onLogin: () => void
-  onLogout: () => void
+  onLogout?: () => void
 }
 
 export function SideBar({
   activeId,
-  adminToken,
   onSelectHome,
-  onLogin,
   onLogout,
 }: SideBarProps) {
   return (
@@ -77,15 +73,9 @@ export function SideBar({
             Auth status
           </span>
 
-          {adminToken ? (
-            <span className="flex items-center gap-1 text-emerald-600">
-              <Unlock className="size-3" /> Validated
-            </span>
-          ) : (
-            <span className="flex items-center gap-1 text-amber-600">
-              <Lock className="size-3" /> Locked
-            </span>
-          )}
+          <span className="flex items-center gap-1 text-emerald-600">
+            <Unlock className="size-3" /> Protected
+          </span>
         </div>
 
         <button
@@ -96,23 +86,11 @@ export function SideBar({
           Wipe all R2 cache
         </button>
 
-        {adminToken ? (
-          <div className="flex items-center justify-between">
-            <code className="text-xs text-muted-foreground">
-              ••••{adminToken.slice(-4)}
-            </code>
-            <button onClick={onLogout} className="text-xs text-destructive hover:underline">
-              Clear key
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={onLogin}
-            className="w-full rounded-md border border-primary/20 bg-primary/10 py-1.5 text-xs text-primary"
-          >
-            Enter runtime code
+        {onLogout ? (
+          <button onClick={onLogout} className="w-full text-left text-xs text-destructive hover:underline">
+            Sign out
           </button>
-        )}
+        ) : null}
       </div>
     </aside>
   )

@@ -4,7 +4,7 @@ import SectionPicker from "../section-picker";
 import { Input } from "@/components/ui/input";
 import { useTransition, useState, useEffect } from "react";
 import { X } from "lucide-react"
-import { getAllSections } from "@/lib/admin-actions";
+import { getAllSections } from "@/lib/actions";
 import { LinkSection } from "@/types";
 
 

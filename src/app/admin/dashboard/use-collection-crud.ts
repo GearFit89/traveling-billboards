@@ -8,11 +8,14 @@ import {
   upsertLink, deleteLink,
   upsertSign, deleteSign,
   upsertThought, deleteThought,
+  
+} from "@/lib/admin-actions" // Adjust this path if your actions file name varies
+import {
   getAllLinks,
   getAllSigns,
   getAllSections,
   getAllThoughts
-} from "@/lib/admin-actions" // Adjust this path if your actions file name varies
+} from "@/lib/actions"
 
 export type Row = Record<string, string>
 type Action = "upsert"|"delete"

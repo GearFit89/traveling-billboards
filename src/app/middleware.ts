@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 
-const PROTECTED_PREFIXES = ["/admin", "/keystatic"]
+const ADMIN_PREFIXES = ["/admin", "/keystatic"];
+const PROTECTED_PREFIXES = ['/user']
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
@@ -30,19 +31,33 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const isProtected = PROTECTED_PREFIXES.some((prefix) =>
+  const isAdminPath = ADMIN_PREFIXES.some((prefix) =>
     request.nextUrl.pathname.startsWith(prefix)
-  )
+  );
 
-  if (isProtected && !user) {
+  if (isAdminPath && !user) {
     const loginUrl = new URL("/login/admin", request.url)
     loginUrl.searchParams.set("redirectTo", request.nextUrl.pathname)
     return NextResponse.redirect(loginUrl)
-  }
+  };
+
+
+  const isProtected = PROTECTED_PREFIXES.some((prefix) =>
+    request.nextUrl.pathname.startsWith(prefix)
+  );
+
+  if (isProtected&& !user) {
+    const loginUrl = new URL("/login", request.url)
+    loginUrl.searchParams.set("redirectTo", request.nextUrl.pathname)
+    return NextResponse.redirect(loginUrl)
+  };
+
+  
 
   return response
 }
-
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 }

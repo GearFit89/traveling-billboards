@@ -11,7 +11,7 @@ export default config({
     siteContent: singleton({
       label: "Site Content",
       // no trailing slash on path -> stores as one file: src/content/site-content.json
-      path: "src/lib/content/site-content",
+      path: "src/lib/content/site-content.json",
       format: { data: "json" },
 
       schema: {

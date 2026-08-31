@@ -6,11 +6,11 @@ import { CollectionManager } from "./collection-manager"
 import { SitePreview } from "./site-preview"
 import { SideBar } from "@/components/admin/side-bar"
 import NavBar from "@/components/admin/nav"
-import  LoginModal  from "./Modal"
 import { Ids } from "./content"
-import { useAdmin } from "@/hooks/use-admin"
+
 import { useCollections } from "@/hooks/use-collections"
 import Spinner from "@/components/fallbacks/Spinner"
+import { adminLogout } from "@/lib/admin-actions"
 
 interface AdminPanelProps {
   initialCollectionId?: Ids
@@ -18,27 +18,16 @@ interface AdminPanelProps {
 }
 
  function AdminDashboard({ initialCollectionId, children }: AdminPanelProps) {
-  const admin = useAdmin()
   const collections = useCollections(initialCollectionId)
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30 lg:h-screen lg:flex-row lg:overflow-hidden">
       <NavBar />
 
-      {admin.showLoginModal && (
-        <LoginModal
-          adminToken={admin.adminToken}
-          onSaveToken={admin.saveToken}
-          onClose={() => admin.setShowLoginModal(false)}
-        />
-      )}
-
       <SideBar
         activeId={collections.activeId}
-        adminToken={admin.adminToken}
         onSelectHome={() => collections.setActiveId("home")}
-        onLogin={() => admin.setShowLoginModal(true)}
-        onLogout={admin.logout}
+        onLogout={() => void adminLogout()}
       />
 
       <main className="min-w-0 flex-1 overflow-y-auto p-5 md:p-8 lg:p-10">
@@ -47,7 +36,7 @@ interface AdminPanelProps {
             <CollectionManager
               key={collections.active?.id ?? "loading"}
               collection={collections.active}
-              adminToken={admin.adminToken}
+              adminToken=""
             />
           )}
         </div>

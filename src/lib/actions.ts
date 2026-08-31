@@ -228,3 +228,6 @@ export const getAllThoughts= async () => {
     );
  
 };  
+
+
+
