@@ -2,8 +2,8 @@ import { config, fields, singleton } from "@keystatic/core"
 
 export default config({
   storage: {
-    kind: "github",
-    repo:"gearFit89/traveling-billboards" // local-only: this admin UI is never deployed to Cloudflare,
+    kind: "local"
+   // local-only: this admin UI is never deployed to Cloudflare,
     // it just edits src/content/site-content.json on your machine.
   },
 
