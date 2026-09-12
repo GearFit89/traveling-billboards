@@ -89,7 +89,7 @@ export default function RootLayout({
         <Navigation />
         {children}
         {process.env.NODE_ENV === 'development' && <DevDashboard /> }
-
+        {process.env.NODE_ENV === "development" && "version: 1.23.0/9"}
         <Toaster />
         
         
