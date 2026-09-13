@@ -19,7 +19,7 @@ import {
   getAllLinks, 
   getAllSections,
    getAllSigns, 
-  getAllThoughts } from "@/lib/admin-actions";
+  getAllThoughts } from "@/lib/actions";
 
 import type { LucideIcon } from "lucide-react"
 import {

@@ -164,4 +164,3 @@ export function formatDate(dateStr?: string) {
     year: 'numeric',
   });
 }
-

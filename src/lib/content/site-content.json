@@ -2,7 +2,7 @@
   "site": {
     "siteName": "Tailgates4Jesus.com",
     "tagline": "Travel with the Gospel",
-    "description": "Signs that advertise the gospel on trucks",
+    "description": "Gospel signs displayed on tailgates and vehicles, paired with QR codes that lead travelers to a message of hope and a path to Christ.",
     "navLinks": [
       { "href": "/", "label": "Home" },
       { "href": "/signs", "label": "Signs" },
@@ -15,7 +15,7 @@
       "tagline": "Travel with the Gospel",
       "titleLine1": "The Gospel",
       "titleLine2": "On the Road",
-      "description": "Let's spread the message of hope and faith across the highways. By putting the gospel on your tailgate, we can reach people on the road with a message of encouragement and inspiration. Join us in this journey to share the good news with travelers everywhere.",
+      "description": "Let's spread the message of hope and faith across the highways. By putting the gospel on your tailgate or vehicle, we can reach people on the road with a message of encouragement and inspiration. Scan the QR code on any sign to read its story and find the way to Christ.",
       "primaryButtonText": "Explore Signs",
       "primaryButtonHref": "/signs",
       "secondaryButtonText": "Browse Links",
@@ -34,19 +34,19 @@
         {
           "iconKey": "thought",
           "title": "Inspiring Thoughts",
-          "description": "We put thoughts related to each sign made. To share the gospel in new ways.",
+          "description": "Every sign carries its own thought, written to share the gospel in a way that speaks to whoever scans it.",
           "link": "/signs"
         },
         {
           "iconKey": "link",
           "title": "Curated Links",
-          "description": "Handpicked resources and tools trusted on the journey.",
+          "description": "Handpicked resources and tools trusted on the journey toward Christ.",
           "link": "/links"
         },
         {
           "iconKey": "users",
           "title": "Join the Journey",
-          "description": "Be part of the movement to share the gospel on the road. Join us in spreading hope and faith. Join the Tailgate Club and add our signs to your tailgate, and help us reach more travelers with the message of the gospel.",
+          "description": "Be part of the movement to share the gospel on the road. Come with us to spread hope and faith. Join the Tailgate Club, add our signs to your vehicle, and help us reach more travelers with the message of the gospel.",
           "link": "/join"
         }
       ]
@@ -59,11 +59,16 @@
     "badgeIconKey": "qrCode",
     "noThoughtsMessage": "No thoughts found for this sign.",
     "qrModal": {
-      "dynamicLabelTemplate": "Sign {id} found!",
-      "fallbackLabel": "Oops no sign found",
+      "fallbackLabel": "Oops! no sign found",
       "description": "Every sign on a tailgate carries a story. Explore reflections, notes, and encouragement shared along the highway."
     },
-    "thankYouMessage": "Thanks for scanning the QR code!"
+    "thankYouMessage": "Thanks for scanning the QR code!",
+    "linksCta": {
+      "title": "Keep exploring",
+      "description": "If this sign's message spoke to you, here's where to go next — a collection of gospel resources to help you find Christ.",
+      "buttonText": "Explore Gospel Links",
+      "buttonHref": "/links"
+    }
   },
   "links": {
     "title": "Gospel Links",
@@ -89,7 +94,7 @@
       "messages": [
         { "type": "incoming", "text": "Hi there! How can we help with your question today?" },
         { "type": "outgoing", "text": "I want a clear Bible answer and a friendly response." },
-        { "type": "incoming", "text": "Great! You can send your message here and we’ll reply in chat style." }
+        { "type": "incoming", "text": "Great! You can send your message here and we'll reply in chat style." }
       ],
       "inputPlaceholder": "Talk to someone",
       "sendBtnText": "Send a message"

@@ -1,6 +1,6 @@
-export * from "./content"
 
-import rawContent  from './content.json';
+
+import rawContent  from './site-content.json';
 import type { FullSiteContent, ToastContentRegistry } from './content.d';
 
 // Type assertion ensuring JSON matches the interfaces

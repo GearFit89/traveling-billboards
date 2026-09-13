@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 import { X } from "lucide-react"
 import { useTransition, useState, useEffect } from "react";
-import { getAllSigns } from "@/lib/admin-actions";
+import { getAllSigns } from "@/lib/actions";
 import { SignData } from "@/types";
 
 

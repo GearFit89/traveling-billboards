@@ -49,3 +49,6 @@ export const IMAGE_UPLOAD_URL = "https://r2actions.tailgates4Jesus.com"
 export const IMAGE_URL =  "https://assets.tailgates4Jesus.com"
 
 export const FILE_SIZE_LIMIT =  5 * 1024 * 1024; // 5 MB
+
+
+export const ADMIN_EMAIL = 'admin@tailgates4Jesus.com'
