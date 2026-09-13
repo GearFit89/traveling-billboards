@@ -288,10 +288,11 @@ export async function adminLogin(
   _state: AdminActionState | null,
   formData: FormData,
 ): Promise<AdminActionState> {
+    const redirectTo = String(formData.get("redirectTo") ?? "/admin/dashboard");
   try {
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
-    const redirectTo = String(formData.get("redirectTo") ?? "/admin/dashboard");
+  
 
     if (!email || !password) {
       return { success: false, error: "Email and password are required." };
@@ -331,7 +332,7 @@ console.log("made it here ---1")
 
 
     if (signInErr) {
-      return { success: false, error: `[DB]: ${signInErr.message}` };
+      return { success: false, error: `${signInErr.message}` };
     }
    
 
@@ -339,16 +340,17 @@ console.log("made it here ---1")
     revalidatePath("/admin", "layout");
    
 
-    redirect(redirectTo);
+   
     
   } catch (error: any) {
-    const errMsg =`[DB-UN]: ${error?.message  ?? "Failed to sign in as admin."}`
+    const errMsg =`[DB]: ${error?.message  ?? "Failed to sign in as admin."}`
     console.error(errMsg);
     return {
       success: false,
       error: errMsg
     };
-  }
+  } 
+   redirect(redirectTo);
 }
 
 export async function adminLogout(): Promise<{ success: boolean; error?: string }> {

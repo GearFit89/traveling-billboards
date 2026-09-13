@@ -174,10 +174,13 @@ export async function signUp({username, email, password}: SignUpData) {
       email,
       password
     })
-    
-
+   
     if(logInErr){
       throw new Error(logInErr.message)
+    }
+     
+    return {
+      success: true
     }
 
   } catch(e: any){

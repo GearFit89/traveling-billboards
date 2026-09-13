@@ -36,12 +36,13 @@ export default function LoginPage() {
         <Button type="submit" className="w-full" disabled={pending}>
           {pending ? "Signing in..." : "Sign in"}
         </Button>
-      </form>
 
       <div className="ml-4 text-sm">
         {"Don't know where you are?"}
         <Link href="/" className="underline"> Go home</Link>
       </div>
+      </form>
+
     </div>
   )
 }

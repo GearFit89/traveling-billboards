@@ -30,7 +30,7 @@ export default function LoginPage() {
       return
     }
 
-    const redirectTo = searchParams.get("redirectTo") || "/admin/dashboard"
+    const redirectTo = searchParams.get("redirectTo") || "/user"
     router.push(redirectTo)
     router.refresh()
   }
@@ -39,7 +39,7 @@ export default function LoginPage() {
     
     <div className="flex min-h-screen items-center justify-center p-4">
       <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4 rounded-lg border p-6">
-        <h1 className="text-lg font-semibold">Admin Login</h1>
+        <h1 className="text-lg font-semibold">Login</h1>
 
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { signUp } from "@/lib/auth-actions"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -23,9 +24,9 @@ export default function LoginPage() {
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({ email, password })
+    const { error, success } = await signUp({ username, password, email})
 
-    if (error) {
+    if (error || !success) {
       setError(error.message)
       setLoading(false)
       return
