@@ -9,9 +9,10 @@ interface LinkCardProps {
   title: string;
   description: string;
   sectionId: string;
+  link: string;
 }
 
-export function LinkCard({ id, title, description, sectionId }: LinkCardProps) {
+export function LinkCard({ id, title, description, sectionId, link }: LinkCardProps) {
   return (
     <Link
       href={`/links?section=${sectionId}&link=${id}`}
