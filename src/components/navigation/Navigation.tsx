@@ -1,33 +1,30 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { siteContent } from '@/lib/content';
-import { Icon } from '@/lib/icons';
-import styles from './Navigation.module.css';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { siteContent } from "@/lib/content";
+import { Icon } from "@/lib/icons";
+import styles from "./Navigation.module.css";
 
-
-const  navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/signs', label: 'Signs' },
-    { href: '/links', label: 'Links' },
-    { href: '/sign-up', label:"Join"},
-    {href: "/login", label: "Login"}
-
-  ];
-
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/signs", label: "Signs" },
+  { href: "/links", label: "Links" },
+  { href: "/sign-up", label: "Join" },
+  { href: "/login", label: "Login" },
+  { href: "/contact", label: "Contact" },
+];
 
 export function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-
-  if(pathname.includes("admin")){
+  if (pathname.includes("admin")) {
     return null;
   }
   const isActive = (href: string) => {
-    if (href === '/') return pathname === '/';
+    if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
 
@@ -35,7 +32,7 @@ export function Navigation() {
     <nav className={styles.nav}>
       <div className={styles.navInner}>
         <Link href="/" className={styles.logo}>
-          {siteContent.siteName.split(' ')[0]}
+          {siteContent.siteName.split(" ")[0]}
           <span className={styles.logoAccent}></span>
         </Link>
 
@@ -44,7 +41,7 @@ export function Navigation() {
             <Link
               key={link.href}
               href={link.href}
-              className={`${styles.navLink} ${isActive(link.href) ? styles.navLinkActive : ''}`}
+              className={`${styles.navLink} ${isActive(link.href) ? styles.navLinkActive : ""}`}
             >
               {link.label}
             </Link>
@@ -56,20 +53,18 @@ export function Navigation() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? (
-            <Icon name="close" />
-          ) : (
-            <Icon name="menu" />
-          )}
+          {mobileMenuOpen ? <Icon name="close" /> : <Icon name="menu" />}
         </button>
       </div>
 
-      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
+      <div
+        className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ""}`}
+      >
         {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className={`${styles.mobileNavLink} ${isActive(link.href) ? styles.mobileNavLinkActive : ''}`}
+            className={`${styles.mobileNavLink} ${isActive(link.href) ? styles.mobileNavLinkActive : ""}`}
             onClick={() => setMobileMenuOpen(false)}
           >
             {link.label}
