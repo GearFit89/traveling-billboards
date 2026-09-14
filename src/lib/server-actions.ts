@@ -10,7 +10,7 @@ import * as s from "@/lib/schemas";
 import { getEnvContext, getHeaders, getRandomUUID } from "./utils";
 import { send } from "process";
 import { safeToString } from "@/utils/strings";
-import { LinkData, MessageType, ReturnData } from "@/types";
+import { LinkData, MessageType, ReturnData, ReturnStatus } from "@/types";
 import Console from "@/utils/console";
 import { error } from "console";
 import { cookies, headers } from "next/headers";
@@ -26,7 +26,7 @@ async function clearCache() {
 
 export async function clearAllCache(
   key: string,
-): Promise<{ success: boolean; message?: string; error?: string }> {
+): Promise<ReturnStatus> {
   try {
     await clearCache();
     console.log("Cache cleared successfully.");
@@ -59,7 +59,7 @@ export async function getLinkSearchResults(
 
 export async function updateLinkHit(
   linkId: string,
-): Promise<{ success: boolean; error: string }> {
+): Promise<ReturnStatus> {
   try {
     const cookieStore = await cookies();
 
@@ -102,7 +102,7 @@ export async function updateLinkHit(
     return { success: false, error: e.message };
   }
 
-  return { success: true, error: "" };
+  return { success: true };
 }
 
 //TODO  add more types and functionality
@@ -114,7 +114,7 @@ export interface MessagePayload {
   message: string;
 }
 
-export async function postMessage(payload: MessagePayload) {
+export async function postMessage(payload: MessagePayload): Promise<ReturnStatus> {
   try {
     const  { get: headerGetter } = await headers()
     const { ipAddress} = getHeaders(headerGetter);
@@ -209,7 +209,6 @@ export async function getMessages(
   } catch (e: any) {
     console.error("Error fetching messages:", e);
     return {
-    data: [],
       success: false,
       error: e.message || "Failed to retrieve messages.",
     };

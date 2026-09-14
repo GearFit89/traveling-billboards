@@ -63,10 +63,9 @@ export const getCacheAndValidation = <
 
     } catch (error) {
       console.error('Error fetching or parsing data:', error);
-      return { 
-        success: false, 
-        data: null as unknown as v.InferOutput<S>, 
-        error: 'Error fetching or parsing data' 
+      return {
+        success: false,
+        error: 'Error fetching or parsing data'
       };
     }
   };

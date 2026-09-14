@@ -22,8 +22,10 @@ export default function SectionDialog ({value, onChange}: SectionDialogProps) {
     startTransition(() => {
   
       const runGetAllsections = async () => {
-        const { data } = await getAllSections();
-        setsections(data);
+        const { data, success } = await getAllSections();
+        if (success && data) {
+          setsections(data);
+        }
       };
   
       runGetAllsections();

@@ -57,20 +57,40 @@ export interface QueryOptions {
   extraSql?: string; // Optional parameter to indicate if only the first result is needed, default is false
   values?: string[];
 }
-export interface ReturnData<T> {
-  success: boolean;
+export interface SuccessReturn<T> {
+  success: true;
   data: T;
-  error?: string;
+  error?: never;
+  fullError?: never;
+  message?: string;
 }
+
+export interface ErrorReturn {
+  success: false;
+  data?: never;
+  error: string;
+  fullError?: Error;
+  message?: string;
+}
+
+export type ReturnData<T> = SuccessReturn<T> | ErrorReturn;
+
+export type ReturnStatus =
+  | {
+      success: true;
+      error?: never;
+      fullError?: never;
+      message?: string;
+    }
+  | {
+      success: false;
+      error: string;
+      fullError?: Error;
+      message?: string;
+    };
+
 export interface setQueryReturnData {
   success: boolean;
 
   error?: string;
-}
-export interface SuccessReturn{
-   success: boolean;
- 
-  error?: string;
-  fullError?: Error;
-
 }

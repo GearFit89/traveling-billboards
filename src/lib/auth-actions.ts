@@ -5,7 +5,7 @@ import { AppError } from "@/utils/error";
 import { cookies, headers } from "next/headers";
 import { getEnvContext } from "@/lib/utils";
 import { COOKIE_KEYS, FILE_SIZE_LIMIT } from "@/const";
-import { ReturnData, SuccessReturn } from "@/types";
+import { ReturnData, ReturnStatus } from "@/types";
 import { revalidatePath } from "next/cache";
 
 import { SignJWT, jwtVerify } from "jose";
@@ -34,7 +34,7 @@ export async function verifyToken(token: string) {
     return null; // Invalid or expired token
   }
 }
-export async function setToken(token: string): Promise<ReturnData<string>> {
+export async function setToken(token: string): Promise<ReturnStatus> {
   try {
     if (token !== process.env.ADMIN_KEY) {
       return {
@@ -55,13 +55,10 @@ export async function setToken(token: string): Promise<ReturnData<string>> {
 
     return {
       success: true,
-      data: ''
-      
     };
   } catch (e: any) {
     return {
       success: false,
-      data: '',
       error: e.message,
     };
   }
@@ -91,7 +88,6 @@ export async function getToken(): Promise<ReturnData<string>> {
     return {
       success: false,
       error: e.message,
-      data: "",
     };
   }
 }

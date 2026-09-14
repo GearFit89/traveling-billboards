@@ -65,26 +65,28 @@ async function LinkDetailView({
   content: any;
 }) {
   try {
-    const {data:link} = await getLinkById(linkId);
-  
-    if (!link) { 
-     errorHandler("Link not found", 404.2)
+    const { data: link, success } = await getLinkById(linkId);
+
+    if (!success || !link) {
+      throw new Error("Link not found");
     }
+
+    const safeLink = link;
 
     return (
       <div className={styles.container}>
       
         <main className={styles.main}>
           <LinkDetail
-            title={link.title}
-            description={link.description}
-            url={link.link}
+            title={safeLink.title}
+            description={safeLink.description}
+            url={safeLink.link}
             sectionId={sectionId}
             sectionName={sectionId}
             visitSiteText={content.visitSiteText}
             backToAllText={content.backToAllText}
             pageTitle={content.title}
-            sectionIcon={link.id}
+            sectionIcon={safeLink.id}
           />
         </main>
         {/* <LinksFooter /> */}
@@ -103,8 +105,14 @@ async function SectionDetailView({
   content: any;
 }) {
   try {
-    const {data:section} = await getSectionById(sectionId);
-    
+    const { data: section, success } = await getSectionById(sectionId);
+
+    if (!success || !section) {
+      throw new Error("Section not found");
+    }
+
+    const safeSection = section;
+
     return (
       <div className={styles.container}>
       
@@ -112,10 +120,10 @@ async function SectionDetailView({
         
           <SectionView
             sectionId={sectionId}
-            sectionName={section.name}
-            sectionDescription={section.description || ''}
-            sectionIcon={section.icon_key || "link"}
-            links={section.links|| []}
+            sectionName={safeSection.name}
+            sectionDescription={safeSection.description || ''}
+            sectionIcon={safeSection.icon_key || "link"}
+            links={safeSection.links || []}
             pageTitle={content.title}
             backToAllText={content.backToAllText}
           />
