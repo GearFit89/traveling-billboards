@@ -24,7 +24,7 @@ export default function SignPicker ({ signs, onChange, selectedSignId, isPending
 
 
     return (
-        <div>
+        <div className=" relative  overflow-y-auto max-h-[500px] w-full ">
            {signs.map((sign) => {
         const isSelected = sign.id === selectedSignId;
         
