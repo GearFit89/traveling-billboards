@@ -34,7 +34,7 @@ export async function verifyToken(token: string) {
     return null; // Invalid or expired token
   }
 }
-export async function setToken(token: string): Promise<SuccessReturn> {
+export async function setToken(token: string): Promise<ReturnData<string>> {
   try {
     if (token !== process.env.ADMIN_KEY) {
       return {
@@ -55,10 +55,13 @@ export async function setToken(token: string): Promise<SuccessReturn> {
 
     return {
       success: true,
+      data: ''
+      
     };
   } catch (e: any) {
     return {
       success: false,
+      data: '',
       error: e.message,
     };
   }

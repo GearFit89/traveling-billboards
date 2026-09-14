@@ -147,3 +147,71 @@ export async function postMessage(payload: MessagePayload) {
     return { success: false, error: e.message };
   }
 }
+
+
+export interface GetMessagesOptions {
+  type?: MessageType;
+  unreadOnly?: boolean;
+  limit?: number;
+  offset?: number;
+}
+
+export interface MessageRecord {
+  id: number;
+  type: MessageType;
+  sender_id: string;
+  timestamp: number;
+  had_reply: string;
+  message: string;
+  unread: boolean;
+}
+
+export async function getMessages(
+  options: GetMessagesOptions = {}
+): Promise<ReturnData<MessageRecord[]>> {
+  try {
+    const env = getEnvContext();
+    const { type, unreadOnly = false, limit = 50, offset = 0 } = options;
+
+    const conditions: string[] = [];
+    const params: (string | number | boolean)[] = [];
+
+    if (type) {
+      conditions.push("type = ?");
+      params.push(type);
+    }
+
+    if (unreadOnly) {
+      conditions.push("unread = ?");
+      params.push(true);
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+    const query = `
+      SELECT id, type, sender_id, timestamp, had_reply, message, unread
+      FROM messages
+      ${whereClause}
+      ORDER BY timestamp DESC
+      LIMIT ? OFFSET ?;
+    `;
+
+    params.push(limit, offset);
+
+    const { results } = await env.D1.prepare(query)
+      .bind(...params)
+      .all<MessageRecord>();
+
+    return {
+      success: true,
+      data: results ?? [],
+    };
+  } catch (e: any) {
+    console.error("Error fetching messages:", e);
+    return {
+    data: [],
+      success: false,
+      error: e.message || "Failed to retrieve messages.",
+    };
+  }
+}

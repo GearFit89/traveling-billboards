@@ -43,7 +43,7 @@ export const FnMap: Record<Ids, (id?: string)=> Promise<any>> = {
   "links": async ()=>  getAllLinks(),
   "signs": async ()=> {
     const data =  getAllSigns();
-    console.warn((await data).data)
+   
     return data;
 
   }
