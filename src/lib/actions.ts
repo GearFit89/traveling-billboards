@@ -231,3 +231,28 @@ export const getAllThoughts= async () => {
 
 
 
+
+
+export const getLinkBySection = async (sectionId: string) => {
+ 
+ const env =  getEnvContext();
+ const query = 'SELECT icon_key FROM sections';
+
+ console.log("Fetching icon_key from D1 with query: ", query);
+
+ const getSections = getCacheAndValidation(s.SectionIConSchema);
+  return await getSections(
+    async () => {
+      const result = await env.D1.prepare(query).first();
+     
+      return result
+    },
+    query, // using the query as the cache key',
+    {
+    tags: [TAGS.SECTIONS], // tag for invalidation
+
+    },
+    async () => (await import("./mock-db")).sections
+  );
+  
+};

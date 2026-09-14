@@ -10,6 +10,7 @@ interface Link {
   id: string;
   title: string;
   description: string;
+  link: string
 }
 
 interface SectionViewProps {
@@ -68,6 +69,7 @@ export function SectionView({
             title={link.title}
             description={link.description}
             sectionId={sectionId}
+            link={link.link}
           />
         ))}
       </div>
