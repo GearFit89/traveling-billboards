@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Password from "@/components/auth/password";
 
-export default function LoginPage() {
+export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -76,4 +76,13 @@ export default function LoginPage() {
       </form>
     </div>
   );
+}
+
+export default function LogInPage(){
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
+  )
+
 }

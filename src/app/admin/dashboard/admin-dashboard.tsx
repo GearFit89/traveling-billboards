@@ -22,7 +22,7 @@ interface AdminPanelProps {
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30 lg:h-screen lg:flex-row lg:overflow-hidden">
-      <NavBar />
+     
 
       <SideBar
         activeId={collections.activeId}
