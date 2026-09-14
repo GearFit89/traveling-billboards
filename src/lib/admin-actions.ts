@@ -373,3 +373,6 @@ export async function adminLogout(): Promise<{ success: boolean; error?: string 
   }
 }
 
+export const allCacheInvalidate = async ()=>{
+  revalidatePath("/", "layout")
+}

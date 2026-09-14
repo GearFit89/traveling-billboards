@@ -23,11 +23,11 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
+   
     const { error, success } = await signUp({ username, password, email });
 
     if (error || !success) {
-      setError(error.message);
+      setError(error);
       setLoading(false);
       return;
     }

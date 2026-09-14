@@ -24,12 +24,12 @@ interface FieldEditorProps {
 
 export function FieldEditor({ field, fieldId, value, adminToken, isPending, onChange }: FieldEditorProps) {
 
-  useEffect(() => {
-    if (field.type === "date" && !value) {
-      const today = new Date().toLocaleDateString("en-CA")
-      onChange(today)
-    }
-  }, [field.type, value, onChange]);
+  // useEffect(() => {
+  //   if (field.type === "date" && !value) {
+  //     const today = new Date().toLocaleDateString("en-CA")
+  //     onChange(today)
+  //   }
+  // }, []);
 
   switch (field.type) {
     case "html":

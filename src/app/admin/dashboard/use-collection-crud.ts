@@ -32,7 +32,7 @@ const ACTION_REGISTRY = {
 
 export function emptyRow(fields: Field[] | undefined): Row {
   if (!fields) {
-    console.warn("Fields is not defined")
+    console.warn("Fields is not defined, [open]")
   }
   return Object.fromEntries(fields?.map((f) => [f.key, ""]) ?? [])
 }
