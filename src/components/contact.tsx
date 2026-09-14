@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Button from "@/client/Button";
+import { postMessage } from "@/lib/server-actions";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -10,9 +11,12 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
 
-    // Integrate your API route or email service (e.g., Resend, Formspree) here
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await postMessage({ email, senderId: name, message, type: "support" });
 
     setLoading(false);
     setSubmitted(true);
@@ -27,7 +31,8 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="mt-4 text-lg text-slate-600">
-            Have questions, feedback, or want to connect with us? We&apos;d love to hear from you.
+            Have questions, feedback, or want to connect with us? We&apos;d love
+            to hear from you.
           </p>
         </div>
 
@@ -71,7 +76,8 @@ export default function ContactPage() {
                   Thank You!
                 </h3>
                 <p className="mt-2 text-slate-600">
-                  Your message has been sent. We&apos;ll get back to you shortly.
+                  Your message has been sent. We&apos;ll get back to you
+                  shortly.
                 </p>
                 <Button
                   className="mt-6 border border-slate-300 bg-white px-4 py-2 text-slate-700 hover:bg-slate-50"
@@ -131,7 +137,11 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <Button type="submit" disabled={loading} className="px-6 py-2">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="px-6 py-2"
+                  >
                     {loading ? "Sending..." : "Send Message"}
                   </Button>
                   <a
