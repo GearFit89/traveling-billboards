@@ -31,7 +31,7 @@ export default function SignPicker ({ signs, onChange, selectedSignId, isPending
         return (
           <div
             key={sign.id}
-            className={`relative rounded-lg border p-2 transition-all ${
+            className={`relative w-[90%] rounded-lg border p-2 transition-all ${
               isSelected ? "border-blue-500 ring-2 ring-blue-500" : "border-gray-200 hover:border-gray-300"
             }`}
           >
