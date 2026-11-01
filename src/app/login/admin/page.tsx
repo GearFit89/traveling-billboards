@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState } from "react"
+import { Suspense, useActionState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +10,7 @@ import { adminLogin, type AdminActionState } from "@/lib/admin-actions"
 
 const initialState: AdminActionState = { success: false }
 
-export default function LoginPage() {
+export  function Login() {
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get("redirectTo") || "/admin/dashboard"
   const [state, formAction, pending] = useActionState(adminLogin, initialState)
@@ -45,4 +45,13 @@ export default function LoginPage() {
 
     </div>
   )
+}
+
+export default function LoginPage () {
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
+  )
+
 }

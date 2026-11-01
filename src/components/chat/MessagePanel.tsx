@@ -85,26 +85,13 @@ export  default function SubmitPanel({
                     setIsSending(true);
 
                     //grab the token for knowing if a reply has arrived
-                    const { token } = await postMessage({
+                     await postMessage({
                     type,
                     message,
                     email
                    })
 
-                   if(token && shouldGetReply) {
-
-                   
-                      localStorage.setItem(`${LOCAL_STROAGE_KEYS.MESSAGE_TOKEN}:${type}`, token);
-                
-                    
-                   }else if(!token && shouldGetReply){
-
-                     // if the message needs to have reply and the token is not there,
-                    // then we set an error
-
-                    throw new Error("Token not vaild")
-                   }
-
+                  
                    //save token to storage if we a reply is possible
                  
                   }catch(e: any){

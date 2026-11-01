@@ -24,7 +24,7 @@ export default function SignPicker ({ signs, onChange, selectedSignId, isPending
 
 
     return (
-        <div className="flex flex-col gap-3 max-h-[500px] overflow-y-auto items-center p-2 ">
+        <div className=" relative  overflow-y-auto max-h-[500px] w-full ">
            {signs.map((sign) => {
         const isSelected = sign.id === selectedSignId;
         

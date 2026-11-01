@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { signUp } from "@/lib/auth-actions";
-import { Eye, EyeClosed } from "lucide-react";
 import Password from "@/components/auth/password";
 
 export default function LoginPage() {
@@ -17,7 +16,6 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isPasswdHidden, setIsPasswdHidden] = useState<boolean>(true);
   const router = useRouter();
 
   async function handleLogin(e: React.FormEvent) {
@@ -25,11 +23,11 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const supabase = createClient();
+   
     const { error, success } = await signUp({ username, password, email });
 
     if (error || !success) {
-      setError(error.message);
+      setError(error);
       setLoading(false);
       return;
     }

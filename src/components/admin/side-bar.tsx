@@ -4,7 +4,8 @@ import Link from "next/link"
 import { Database, Lock, Unlock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { collections, Ids } from "@/app/admin/dashboard/content"
-import clearCache from "@/services/clearCache"
+// import { allCacheInvalidate } from "@/lib/admin-actions";
+
 
 interface SideBarProps {
   activeId: Ids
@@ -78,13 +79,9 @@ export function SideBar({
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => void clearCache()}
-          className="mb-4 text-xs underline"
-        >
-          Wipe all R2 cache
-        </button>
+        {/* <button onClick={void allCacheInvalidate}>
+          Reload all routes
+        </button> */}
 
         {onLogout ? (
           <button onClick={onLogout} className="w-full text-left text-xs text-destructive hover:underline">

@@ -22,14 +22,16 @@ useEffect(()=>{
   startTransition(() => {
 
     const runGetAllSigns = async () => {
-      const { data } = await getAllSigns();
-      setSigns(data);
+      const { data, success } = await getAllSigns();
+      if (success && data) {
+        setSigns(data);
+      }
     };
 
     runGetAllSigns();
 
   });
-})
+}, [])
   return (
     <Dialog>
 

@@ -72,3 +72,9 @@ export const SectionSchema = v.object({
   img_alt: v.nullish(v.string( "SectionSchema.img_alt must be a string" )),
   links: v.nullish(v.array(LinkDataSchema)),
 });
+
+export const SectionIConSchema = v.object({
+ 
+  icon_key: v.nullish(v.string( "SectionSchema.icon_key must be a string" ))
+  
+});

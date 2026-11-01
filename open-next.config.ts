@@ -3,6 +3,9 @@ import r2IncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cac
 import doQueue from "@opennextjs/cloudflare/overrides/queue/do-queue";
 import doShardedTagCache from "@opennextjs/cloudflare/overrides/tag-cache/do-sharded-tag-cache";
 
+
+
+
 export default defineCloudflareConfig({
   incrementalCache: r2IncrementalCache, // Keep R2 for HTML files
   queue: doQueue,                       // Keep the DO queue for re-rendering

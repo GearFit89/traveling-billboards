@@ -14,7 +14,7 @@ import errorHandler from '@/lib/error-handler';
 import { ErrorPageSigns } from '@/components/signs/SignError';
 import Link from 'next/link';
 
-export const revalidate = 60;
+
 // This page will fetch all signs from the database and display them in a list format. Each sign will show its content, location, and date. The page will also include a header with a title and subtitle.
 export  async function LoadSignsList() {
 const { data:signs, error} = await getAllSigns();

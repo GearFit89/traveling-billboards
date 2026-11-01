@@ -21,26 +21,23 @@ import styles from "@/styles/Signs.module.css"
 export  async function LoadSign( { params }: { params: Promise<Params>}) {
     try {
     const { id } = await params;
-    const {data:sign , error} = await  getSignById(id);
-    const { data:thoughts } = await  getThoughtSignById(id);
+    const { data: sign, error } = await getSignById(id);
+    const { data: thoughts } = await getThoughtSignById(id);
 
-   if(!sign || error){
-    errorHandler(error || "Sign not found", 404);
-   }
+    if (!sign || error) {
+      errorHandler(error || "Sign not found", 404);
+    }
+
+    if (!sign) {
+      return <ErrorPageSigns message="Sign not found." />;
+    }
 
     return (
-
         <div>
-            
         <Sign sign={sign} />
-         
-            <div className={styles.thoughtsList}>
-           
-            
-           <Thoughts thoughts={thoughts} /> 
-
-           </div>
-        
+          <div className={styles.thoughtsList}>
+           <Thoughts thoughts={thoughts ?? []} />
+          </div>
         </div>
     )
     }catch {

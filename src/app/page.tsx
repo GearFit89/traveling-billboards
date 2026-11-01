@@ -49,7 +49,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Stats Section */}
+      {/* Stats Section
       <section className={styles.stats}>
         <div className={styles.statsGrid}>
           {stats.map((stat, index) => (
@@ -59,7 +59,7 @@ export default async function HomePage() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section className={styles.features}>
