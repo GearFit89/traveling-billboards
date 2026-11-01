@@ -1,30 +1,35 @@
-
-
-
-// added by create cloudflare to enable calling `getCloudflareContext()` in `next dev`
+// Enable Cloudflare context in development
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import type { NextConfig } from "next";
+
 initOpenNextCloudflareForDev();
 
+const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],
 
-const nextConfig = {
-	/* config options here */
-   allowedDevOrigins: ["127.0.0.1"],
-
-	images: {
+  images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**', // Allows any website
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
+
   experimental: {
-    serverActions:{
-      bodySizeLimit: "5mb"
-    }
-  }
-	
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
+
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
 };
 
 export default nextConfig;
-

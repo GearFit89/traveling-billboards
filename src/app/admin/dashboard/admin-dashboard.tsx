@@ -42,7 +42,7 @@ interface AdminPanelProps {
         </div>
       </main>
 
-      <aside className="h-[70vh] shrink-0 border-t bg-card lg:h-auto lg:w-[30rem] lg:border-l lg:border-t-0">
+      <aside className="h-[70vh] shrink-0 border-t bg-card lg:h-auto lg:w-120 lg:border-l lg:border-t-0">
         <SitePreview />
       </aside>
 
