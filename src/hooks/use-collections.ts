@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Collection, collections, FnMap, Ids } from "@/app/admin/dashboard/content"
+import { Collection, collections, FnMap, Ids } from "@/app/(frontend)/admin/dashboard/content"
 
 export function useCollections(initialCollectionId?: Ids) {
   const [activeId, setActiveId] = useState<Ids>(

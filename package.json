@@ -17,6 +17,9 @@
 		"@keystatic/core": "^0.6.9",
 		"@keystatic/next": "^5.0.5",
 		"@opennextjs/cloudflare": "^1.18.1",
+		"@payloadcms/db-d1-sqlite": "^3.92.1",
+		"@payloadcms/next": "^3.92.1",
+		"@payloadcms/richtext-lexical": "^3.92.1",
 		"@radix-ui/react-toggle": "^1.1.11",
 		"@supabase/ssr": "^0.12.5",
 		"@supabase/supabase-js": "^2.112.4",
@@ -33,6 +36,7 @@
 		"embla-carousel-react": "^8.6.0",
 		"framer-motion": "^12.42.2",
 		"fuse.js": "^7.4.2",
+		"graphql": "^16.14.2",
 		"input-otp": "^1.4.2",
 		"ioredis": "^5.10.1",
 		"jose": "^6.2.3",
@@ -40,6 +44,7 @@
 		"next": "^16.3.3",
 		"next-auth": "^5.0.0-beta.31",
 		"next-themes": "^0.4.6",
+		"payload": "^3.92.1",
 		"radix-ui": "^1.5.0",
 		"react": "^19.2.8",
 		"react-day-picker": "^10.0.1",
@@ -114,6 +119,10 @@
 		"esbuild@0.25.4": true,
 		"esbuild@0.28.1": true,
 		"workerd@1.20260625.1": true,
-		"@parcel/watcher@2.5.6": true
+		"@parcel/watcher@2.5.6": true,
+		"esbuild": "true",
+		"workerd": "true",
+		"sharp": "true",
+		"@parcel/watcher": "true"
 	}
 }

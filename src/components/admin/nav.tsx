@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { useState } from "react";
-import { collections } from "@/app/admin/dashboard/content";
+import { collections } from "@/app/(frontend)/admin/dashboard/content";
 import { cn } from "@/lib/utils";
 
 export default function NavBar() {

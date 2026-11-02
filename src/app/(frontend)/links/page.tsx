@@ -17,9 +17,11 @@ import styles from '@/styles/Links.module.css';
 import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
 import errorHandler from '@/lib/error-handler';
-import { ArrowBigDown } from 'lucide-react';
 import { LinkSection } from '@/types';
   
+export function generateStaticParams () {
+  return [];
+}
 
 // 1. Create a sub-component to handle the dynamic routing based on searchParams
 async function LinksContent({ searchParamsPromise }: { searchParamsPromise: Promise<{[key: string]: string | undefined }> }) {

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Database, Lock, Unlock } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { collections, Ids } from "@/app/admin/dashboard/content"
+import { collections, Ids } from "@/app/(frontend)/admin/dashboard/content"
 // import { allCacheInvalidate } from "@/lib/admin-actions";
 
 

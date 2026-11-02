@@ -19,27 +19,29 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next",
-        
+        "name": "next"
       },
       {
-        "name": "typescript-plugin-css-modules" 
+        "name": "typescript-plugin-css-modules"
       }
     ],
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@payload-config": [
+        "./src/payload.config.ts"
       ]
-    },
-    
+    }
   },
   "include": [
     "next-env.d.ts",
     "src/**/*", // 👈 Forces TS to look ONLY inside your actual source code
     ".next/types/**/*.ts" // 👈 Required for Next.js App Router type safety
     ,
-    ".next/dev/types/**/*.ts"
-, "src/lib/content/.ts"  ],
+    ".next/dev/types/**/*.ts",
+    "src/lib/content/.ts"
+  ],
   "exclude": [
     "node_modules",
     ".next",

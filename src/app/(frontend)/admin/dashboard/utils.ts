@@ -20,3 +20,4 @@ export function nextKey(rows: Row[], fieldKey: string): number {
 export function todayDateString(): string {
   return new Date().toISOString().slice(0, 10) // "YYYY-MM-DD"
 }
+

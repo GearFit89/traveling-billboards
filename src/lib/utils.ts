@@ -14,13 +14,16 @@ export function getIsBuildPharse (){
   return process.env.NEXT_PHASE === 'phase-production-build'
 }
 export function getEnvContext()  : CloudflareEnv {
-  // If we are building the site statically, return an empty fallback object
-  // so the build doesn't crash.
-  if (getIsBuildPharse()) {
-    return {} as any; 
-  }
   
+  try {
   return getCloudflareContext().env;
+
+  } catch(e: unknown){
+    console.warn("Error with cf context... falling back to {}", `Error: ${(e as Error).message}`)
+    return {
+      D1: process.env.LOCAL_D1_BINDING || ({} as any),
+    } as CloudflareEnv;
+  }
 }
 
 /**

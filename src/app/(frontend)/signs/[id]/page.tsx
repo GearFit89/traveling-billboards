@@ -18,6 +18,12 @@ import { ErrorPageSigns } from "@/components/signs/SignError";
 import "@/styles/globals.css"
 import styles from "@/styles/Signs.module.css"
 
+
+ 
+export function generateStaticParams (){
+  return [];
+
+}
 export  async function LoadSign( { params }: { params: Promise<Params>}) {
     try {
     const { id } = await params;
