@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
   },
 
   turbopack: {
+      resolveAlias: {
+      'drizzle-kit/api': './src/stubs/drizzle-kit-api.ts',
+    },
     rules: {
       "*.svg": {
         loaders: ["@svgr/webpack"],
