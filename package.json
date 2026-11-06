@@ -18,8 +18,11 @@
 		"@keystatic/next": "^5.0.5",
 		"@opennextjs/cloudflare": "^1.18.1",
 		"@payloadcms/db-d1-sqlite": "^3.92.1",
+		"@payloadcms/db-sqlite": "^3.92.1",
+		"@payloadcms/email-resend": "^3.92.1",
 		"@payloadcms/next": "^3.92.1",
 		"@payloadcms/richtext-lexical": "^3.92.1",
+		"@payloadcms/storage-r2": "^3.92.1",
 		"@radix-ui/react-toggle": "^1.1.11",
 		"@supabase/ssr": "^0.12.5",
 		"@supabase/supabase-js": "^2.112.4",
@@ -33,6 +36,8 @@
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",
 		"date-fns": "^4.4.0",
+		"dompurify": "^3.4.17",
+		"dotenv": "^18.0.9",
 		"embla-carousel-react": "^8.6.0",
 		"framer-motion": "^12.42.2",
 		"fuse.js": "^7.4.2",
@@ -79,16 +84,18 @@
 		"@vitest/coverage-v8": "^4.1.8",
 		"@vitest/ui": "^4.1.8",
 		"dotenv-cli": "^11.0.0",
+		"drizzle-kit": "^0.31.7",
 		"esbuild": "^0.28.0",
 		"eslint": "9.39.2",
 		"eslint-config-next": "16.0.7",
 		"jsdom": "^29.1.1",
 		"tailwindcss": "4.1.17",
+		"tsx": "^4.23.15",
 		"typescript": "5.9.3",
 		"typescript-plugin-css-modules": "^5.2.0",
 		"vite-plugin-svgr": "^5.2.0",
-		"vitest": "^4.1.8",
-		"wrangler": "^4.126.0"
+		"vitest": "^4.1.12",
+		"wrangler": "^4.156.2"
 	},
 	"private": true,
 	"scripts": {
@@ -116,13 +123,16 @@
 	"allowScripts": {
 		"sharp@0.35.4": true,
 		"sharp@0.34.5": true,
-		"esbuild@0.25.4": true,
 		"esbuild@0.28.1": true,
-		"workerd@1.20260625.1": true,
 		"@parcel/watcher@2.5.6": true,
 		"esbuild": "true",
 		"workerd": "true",
 		"sharp": "true",
-		"@parcel/watcher": "true"
+		"@parcel/watcher": "true",
+		"workerd@1.20260815.1": true,
+		"workerd@1.20261102.1": true,
+		"esbuild@0.18.20": true,
+		"esbuild@0.25.12": true,
+		"esbuild@0.28.2": true
 	}
 }
