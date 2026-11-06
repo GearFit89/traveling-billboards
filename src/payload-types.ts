@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    sections: Section;
+    links: Link;
+    signs: Sign;
+    thoughts: Thought;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +82,10 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    sections: SectionsSelect<false> | SectionsSelect<true>;
+    links: LinksSelect<false> | LinksSelect<true>;
+    signs: SignsSelect<false> | SignsSelect<true>;
+    thoughts: ThoughtsSelect<false> | ThoughtsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -150,6 +158,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -161,6 +170,97 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sections".
+ */
+export interface Section {
+  id: string;
+  name: string;
+  description?: string | null;
+  iconKey?: string | null;
+  imgKey?: string | null;
+  imgAlt?: string | null;
+  linkCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links".
+ */
+export interface Link {
+  id: string;
+  title: string;
+  link: string;
+  imgKey?: string | null;
+  imgAlt?: string | null;
+  description?: string | null;
+  section: string;
+  hits?: number | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signs".
+ */
+export interface Sign {
+  id: string;
+  title: string;
+  imgKey?: string | null;
+  imgAlt?: string | null;
+  description?: string | null;
+  webHits?: number | null;
+  qrHits?: number | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "thoughts".
+ */
+export interface Thought {
+  id: string;
+  sign: string | Sign;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  location?: string | null;
+  date?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -193,6 +293,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'sections';
+        value: string | Section;
+      } | null)
+    | ({
+        relationTo: 'links';
+        value: string | Link;
+      } | null)
+    | ({
+        relationTo: 'signs';
+        value: string | Sign;
+      } | null)
+    | ({
+        relationTo: 'thoughts';
+        value: string | Thought;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -265,6 +381,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -276,6 +393,67 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sections_select".
+ */
+export interface SectionsSelect<T extends boolean = true> {
+  id?: T;
+  name?: T;
+  description?: T;
+  iconKey?: T;
+  imgKey?: T;
+  imgAlt?: T;
+  linkCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links_select".
+ */
+export interface LinksSelect<T extends boolean = true> {
+  id?: T;
+  title?: T;
+  link?: T;
+  imgKey?: T;
+  imgAlt?: T;
+  description?: T;
+  section?: T;
+  hits?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "signs_select".
+ */
+export interface SignsSelect<T extends boolean = true> {
+  id?: T;
+  title?: T;
+  imgKey?: T;
+  imgAlt?: T;
+  description?: T;
+  webHits?: T;
+  qrHits?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "thoughts_select".
+ */
+export interface ThoughtsSelect<T extends boolean = true> {
+  id?: T;
+  sign?: T;
+  content?: T;
+  location?: T;
+  date?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
