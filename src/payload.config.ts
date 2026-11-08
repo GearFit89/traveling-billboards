@@ -93,6 +93,10 @@ export default buildConfig({
     defaultFromName: 'Tailgates4Jesus',
     apiKey: process.env.RESEND_API_KEY!, 
   }),
+  hooks: {
+    
+
+  },
   plugins: [
     r2Storage({
       bucket: cloudflare.env.R2_IMAGES as any,
