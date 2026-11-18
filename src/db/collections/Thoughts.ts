@@ -1,15 +1,12 @@
+import { Thought } from '@/payload-types';
 import  { CollectionConfig } from 'payload'
 
-export const Thoughts: CollectionConfig = {
+export const Thoughts: CollectionConfig= {
   slug: 'thoughts',
   fields: [
+    
     {
-      name: 'id',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
+      label: "Sign to attach to",
       name: 'sign',
       type: 'relationship',
       relationTo: 'signs',

@@ -7,3 +7,4 @@ export const tables = schemas
 
 export default db;
 
+export * from './query'

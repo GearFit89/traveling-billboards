@@ -5,7 +5,7 @@ import "@/styles/globals.css";
 import styles from '@/styles/Chat.module.css';
 import { messageBoardContent } from '@/lib/content'; // Adjust path if needed
 import { X } from 'lucide-react';
-import { Icon } from '@/lib/icons';
+import { IconKey } from '@/lib/icons';
 import { postMessage } from '@/lib/server-actions';
 import { MessageType } from '@/types';
 import { setEngine } from 'crypto';

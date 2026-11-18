@@ -1,6 +1,6 @@
 import { AppError } from "@/utils/error";
 import { redirect } from "next/navigation";
-import { getIsBuildPharse } from "./utils";
+import { getIsBuildPharse } from "./utils/getIsBuildPharse";
 import Console from "@/utils/console";
 
 

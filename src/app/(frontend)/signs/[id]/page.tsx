@@ -7,7 +7,7 @@ import { Sign } from '@/components/signs/Sign';
 
 import { getSignById, getThoughtSignById } from '@/lib/actions';
 import { siteContent, thoughtsPageContent } from '@/lib/content';
-import { Icon } from '@/lib/icons';
+
 import Skeleton from "@/components/fallbacks/Skeleton";
 import { redirect } from "next/navigation";
 import { AppError } from "@/utils/error";
@@ -27,22 +27,21 @@ export function generateStaticParams (){
 export  async function LoadSign( { params }: { params: Promise<Params>}) {
     try {
     const { id } = await params;
-    const { data: sign, error } = await getSignById(id);
-    const { data: thoughts } = await getThoughtSignById(id);
-
-    if (!sign || error) {
-      errorHandler(error || "Sign not found", 404);
-    }
-
-    if (!sign) {
+    const sign = await getSignById(id);
+    if (!sign.success) {
+      errorHandler(sign.error || "Sign not found", 404);
       return <ErrorPageSigns message="Sign not found." />;
+    }
+    const thoughts = await getThoughtSignById(id);
+    if (!thoughts.success) {
+      return <ErrorPageSigns message="Failed to get sign." />;
     }
 
     return (
         <div>
-        <Sign sign={sign} />
+        <Sign sign={sign.data} />
           <div className={styles.thoughtsList}>
-           <Thoughts thoughts={thoughts ?? []} />
+           <Thoughts thoughts={thoughts.data} />
           </div>
         </div>
     )
@@ -63,7 +62,7 @@ export  default  function SignPage({ params }: { params: Promise<Params>}) {
       </div>
     )
        }catch(e:any){
-        return <ErrorPageSigns message={e.mesaage}/>
+        return <ErrorPageSigns message={e.message}/>
 
        }
 }

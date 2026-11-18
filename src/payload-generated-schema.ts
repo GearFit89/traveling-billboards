@@ -135,9 +135,9 @@ export const links = sqliteTable(
     imgKey: text("img_key"),
     imgAlt: text("img_alt"),
     description: text("description"),
-    section: text("section").notNull(),
-    hits: numeric("hits", { mode: "number" }),
-    metadata: text("metadata", { mode: "json" }),
+    section: text("section_id").references(() => sections.id, {
+      onDelete: "set null",
+    }),
     updatedAt: text("updated_at")
       .notNull()
       .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
@@ -146,6 +146,7 @@ export const links = sqliteTable(
       .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
   },
   (columns) => [
+    index("links_section_idx").on(columns.section),
     index("links_updated_at_idx").on(columns.updatedAt),
     index("links_created_at_idx").on(columns.createdAt),
   ],
@@ -154,14 +155,13 @@ export const links = sqliteTable(
 export const signs = sqliteTable(
   "signs",
   {
-    id: text("id").primaryKey(),
+    id: integer("id").primaryKey(),
     title: text("title").notNull(),
-    imgKey: text("img_key"),
-    imgAlt: text("img_alt"),
     description: text("description"),
-    webHits: numeric("web_hits", { mode: "number" }).default(0),
-    qrHits: numeric("qr_hits", { mode: "number" }).default(0),
-    metadata: text("metadata", { mode: "json" }),
+    image: integer("image_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    imgAlt: text("img_alt").notNull(),
     updatedAt: text("updated_at")
       .notNull()
       .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
@@ -170,6 +170,7 @@ export const signs = sqliteTable(
       .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
   },
   (columns) => [
+    index("signs_image_idx").on(columns.image),
     index("signs_updated_at_idx").on(columns.updatedAt),
     index("signs_created_at_idx").on(columns.createdAt),
   ],
@@ -178,8 +179,8 @@ export const signs = sqliteTable(
 export const thoughts = sqliteTable(
   "thoughts",
   {
-    id: text("id").primaryKey(),
-    sign: text("sign_id")
+    id: integer("id").primaryKey(),
+    sign: integer("sign_id")
       .notNull()
       .references(() => signs.id, {
         onDelete: "set null",
@@ -201,6 +202,667 @@ export const thoughts = sqliteTable(
   ],
 );
 
+export const pages_blocks_test_image = sqliteTable(
+  "pages_blocks_test_image",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    image: integer("image_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    caption: text("caption"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("pages_blocks_test_image_order_idx").on(columns._order),
+    index("pages_blocks_test_image_parent_id_idx").on(columns._parentID),
+    index("pages_blocks_test_image_path_idx").on(columns._path),
+    index("pages_blocks_test_image_image_idx").on(columns.image),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [pages.id],
+      name: "pages_blocks_test_image_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const pages_blocks_test_call_to_action = sqliteTable(
+  "pages_blocks_test_call_to_action",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    heading: text("heading"),
+    buttonLabel: text("button_label"),
+    href: text("href"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("pages_blocks_test_call_to_action_order_idx").on(columns._order),
+    index("pages_blocks_test_call_to_action_parent_id_idx").on(
+      columns._parentID,
+    ),
+    index("pages_blocks_test_call_to_action_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [pages.id],
+      name: "pages_blocks_test_call_to_action_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const pages_blocks_element_navgrid_items = sqliteTable(
+  "pages_blocks_element_navgrid_items",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: text("_parent_id").notNull(),
+    id: text("id").primaryKey(),
+    heading: text("heading"),
+    description: text("description"),
+    link_type: text("link_type", { enum: ["reference", "custom"] }).default(
+      "reference",
+    ),
+    link_newTab: integer("link_new_tab", { mode: "boolean" }),
+    link_url: text("link_url"),
+    link_isHighlighted: integer("link_is_highlighted", {
+      mode: "boolean",
+    }).default(false),
+    link_label: text("link_label"),
+    link_appearance: text("link_appearance", {
+      enum: ["default", "outline"],
+    }).default("default"),
+    icon: text("icon", {
+      enum: [
+        "map",
+        "sparkle",
+        "backpack",
+        "users",
+        "thought",
+        "link",
+        "location",
+        "calendar",
+        "qrCode",
+        "arrowRight",
+        "arrowLeft",
+        "externalLink",
+        "menu",
+        "close",
+        "road",
+        "compass",
+      ],
+    }),
+  },
+  (columns) => [
+    index("pages_blocks_element_navgrid_items_order_idx").on(columns._order),
+    index("pages_blocks_element_navgrid_items_parent_id_idx").on(
+      columns._parentID,
+    ),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [pages_blocks_element_navgrid.id],
+      name: "pages_blocks_element_navgrid_items_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const pages_blocks_element_navgrid = sqliteTable(
+  "pages_blocks_element_navgrid",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("pages_blocks_element_navgrid_order_idx").on(columns._order),
+    index("pages_blocks_element_navgrid_parent_id_idx").on(columns._parentID),
+    index("pages_blocks_element_navgrid_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [pages.id],
+      name: "pages_blocks_element_navgrid_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const pages_blocks_element_section = sqliteTable(
+  "pages_blocks_element_section",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    heading: text("heading"),
+    subtitle: text("subtitle"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("pages_blocks_element_section_order_idx").on(columns._order),
+    index("pages_blocks_element_section_parent_id_idx").on(columns._parentID),
+    index("pages_blocks_element_section_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [pages.id],
+      name: "pages_blocks_element_section_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const pages = sqliteTable(
+  "pages",
+  {
+    id: integer("id").primaryKey(),
+    title: text("title"),
+    eyebrow: text("eyebrow").default("You saw our sign. Now hear our message."),
+    heading: text("heading").default("It’s all about"),
+    headingHighlight: text("heading_highlight").default("Jesus."),
+    secondaryHeading: text("secondary_heading").default(
+      "Truth welcomes questions.",
+    ),
+    subheading: text("subheading").default(
+      "Explore, question, fact-check, and decide for yourself.",
+    ),
+    ctaButton_text: text("cta_button_text").default("Explore the message"),
+    ctaButton_linkTo: text("cta_button_link_to").default("/#explore"),
+    ctaButton_isHighlighted: integer("cta_button_is_highlighted", {
+      mode: "boolean",
+    }).default(true),
+    secondaryCtaButton_text: text("secondary_cta_button_text").default(
+      "View our signs",
+    ),
+    secondaryCtaButton_linkTo: text("secondary_cta_button_link_to").default(
+      "/our-signs",
+    ),
+    secondaryCtaButton_isHighlighted: integer(
+      "secondary_cta_button_is_highlighted",
+      { mode: "boolean" },
+    ).default(false),
+    backgroundImage: integer("background_image_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    meta_title: text("meta_title"),
+    meta_image: integer("meta_image_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    meta_description: text("meta_description"),
+    publishedAt: text("published_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    generateSlug: integer("generate_slug", { mode: "boolean" }).default(true),
+    slug: text("slug"),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    _status: text("_status", { enum: ["draft", "published"] }).default("draft"),
+  },
+  (columns) => [
+    index("pages_background_image_idx").on(columns.backgroundImage),
+    index("pages_meta_meta_image_idx").on(columns.meta_image),
+    uniqueIndex("pages_slug_idx").on(columns.slug),
+    index("pages_updated_at_idx").on(columns.updatedAt),
+    index("pages_created_at_idx").on(columns.createdAt),
+    index("pages__status_idx").on(columns._status),
+  ],
+);
+
+export const pages_rels = sqliteTable(
+  "pages_rels",
+  {
+    id: integer("id").primaryKey(),
+    order: integer("order"),
+    parent: integer("parent_id").notNull(),
+    path: text("path").notNull(),
+    pagesID: integer("pages_id"),
+  },
+  (columns) => [
+    index("pages_rels_order_idx").on(columns.order),
+    index("pages_rels_parent_idx").on(columns.parent),
+    index("pages_rels_path_idx").on(columns.path),
+    index("pages_rels_pages_id_idx").on(columns.pagesID),
+    foreignKey({
+      columns: [columns["parent"]],
+      foreignColumns: [pages.id],
+      name: "pages_rels_parent_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["pagesID"]],
+      foreignColumns: [pages.id],
+      name: "pages_rels_pages_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v_blocks_test_image = sqliteTable(
+  "_pages_v_blocks_test_image",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: integer("id").primaryKey(),
+    image: integer("image_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    caption: text("caption"),
+    _uuid: text("_uuid"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("_pages_v_blocks_test_image_order_idx").on(columns._order),
+    index("_pages_v_blocks_test_image_parent_id_idx").on(columns._parentID),
+    index("_pages_v_blocks_test_image_path_idx").on(columns._path),
+    index("_pages_v_blocks_test_image_image_idx").on(columns.image),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [_pages_v.id],
+      name: "_pages_v_blocks_test_image_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v_blocks_test_call_to_action = sqliteTable(
+  "_pages_v_blocks_test_call_to_action",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: integer("id").primaryKey(),
+    heading: text("heading"),
+    buttonLabel: text("button_label"),
+    href: text("href"),
+    _uuid: text("_uuid"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("_pages_v_blocks_test_call_to_action_order_idx").on(columns._order),
+    index("_pages_v_blocks_test_call_to_action_parent_id_idx").on(
+      columns._parentID,
+    ),
+    index("_pages_v_blocks_test_call_to_action_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [_pages_v.id],
+      name: "_pages_v_blocks_test_call_to_action_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v_blocks_element_navgrid_items = sqliteTable(
+  "_pages_v_blocks_element_navgrid_items",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    id: integer("id").primaryKey(),
+    heading: text("heading"),
+    description: text("description"),
+    link_type: text("link_type", { enum: ["reference", "custom"] }).default(
+      "reference",
+    ),
+    link_newTab: integer("link_new_tab", { mode: "boolean" }),
+    link_url: text("link_url"),
+    link_isHighlighted: integer("link_is_highlighted", {
+      mode: "boolean",
+    }).default(false),
+    link_label: text("link_label"),
+    link_appearance: text("link_appearance", {
+      enum: ["default", "outline"],
+    }).default("default"),
+    icon: text("icon", {
+      enum: [
+        "map",
+        "sparkle",
+        "backpack",
+        "users",
+        "thought",
+        "link",
+        "location",
+        "calendar",
+        "qrCode",
+        "arrowRight",
+        "arrowLeft",
+        "externalLink",
+        "menu",
+        "close",
+        "road",
+        "compass",
+      ],
+    }),
+    _uuid: text("_uuid"),
+  },
+  (columns) => [
+    index("_pages_v_blocks_element_navgrid_items_order_idx").on(columns._order),
+    index("_pages_v_blocks_element_navgrid_items_parent_id_idx").on(
+      columns._parentID,
+    ),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [_pages_v_blocks_element_navgrid.id],
+      name: "_pages_v_blocks_element_navgrid_items_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v_blocks_element_navgrid = sqliteTable(
+  "_pages_v_blocks_element_navgrid",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: integer("id").primaryKey(),
+    _uuid: text("_uuid"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("_pages_v_blocks_element_navgrid_order_idx").on(columns._order),
+    index("_pages_v_blocks_element_navgrid_parent_id_idx").on(
+      columns._parentID,
+    ),
+    index("_pages_v_blocks_element_navgrid_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [_pages_v.id],
+      name: "_pages_v_blocks_element_navgrid_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v_blocks_element_section = sqliteTable(
+  "_pages_v_blocks_element_section",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: integer("id").primaryKey(),
+    heading: text("heading"),
+    subtitle: text("subtitle"),
+    _uuid: text("_uuid"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("_pages_v_blocks_element_section_order_idx").on(columns._order),
+    index("_pages_v_blocks_element_section_parent_id_idx").on(
+      columns._parentID,
+    ),
+    index("_pages_v_blocks_element_section_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [_pages_v.id],
+      name: "_pages_v_blocks_element_section_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const _pages_v = sqliteTable(
+  "_pages_v",
+  {
+    id: integer("id").primaryKey(),
+    parent: integer("parent_id").references(() => pages.id, {
+      onDelete: "set null",
+    }),
+    version_title: text("version_title"),
+    version_eyebrow: text("version_eyebrow").default(
+      "You saw our sign. Now hear our message.",
+    ),
+    version_heading: text("version_heading").default("It’s all about"),
+    version_headingHighlight: text("version_heading_highlight").default(
+      "Jesus.",
+    ),
+    version_secondaryHeading: text("version_secondary_heading").default(
+      "Truth welcomes questions.",
+    ),
+    version_subheading: text("version_subheading").default(
+      "Explore, question, fact-check, and decide for yourself.",
+    ),
+    version_ctaButton_text: text("version_cta_button_text").default(
+      "Explore the message",
+    ),
+    version_ctaButton_linkTo: text("version_cta_button_link_to").default(
+      "/#explore",
+    ),
+    version_ctaButton_isHighlighted: integer(
+      "version_cta_button_is_highlighted",
+      { mode: "boolean" },
+    ).default(true),
+    version_secondaryCtaButton_text: text(
+      "version_secondary_cta_button_text",
+    ).default("View our signs"),
+    version_secondaryCtaButton_linkTo: text(
+      "version_secondary_cta_button_link_to",
+    ).default("/our-signs"),
+    version_secondaryCtaButton_isHighlighted: integer(
+      "version_secondary_cta_button_is_highlighted",
+      { mode: "boolean" },
+    ).default(false),
+    version_backgroundImage: integer("version_background_image_id").references(
+      () => media.id,
+      {
+        onDelete: "set null",
+      },
+    ),
+    version_meta_title: text("version_meta_title"),
+    version_meta_image: integer("version_meta_image_id").references(
+      () => media.id,
+      {
+        onDelete: "set null",
+      },
+    ),
+    version_meta_description: text("version_meta_description"),
+    version_publishedAt: text("version_published_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    version_generateSlug: integer("version_generate_slug", {
+      mode: "boolean",
+    }).default(true),
+    version_slug: text("version_slug"),
+    version_updatedAt: text("version_updated_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    version_createdAt: text("version_created_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    version__status: text("version__status", {
+      enum: ["draft", "published"],
+    }).default("draft"),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    latest: integer("latest", { mode: "boolean" }),
+    autosave: integer("autosave", { mode: "boolean" }),
+  },
+  (columns) => [
+    index("_pages_v_parent_idx").on(columns.parent),
+    index("_pages_v_version_version_background_image_idx").on(
+      columns.version_backgroundImage,
+    ),
+    index("_pages_v_version_meta_version_meta_image_idx").on(
+      columns.version_meta_image,
+    ),
+    index("_pages_v_version_version_slug_idx").on(columns.version_slug),
+    index("_pages_v_version_version_updated_at_idx").on(
+      columns.version_updatedAt,
+    ),
+    index("_pages_v_version_version_created_at_idx").on(
+      columns.version_createdAt,
+    ),
+    index("_pages_v_version_version__status_idx").on(columns.version__status),
+    index("_pages_v_created_at_idx").on(columns.createdAt),
+    index("_pages_v_updated_at_idx").on(columns.updatedAt),
+    index("_pages_v_latest_idx").on(columns.latest),
+    index("_pages_v_autosave_idx").on(columns.autosave),
+  ],
+);
+
+export const _pages_v_rels = sqliteTable(
+  "_pages_v_rels",
+  {
+    id: integer("id").primaryKey(),
+    order: integer("order"),
+    parent: integer("parent_id").notNull(),
+    path: text("path").notNull(),
+    pagesID: integer("pages_id"),
+  },
+  (columns) => [
+    index("_pages_v_rels_order_idx").on(columns.order),
+    index("_pages_v_rels_parent_idx").on(columns.parent),
+    index("_pages_v_rels_path_idx").on(columns.path),
+    index("_pages_v_rels_pages_id_idx").on(columns.pagesID),
+    foreignKey({
+      columns: [columns["parent"]],
+      foreignColumns: [_pages_v.id],
+      name: "_pages_v_rels_parent_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["pagesID"]],
+      foreignColumns: [pages.id],
+      name: "_pages_v_rels_pages_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const redirects = sqliteTable(
+  "redirects",
+  {
+    id: integer("id").primaryKey(),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+  },
+  (columns) => [
+    index("redirects_updated_at_idx").on(columns.updatedAt),
+    index("redirects_created_at_idx").on(columns.createdAt),
+  ],
+);
+
+export const testbut_blocks_test_text = sqliteTable(
+  "testbut_blocks_test_text",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    heading: text("heading").notNull(),
+    body: text("body").notNull(),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("testbut_blocks_test_text_order_idx").on(columns._order),
+    index("testbut_blocks_test_text_parent_id_idx").on(columns._parentID),
+    index("testbut_blocks_test_text_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [testbut.id],
+      name: "testbut_blocks_test_text_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const testbut_blocks_test_image = sqliteTable(
+  "testbut_blocks_test_image",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    image: integer("image_id")
+      .notNull()
+      .references(() => media.id, {
+        onDelete: "set null",
+      }),
+    caption: text("caption"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("testbut_blocks_test_image_order_idx").on(columns._order),
+    index("testbut_blocks_test_image_parent_id_idx").on(columns._parentID),
+    index("testbut_blocks_test_image_path_idx").on(columns._path),
+    index("testbut_blocks_test_image_image_idx").on(columns.image),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [testbut.id],
+      name: "testbut_blocks_test_image_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const testbut_blocks_test_quote = sqliteTable(
+  "testbut_blocks_test_quote",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    quote: text("quote").notNull(),
+    attribution: text("attribution"),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("testbut_blocks_test_quote_order_idx").on(columns._order),
+    index("testbut_blocks_test_quote_parent_id_idx").on(columns._parentID),
+    index("testbut_blocks_test_quote_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [testbut.id],
+      name: "testbut_blocks_test_quote_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const testbut_blocks_test_call_to_action = sqliteTable(
+  "testbut_blocks_test_call_to_action",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    _path: text("_path").notNull(),
+    id: text("id").primaryKey(),
+    heading: text("heading").notNull(),
+    buttonLabel: text("button_label").notNull(),
+    href: text("href").notNull(),
+    blockName: text("block_name"),
+  },
+  (columns) => [
+    index("testbut_blocks_test_call_to_action_order_idx").on(columns._order),
+    index("testbut_blocks_test_call_to_action_parent_id_idx").on(
+      columns._parentID,
+    ),
+    index("testbut_blocks_test_call_to_action_path_idx").on(columns._path),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [testbut.id],
+      name: "testbut_blocks_test_call_to_action_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const testbut = sqliteTable(
+  "testbut",
+  {
+    id: integer("id").primaryKey(),
+    title: text("title").notNull(),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+  },
+  (columns) => [
+    index("testbut_updated_at_idx").on(columns.updatedAt),
+    index("testbut_created_at_idx").on(columns.createdAt),
+  ],
+);
+
 export const payload_kv = sqliteTable(
   "payload_kv",
   {
@@ -209,6 +871,75 @@ export const payload_kv = sqliteTable(
     data: text("data", { mode: "json" }).notNull(),
   },
   (columns) => [uniqueIndex("payload_kv_key_idx").on(columns.key)],
+);
+
+export const payload_jobs_log = sqliteTable(
+  "payload_jobs_log",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    id: text("id").primaryKey(),
+    executedAt: text("executed_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    completedAt: text("completed_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    taskSlug: text("task_slug", {
+      enum: ["inline", "schedulePublish"],
+    }).notNull(),
+    taskID: text("task_i_d").notNull(),
+    input: text("input", { mode: "json" }),
+    output: text("output", { mode: "json" }),
+    state: text("state", { enum: ["failed", "succeeded"] }).notNull(),
+    error: text("error", { mode: "json" }),
+  },
+  (columns) => [
+    index("payload_jobs_log_order_idx").on(columns._order),
+    index("payload_jobs_log_parent_id_idx").on(columns._parentID),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [payload_jobs.id],
+      name: "payload_jobs_log_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const payload_jobs = sqliteTable(
+  "payload_jobs",
+  {
+    id: integer("id").primaryKey(),
+    input: text("input", { mode: "json" }),
+    completedAt: text("completed_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    totalTried: numeric("total_tried", { mode: "number" }).default(0),
+    hasError: integer("has_error", { mode: "boolean" }).default(false),
+    error: text("error", { mode: "json" }),
+    taskSlug: text("task_slug", { enum: ["inline", "schedulePublish"] }),
+    queue: text("queue").default("default"),
+    waitUntil: text("wait_until").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    processing: integer("processing", { mode: "boolean" }).default(false),
+    updatedAt: text("updated_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+    createdAt: text("created_at")
+      .notNull()
+      .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
+  },
+  (columns) => [
+    index("payload_jobs_completed_at_idx").on(columns.completedAt),
+    index("payload_jobs_total_tried_idx").on(columns.totalTried),
+    index("payload_jobs_has_error_idx").on(columns.hasError),
+    index("payload_jobs_task_slug_idx").on(columns.taskSlug),
+    index("payload_jobs_queue_idx").on(columns.queue),
+    index("payload_jobs_wait_until_idx").on(columns.waitUntil),
+    index("payload_jobs_processing_idx").on(columns.processing),
+    index("payload_jobs_updated_at_idx").on(columns.updatedAt),
+    index("payload_jobs_created_at_idx").on(columns.createdAt),
+  ],
 );
 
 export const payload_locked_documents = sqliteTable(
@@ -241,8 +972,11 @@ export const payload_locked_documents_rels = sqliteTable(
     mediaID: integer("media_id"),
     sectionsID: text("sections_id"),
     linksID: text("links_id"),
-    signsID: text("signs_id"),
-    thoughtsID: text("thoughts_id"),
+    signsID: integer("signs_id"),
+    thoughtsID: integer("thoughts_id"),
+    pagesID: integer("pages_id"),
+    redirectsID: integer("redirects_id"),
+    testbutID: integer("testbut_id"),
   },
   (columns) => [
     index("payload_locked_documents_rels_order_idx").on(columns.order),
@@ -258,6 +992,11 @@ export const payload_locked_documents_rels = sqliteTable(
     index("payload_locked_documents_rels_thoughts_id_idx").on(
       columns.thoughtsID,
     ),
+    index("payload_locked_documents_rels_pages_id_idx").on(columns.pagesID),
+    index("payload_locked_documents_rels_redirects_id_idx").on(
+      columns.redirectsID,
+    ),
+    index("payload_locked_documents_rels_testbut_id_idx").on(columns.testbutID),
     foreignKey({
       columns: [columns["parent"]],
       foreignColumns: [payload_locked_documents.id],
@@ -292,6 +1031,21 @@ export const payload_locked_documents_rels = sqliteTable(
       columns: [columns["thoughtsID"]],
       foreignColumns: [thoughts.id],
       name: "payload_locked_documents_rels_thoughts_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["pagesID"]],
+      foreignColumns: [pages.id],
+      name: "payload_locked_documents_rels_pages_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["redirectsID"]],
+      foreignColumns: [redirects.id],
+      name: "payload_locked_documents_rels_redirects_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["testbutID"]],
+      foreignColumns: [testbut.id],
+      name: "payload_locked_documents_rels_testbut_fk",
     }).onDelete("cascade"),
   ],
 );
@@ -362,6 +1116,73 @@ export const payload_migrations = sqliteTable(
   ],
 );
 
+export const nav_links = sqliteTable(
+  "nav_links",
+  {
+    _order: integer("_order").notNull(),
+    _parentID: integer("_parent_id").notNull(),
+    id: text("id").primaryKey(),
+    link_type: text("link_type", { enum: ["reference", "custom"] }).default(
+      "reference",
+    ),
+    link_newTab: integer("link_new_tab", { mode: "boolean" }),
+    link_url: text("link_url"),
+    link_isHighlighted: integer("link_is_highlighted", {
+      mode: "boolean",
+    }).default(false),
+    link_label: text("link_label").notNull(),
+    link_appearance: text("link_appearance", {
+      enum: ["default", "outline"],
+    }).default("default"),
+  },
+  (columns) => [
+    index("nav_links_order_idx").on(columns._order),
+    index("nav_links_parent_id_idx").on(columns._parentID),
+    foreignKey({
+      columns: [columns["_parentID"]],
+      foreignColumns: [nav.id],
+      name: "nav_links_parent_id_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
+export const nav = sqliteTable("nav", {
+  id: integer("id").primaryKey(),
+  updatedAt: text("updated_at").default(
+    sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+  ),
+  createdAt: text("created_at").default(
+    sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+  ),
+});
+
+export const nav_rels = sqliteTable(
+  "nav_rels",
+  {
+    id: integer("id").primaryKey(),
+    order: integer("order"),
+    parent: integer("parent_id").notNull(),
+    path: text("path").notNull(),
+    pagesID: integer("pages_id"),
+  },
+  (columns) => [
+    index("nav_rels_order_idx").on(columns.order),
+    index("nav_rels_parent_idx").on(columns.parent),
+    index("nav_rels_path_idx").on(columns.path),
+    index("nav_rels_pages_id_idx").on(columns.pagesID),
+    foreignKey({
+      columns: [columns["parent"]],
+      foreignColumns: [nav.id],
+      name: "nav_rels_parent_fk",
+    }).onDelete("cascade"),
+    foreignKey({
+      columns: [columns["pagesID"]],
+      foreignColumns: [pages.id],
+      name: "nav_rels_pages_fk",
+    }).onDelete("cascade"),
+  ],
+);
+
 export const relations_users_sessions = relations(
   users_sessions,
   ({ one }) => ({
@@ -379,8 +1200,20 @@ export const relations_users = relations(users, ({ many }) => ({
 }));
 export const relations_media = relations(media, () => ({}));
 export const relations_sections = relations(sections, () => ({}));
-export const relations_links = relations(links, () => ({}));
-export const relations_signs = relations(signs, () => ({}));
+export const relations_links = relations(links, ({ one }) => ({
+  section: one(sections, {
+    fields: [links.section],
+    references: [sections.id],
+    relationName: "section",
+  }),
+}));
+export const relations_signs = relations(signs, ({ one }) => ({
+  image: one(media, {
+    fields: [signs.image],
+    references: [media.id],
+    relationName: "image",
+  }),
+}));
 export const relations_thoughts = relations(thoughts, ({ one }) => ({
   sign: one(signs, {
     fields: [thoughts.sign],
@@ -388,7 +1221,281 @@ export const relations_thoughts = relations(thoughts, ({ one }) => ({
     relationName: "sign",
   }),
 }));
+export const relations_pages_blocks_test_image = relations(
+  pages_blocks_test_image,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_test_image._parentID],
+      references: [pages.id],
+      relationName: "_blocks_testImage",
+    }),
+    image: one(media, {
+      fields: [pages_blocks_test_image.image],
+      references: [media.id],
+      relationName: "image",
+    }),
+  }),
+);
+export const relations_pages_blocks_test_call_to_action = relations(
+  pages_blocks_test_call_to_action,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_test_call_to_action._parentID],
+      references: [pages.id],
+      relationName: "_blocks_testCallToAction",
+    }),
+  }),
+);
+export const relations_pages_blocks_element_navgrid_items = relations(
+  pages_blocks_element_navgrid_items,
+  ({ one }) => ({
+    _parentID: one(pages_blocks_element_navgrid, {
+      fields: [pages_blocks_element_navgrid_items._parentID],
+      references: [pages_blocks_element_navgrid.id],
+      relationName: "items",
+    }),
+  }),
+);
+export const relations_pages_blocks_element_navgrid = relations(
+  pages_blocks_element_navgrid,
+  ({ one, many }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_element_navgrid._parentID],
+      references: [pages.id],
+      relationName: "_blocks_Element.navGrid",
+    }),
+    items: many(pages_blocks_element_navgrid_items, {
+      relationName: "items",
+    }),
+  }),
+);
+export const relations_pages_blocks_element_section = relations(
+  pages_blocks_element_section,
+  ({ one }) => ({
+    _parentID: one(pages, {
+      fields: [pages_blocks_element_section._parentID],
+      references: [pages.id],
+      relationName: "_blocks_Element.section",
+    }),
+  }),
+);
+export const relations_pages_rels = relations(pages_rels, ({ one }) => ({
+  parent: one(pages, {
+    fields: [pages_rels.parent],
+    references: [pages.id],
+    relationName: "_rels",
+  }),
+  pagesID: one(pages, {
+    fields: [pages_rels.pagesID],
+    references: [pages.id],
+    relationName: "pages",
+  }),
+}));
+export const relations_pages = relations(pages, ({ one, many }) => ({
+  backgroundImage: one(media, {
+    fields: [pages.backgroundImage],
+    references: [media.id],
+    relationName: "backgroundImage",
+  }),
+  _blocks_testImage: many(pages_blocks_test_image, {
+    relationName: "_blocks_testImage",
+  }),
+  _blocks_testCallToAction: many(pages_blocks_test_call_to_action, {
+    relationName: "_blocks_testCallToAction",
+  }),
+  "_blocks_Element.navGrid": many(pages_blocks_element_navgrid, {
+    relationName: "_blocks_Element.navGrid",
+  }),
+  "_blocks_Element.section": many(pages_blocks_element_section, {
+    relationName: "_blocks_Element.section",
+  }),
+  meta_image: one(media, {
+    fields: [pages.meta_image],
+    references: [media.id],
+    relationName: "meta_image",
+  }),
+  _rels: many(pages_rels, {
+    relationName: "_rels",
+  }),
+}));
+export const relations__pages_v_blocks_test_image = relations(
+  _pages_v_blocks_test_image,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_test_image._parentID],
+      references: [_pages_v.id],
+      relationName: "_blocks_testImage",
+    }),
+    image: one(media, {
+      fields: [_pages_v_blocks_test_image.image],
+      references: [media.id],
+      relationName: "image",
+    }),
+  }),
+);
+export const relations__pages_v_blocks_test_call_to_action = relations(
+  _pages_v_blocks_test_call_to_action,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_test_call_to_action._parentID],
+      references: [_pages_v.id],
+      relationName: "_blocks_testCallToAction",
+    }),
+  }),
+);
+export const relations__pages_v_blocks_element_navgrid_items = relations(
+  _pages_v_blocks_element_navgrid_items,
+  ({ one }) => ({
+    _parentID: one(_pages_v_blocks_element_navgrid, {
+      fields: [_pages_v_blocks_element_navgrid_items._parentID],
+      references: [_pages_v_blocks_element_navgrid.id],
+      relationName: "items",
+    }),
+  }),
+);
+export const relations__pages_v_blocks_element_navgrid = relations(
+  _pages_v_blocks_element_navgrid,
+  ({ one, many }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_element_navgrid._parentID],
+      references: [_pages_v.id],
+      relationName: "_blocks_Element.navGrid",
+    }),
+    items: many(_pages_v_blocks_element_navgrid_items, {
+      relationName: "items",
+    }),
+  }),
+);
+export const relations__pages_v_blocks_element_section = relations(
+  _pages_v_blocks_element_section,
+  ({ one }) => ({
+    _parentID: one(_pages_v, {
+      fields: [_pages_v_blocks_element_section._parentID],
+      references: [_pages_v.id],
+      relationName: "_blocks_Element.section",
+    }),
+  }),
+);
+export const relations__pages_v_rels = relations(_pages_v_rels, ({ one }) => ({
+  parent: one(_pages_v, {
+    fields: [_pages_v_rels.parent],
+    references: [_pages_v.id],
+    relationName: "_rels",
+  }),
+  pagesID: one(pages, {
+    fields: [_pages_v_rels.pagesID],
+    references: [pages.id],
+    relationName: "pages",
+  }),
+}));
+export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
+  parent: one(pages, {
+    fields: [_pages_v.parent],
+    references: [pages.id],
+    relationName: "parent",
+  }),
+  version_backgroundImage: one(media, {
+    fields: [_pages_v.version_backgroundImage],
+    references: [media.id],
+    relationName: "version_backgroundImage",
+  }),
+  _blocks_testImage: many(_pages_v_blocks_test_image, {
+    relationName: "_blocks_testImage",
+  }),
+  _blocks_testCallToAction: many(_pages_v_blocks_test_call_to_action, {
+    relationName: "_blocks_testCallToAction",
+  }),
+  "_blocks_Element.navGrid": many(_pages_v_blocks_element_navgrid, {
+    relationName: "_blocks_Element.navGrid",
+  }),
+  "_blocks_Element.section": many(_pages_v_blocks_element_section, {
+    relationName: "_blocks_Element.section",
+  }),
+  version_meta_image: one(media, {
+    fields: [_pages_v.version_meta_image],
+    references: [media.id],
+    relationName: "version_meta_image",
+  }),
+  _rels: many(_pages_v_rels, {
+    relationName: "_rels",
+  }),
+}));
+export const relations_redirects = relations(redirects, () => ({}));
+export const relations_testbut_blocks_test_text = relations(
+  testbut_blocks_test_text,
+  ({ one }) => ({
+    _parentID: one(testbut, {
+      fields: [testbut_blocks_test_text._parentID],
+      references: [testbut.id],
+      relationName: "_blocks_testText",
+    }),
+  }),
+);
+export const relations_testbut_blocks_test_image = relations(
+  testbut_blocks_test_image,
+  ({ one }) => ({
+    _parentID: one(testbut, {
+      fields: [testbut_blocks_test_image._parentID],
+      references: [testbut.id],
+      relationName: "_blocks_testImage",
+    }),
+    image: one(media, {
+      fields: [testbut_blocks_test_image.image],
+      references: [media.id],
+      relationName: "image",
+    }),
+  }),
+);
+export const relations_testbut_blocks_test_quote = relations(
+  testbut_blocks_test_quote,
+  ({ one }) => ({
+    _parentID: one(testbut, {
+      fields: [testbut_blocks_test_quote._parentID],
+      references: [testbut.id],
+      relationName: "_blocks_testQuote",
+    }),
+  }),
+);
+export const relations_testbut_blocks_test_call_to_action = relations(
+  testbut_blocks_test_call_to_action,
+  ({ one }) => ({
+    _parentID: one(testbut, {
+      fields: [testbut_blocks_test_call_to_action._parentID],
+      references: [testbut.id],
+      relationName: "_blocks_testCallToAction",
+    }),
+  }),
+);
+export const relations_testbut = relations(testbut, ({ many }) => ({
+  _blocks_testText: many(testbut_blocks_test_text, {
+    relationName: "_blocks_testText",
+  }),
+  _blocks_testImage: many(testbut_blocks_test_image, {
+    relationName: "_blocks_testImage",
+  }),
+  _blocks_testQuote: many(testbut_blocks_test_quote, {
+    relationName: "_blocks_testQuote",
+  }),
+  _blocks_testCallToAction: many(testbut_blocks_test_call_to_action, {
+    relationName: "_blocks_testCallToAction",
+  }),
+}));
 export const relations_payload_kv = relations(payload_kv, () => ({}));
+export const relations_payload_jobs_log = relations(
+  payload_jobs_log,
+  ({ one }) => ({
+    _parentID: one(payload_jobs, {
+      fields: [payload_jobs_log._parentID],
+      references: [payload_jobs.id],
+      relationName: "log",
+    }),
+  }),
+);
+export const relations_payload_jobs = relations(payload_jobs, ({ many }) => ({
+  log: many(payload_jobs_log, {
+    relationName: "log",
+  }),
+}));
 export const relations_payload_locked_documents_rels = relations(
   payload_locked_documents_rels,
   ({ one }) => ({
@@ -427,6 +1534,21 @@ export const relations_payload_locked_documents_rels = relations(
       references: [thoughts.id],
       relationName: "thoughts",
     }),
+    pagesID: one(pages, {
+      fields: [payload_locked_documents_rels.pagesID],
+      references: [pages.id],
+      relationName: "pages",
+    }),
+    redirectsID: one(redirects, {
+      fields: [payload_locked_documents_rels.redirectsID],
+      references: [redirects.id],
+      relationName: "redirects",
+    }),
+    testbutID: one(testbut, {
+      fields: [payload_locked_documents_rels.testbutID],
+      references: [testbut.id],
+      relationName: "testbut",
+    }),
   }),
 );
 export const relations_payload_locked_documents = relations(
@@ -464,6 +1586,33 @@ export const relations_payload_migrations = relations(
   payload_migrations,
   () => ({}),
 );
+export const relations_nav_links = relations(nav_links, ({ one }) => ({
+  _parentID: one(nav, {
+    fields: [nav_links._parentID],
+    references: [nav.id],
+    relationName: "links",
+  }),
+}));
+export const relations_nav_rels = relations(nav_rels, ({ one }) => ({
+  parent: one(nav, {
+    fields: [nav_rels.parent],
+    references: [nav.id],
+    relationName: "_rels",
+  }),
+  pagesID: one(pages, {
+    fields: [nav_rels.pagesID],
+    references: [pages.id],
+    relationName: "pages",
+  }),
+}));
+export const relations_nav = relations(nav, ({ many }) => ({
+  links: many(nav_links, {
+    relationName: "links",
+  }),
+  _rels: many(nav_rels, {
+    relationName: "_rels",
+  }),
+}));
 
 type DatabaseSchema = {
   users_sessions: typeof users_sessions;
@@ -473,12 +1622,37 @@ type DatabaseSchema = {
   links: typeof links;
   signs: typeof signs;
   thoughts: typeof thoughts;
+  pages_blocks_test_image: typeof pages_blocks_test_image;
+  pages_blocks_test_call_to_action: typeof pages_blocks_test_call_to_action;
+  pages_blocks_element_navgrid_items: typeof pages_blocks_element_navgrid_items;
+  pages_blocks_element_navgrid: typeof pages_blocks_element_navgrid;
+  pages_blocks_element_section: typeof pages_blocks_element_section;
+  pages: typeof pages;
+  pages_rels: typeof pages_rels;
+  _pages_v_blocks_test_image: typeof _pages_v_blocks_test_image;
+  _pages_v_blocks_test_call_to_action: typeof _pages_v_blocks_test_call_to_action;
+  _pages_v_blocks_element_navgrid_items: typeof _pages_v_blocks_element_navgrid_items;
+  _pages_v_blocks_element_navgrid: typeof _pages_v_blocks_element_navgrid;
+  _pages_v_blocks_element_section: typeof _pages_v_blocks_element_section;
+  _pages_v: typeof _pages_v;
+  _pages_v_rels: typeof _pages_v_rels;
+  redirects: typeof redirects;
+  testbut_blocks_test_text: typeof testbut_blocks_test_text;
+  testbut_blocks_test_image: typeof testbut_blocks_test_image;
+  testbut_blocks_test_quote: typeof testbut_blocks_test_quote;
+  testbut_blocks_test_call_to_action: typeof testbut_blocks_test_call_to_action;
+  testbut: typeof testbut;
   payload_kv: typeof payload_kv;
+  payload_jobs_log: typeof payload_jobs_log;
+  payload_jobs: typeof payload_jobs;
   payload_locked_documents: typeof payload_locked_documents;
   payload_locked_documents_rels: typeof payload_locked_documents_rels;
   payload_preferences: typeof payload_preferences;
   payload_preferences_rels: typeof payload_preferences_rels;
   payload_migrations: typeof payload_migrations;
+  nav_links: typeof nav_links;
+  nav: typeof nav;
+  nav_rels: typeof nav_rels;
   relations_users_sessions: typeof relations_users_sessions;
   relations_users: typeof relations_users;
   relations_media: typeof relations_media;
@@ -486,12 +1660,37 @@ type DatabaseSchema = {
   relations_links: typeof relations_links;
   relations_signs: typeof relations_signs;
   relations_thoughts: typeof relations_thoughts;
+  relations_pages_blocks_test_image: typeof relations_pages_blocks_test_image;
+  relations_pages_blocks_test_call_to_action: typeof relations_pages_blocks_test_call_to_action;
+  relations_pages_blocks_element_navgrid_items: typeof relations_pages_blocks_element_navgrid_items;
+  relations_pages_blocks_element_navgrid: typeof relations_pages_blocks_element_navgrid;
+  relations_pages_blocks_element_section: typeof relations_pages_blocks_element_section;
+  relations_pages_rels: typeof relations_pages_rels;
+  relations_pages: typeof relations_pages;
+  relations__pages_v_blocks_test_image: typeof relations__pages_v_blocks_test_image;
+  relations__pages_v_blocks_test_call_to_action: typeof relations__pages_v_blocks_test_call_to_action;
+  relations__pages_v_blocks_element_navgrid_items: typeof relations__pages_v_blocks_element_navgrid_items;
+  relations__pages_v_blocks_element_navgrid: typeof relations__pages_v_blocks_element_navgrid;
+  relations__pages_v_blocks_element_section: typeof relations__pages_v_blocks_element_section;
+  relations__pages_v_rels: typeof relations__pages_v_rels;
+  relations__pages_v: typeof relations__pages_v;
+  relations_redirects: typeof relations_redirects;
+  relations_testbut_blocks_test_text: typeof relations_testbut_blocks_test_text;
+  relations_testbut_blocks_test_image: typeof relations_testbut_blocks_test_image;
+  relations_testbut_blocks_test_quote: typeof relations_testbut_blocks_test_quote;
+  relations_testbut_blocks_test_call_to_action: typeof relations_testbut_blocks_test_call_to_action;
+  relations_testbut: typeof relations_testbut;
   relations_payload_kv: typeof relations_payload_kv;
+  relations_payload_jobs_log: typeof relations_payload_jobs_log;
+  relations_payload_jobs: typeof relations_payload_jobs;
   relations_payload_locked_documents_rels: typeof relations_payload_locked_documents_rels;
   relations_payload_locked_documents: typeof relations_payload_locked_documents;
   relations_payload_preferences_rels: typeof relations_payload_preferences_rels;
   relations_payload_preferences: typeof relations_payload_preferences;
   relations_payload_migrations: typeof relations_payload_migrations;
+  relations_nav_links: typeof relations_nav_links;
+  relations_nav_rels: typeof relations_nav_rels;
+  relations_nav: typeof relations_nav;
 };
 
 declare module "@payloadcms/db-d1-sqlite" {

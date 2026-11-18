@@ -73,7 +73,11 @@ export interface Config {
     links: Link;
     signs: Sign;
     thoughts: Thought;
+    pages: Page;
+    redirects: Redirect;
+    testbut: Testbut;
     'payload-kv': PayloadKv;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -86,7 +90,11 @@ export interface Config {
     links: LinksSelect<false> | LinksSelect<true>;
     signs: SignsSelect<false> | SignsSelect<true>;
     thoughts: ThoughtsSelect<false> | ThoughtsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    testbut: TestbutSelect<false> | TestbutSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -95,15 +103,25 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    nav: Nav;
+  };
+  globalsSelect: {
+    nav: NavSelect<false> | NavSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
   };
   user: User;
   jobs: {
-    tasks: unknown;
+    tasks: {
+      schedulePublish: TaskSchedulePublish;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
     workflows: unknown;
   };
 }
@@ -197,17 +215,7 @@ export interface Link {
   imgKey?: string | null;
   imgAlt?: string | null;
   description?: string | null;
-  section: string;
-  hits?: number | null;
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  section?: (string | null) | Section;
   updatedAt: string;
   createdAt: string;
 }
@@ -216,22 +224,14 @@ export interface Link {
  * via the `definition` "signs".
  */
 export interface Sign {
-  id: string;
+  id: number;
   title: string;
-  imgKey?: string | null;
-  imgAlt?: string | null;
   description?: string | null;
-  webHits?: number | null;
-  qrHits?: number | null;
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  image?: (number | null) | Media;
+  /**
+   * Describe the image for screen readers and SEO.
+   */
+  imgAlt: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -240,8 +240,8 @@ export interface Sign {
  * via the `definition` "thoughts".
  */
 export interface Thought {
-  id: string;
-  sign: string | Sign;
+  id: number;
+  sign: number | Sign;
   content?: {
     root: {
       type: string;
@@ -264,6 +264,169 @@ export interface Thought {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  eyebrow?: string | null;
+  heading: string;
+  /**
+   * Highlighted text shown after the heading.
+   */
+  headingHighlight?: string | null;
+  secondaryHeading?: string | null;
+  subheading?: string | null;
+  ctaButton: {
+    text: string;
+    linkTo: string;
+    isHighlighted?: boolean | null;
+  };
+  secondaryCtaButton: {
+    text: string;
+    linkTo: string;
+    isHighlighted?: boolean | null;
+  };
+  backgroundImage: number | Media;
+  layout: (
+    | TestImageBlock
+    | TestCallToActionBlock
+    | {
+        items?:
+          | {
+              heading: string;
+              description?: string | null;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+                /**
+                 * Choose how the link should be rendered.
+                 */
+                appearance?: ('default' | 'outline') | null;
+              };
+              icon:
+                | 'map'
+                | 'sparkle'
+                | 'backpack'
+                | 'users'
+                | 'thought'
+                | 'link'
+                | 'location'
+                | 'calendar'
+                | 'qrCode'
+                | 'arrowRight'
+                | 'arrowLeft'
+                | 'externalLink'
+                | 'menu'
+                | 'close'
+                | 'road'
+                | 'compass';
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Element.navGrid';
+      }
+    | {
+        heading: string;
+        subtitle?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'Element.section';
+      }
+  )[];
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestImageBlock".
+ */
+export interface TestImageBlock {
+  image: number | Media;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testImage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestCallToActionBlock".
+ */
+export interface TestCallToActionBlock {
+  heading: string;
+  buttonLabel: string;
+  href: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testCallToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testbut".
+ */
+export interface Testbut {
+  id: number;
+  title: string;
+  blocks?: (TestTextBlock | TestImageBlock | TestQuoteBlock | TestCallToActionBlock)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestTextBlock".
+ */
+export interface TestTextBlock {
+  heading: string;
+  body: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestQuoteBlock".
+ */
+export interface TestQuoteBlock {
+  quote: string;
+  attribution?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testQuote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -278,6 +441,98 @@ export interface PayloadKv {
     | number
     | boolean
     | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: number;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'schedulePublish';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  taskSlug?: ('inline' | 'schedulePublish') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -304,11 +559,23 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'signs';
-        value: string | Sign;
+        value: number | Sign;
       } | null)
     | ({
         relationTo: 'thoughts';
-        value: string | Thought;
+        value: number | Thought;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
+      } | null)
+    | ({
+        relationTo: 'testbut';
+        value: number | Testbut;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -421,8 +688,6 @@ export interface LinksSelect<T extends boolean = true> {
   imgAlt?: T;
   description?: T;
   section?: T;
-  hits?: T;
-  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -431,14 +696,10 @@ export interface LinksSelect<T extends boolean = true> {
  * via the `definition` "signs_select".
  */
 export interface SignsSelect<T extends boolean = true> {
-  id?: T;
   title?: T;
-  imgKey?: T;
-  imgAlt?: T;
   description?: T;
-  webHits?: T;
-  qrHits?: T;
-  metadata?: T;
+  image?: T;
+  imgAlt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -447,7 +708,6 @@ export interface SignsSelect<T extends boolean = true> {
  * via the `definition` "thoughts_select".
  */
 export interface ThoughtsSelect<T extends boolean = true> {
-  id?: T;
   sign?: T;
   content?: T;
   location?: T;
@@ -457,11 +717,186 @@ export interface ThoughtsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  eyebrow?: T;
+  heading?: T;
+  headingHighlight?: T;
+  secondaryHeading?: T;
+  subheading?: T;
+  ctaButton?:
+    | T
+    | {
+        text?: T;
+        linkTo?: T;
+        isHighlighted?: T;
+      };
+  secondaryCtaButton?:
+    | T
+    | {
+        text?: T;
+        linkTo?: T;
+        isHighlighted?: T;
+      };
+  backgroundImage?: T;
+  layout?:
+    | T
+    | {
+        testImage?: T | TestImageBlockSelect<T>;
+        testCallToAction?: T | TestCallToActionBlockSelect<T>;
+        'Element.navGrid'?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    heading?: T;
+                    description?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                          appearance?: T;
+                        };
+                    icon?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        'Element.section'?:
+          | T
+          | {
+              heading?: T;
+              subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestImageBlock_select".
+ */
+export interface TestImageBlockSelect<T extends boolean = true> {
+  image?: T;
+  caption?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestCallToActionBlock_select".
+ */
+export interface TestCallToActionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  buttonLabel?: T;
+  href?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects_select".
+ */
+export interface RedirectsSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testbut_select".
+ */
+export interface TestbutSelect<T extends boolean = true> {
+  title?: T;
+  blocks?:
+    | T
+    | {
+        testText?: T | TestTextBlockSelect<T>;
+        testImage?: T | TestImageBlockSelect<T>;
+        testQuote?: T | TestQuoteBlockSelect<T>;
+        testCallToAction?: T | TestCallToActionBlockSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestTextBlock_select".
+ */
+export interface TestTextBlockSelect<T extends boolean = true> {
+  heading?: T;
+  body?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestQuoteBlock_select".
+ */
+export interface TestQuoteBlockSelect<T extends boolean = true> {
+  quote?: T;
+  attribution?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
   key?: T;
   data?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -497,6 +932,58 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nav".
+ */
+export interface Nav {
+  id: number;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nav_select".
+ */
+export interface NavSelect<T extends boolean = true> {
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -504,6 +991,26 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSchedulePublish".
+ */
+export interface TaskSchedulePublish {
+  input: {
+    type?: ('publish' | 'unpublish') | null;
+    locale?: string | null;
+    doc?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
+    global?: string | null;
+    user?: {
+      relationTo: 'users';
+      value: number | User;
+    } | null;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,7 +1,7 @@
 
 
 import { Navigation } from '@/components/navigation/Navigation';
-import { getAllSections, getSectionById , getLinkById} from '@/lib/actions';
+import { getAllSections, getSectionById, getLinkById, getAllLinks} from '@/lib/actions';
 import { linksPageContent } from '@/lib/content';
 import { LinkCard } from '@/components/links/LinkCard';
 import { SectionCard } from '@/components/links/SectionCard';
@@ -17,7 +17,6 @@ import styles from '@/styles/Links.module.css';
 import { Suspense } from 'react';
 import Spinner from '@/components/fallbacks/Spinner';
 import errorHandler from '@/lib/error-handler';
-import { LinkSection } from '@/types';
   
 export function generateStaticParams () {
   return [];
@@ -64,16 +63,16 @@ async function LinkDetailView({
 }: {
   sectionId: string;
   linkId: string;
-  content: any;
+  content: typeof linksPageContent;
 }) {
   try {
-    const { data: link, success } = await getLinkById(linkId);
+    const link = await getLinkById(linkId);
 
-    if (!success || !link) {
+    if (!link.success) {
       throw new Error("Link not found");
     }
 
-    const safeLink = link;
+    const safeLink = link.data;
 
     return (
       <div className={styles.container}>
@@ -81,7 +80,7 @@ async function LinkDetailView({
         <main className={styles.main}>
           <LinkDetail
             title={safeLink.title}
-            description={safeLink.description}
+            description={safeLink.description || ""}
             url={safeLink.link}
             sectionId={sectionId}
             sectionName={sectionId}
@@ -104,16 +103,23 @@ async function SectionDetailView({
   content,
 }: {
   sectionId: string;
-  content: any;
+  content: typeof linksPageContent;
 }) {
   try {
-    const { data: section, success } = await getSectionById(sectionId);
+    const section = await getSectionById(sectionId);
 
-    if (!success || !section) {
+    if (!section.success) {
       throw new Error("Section not found");
     }
 
-    const safeSection = section;
+    const safeSection = section.data;
+    const links = await getAllLinks();
+    if (!links.success) {
+      throw new Error(links.error);
+    }
+    const sectionLinks = links.data.filter((link) =>
+      (typeof link.section === "object" ? link.section?.id : link.section) === sectionId
+    );
 
     return (
       <div className={styles.container}>
@@ -124,8 +130,8 @@ async function SectionDetailView({
             sectionId={sectionId}
             sectionName={safeSection.name}
             sectionDescription={safeSection.description || ''}
-            sectionIcon={safeSection.icon_key || "link"}
-            links={safeSection.links || []}
+            sectionIcon={safeSection.iconKey || "link"}
+            links={sectionLinks}
             pageTitle={content.title}
             backToAllText={content.backToAllText}
           />
@@ -138,9 +144,16 @@ async function SectionDetailView({
   }
 }
 
-async function AllSectionsView({ content }: { content: any }) {
+async function AllSectionsView({ content }: { content: typeof linksPageContent }) {
   try {
-    const { data:sections } = await getAllSections() as { success: boolean; data: LinkSection[]; error?: string };
+    const sections = await getAllSections();
+    if (!sections.success) {
+      throw new Error(sections.error);
+    }
+    const links = await getAllLinks();
+    if (!links.success) {
+      throw new Error(links.error);
+    }
 
     
 
@@ -162,14 +175,16 @@ async function AllSectionsView({ content }: { content: any }) {
           
 
           <div className={styles.sectionsGrid}>
-            {sections.map((section) => (
+            {sections.data.map((section) => (
               <SectionCard
                 key={section.id}
                 id={section.id}
                 name={section.name}
                 description={section.description || ''}
-                iconKey={section.icon_key || 'link'}
-                linkCount={section.links?.length || 0}
+                iconKey={section.iconKey || 'link'}
+                linkCount={links.data.filter((link) =>
+                  (typeof link.section === "object" ? link.section?.id : link.section) === section.id
+                ).length}
               />
             ))}
           </div>

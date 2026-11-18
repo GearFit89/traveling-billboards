@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { siteContent } from "@/lib/content";
-import { Icon } from "@/lib/icons";
+import { Icon } from "@/components/icons";
 import styles from "./Navigation.module.css";
 
 const navLinks = [

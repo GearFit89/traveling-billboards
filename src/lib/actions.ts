@@ -1,264 +1,84 @@
-"use server"
+"use server";
 
+import { getPayload } from "payload";
+import config from "@payload-config";
+import { runQuery } from "@/db/query";
 
-
-import { getEnvContext } from './utils'
-import * as s from './schemas';
-import Console from "@/utils/console";
-import { AppError } from '@/utils/error';
-import {  getCacheAndValidation } from '@/services/cacher';
-import { TAGS } from '@/const';
-import * as v from 'valibot';
-import Fuse from 'fuse.js';
-import { LinkData, LinkSection, ReturnData } from '@/types';
-import { link } from 'fs';
-import { D1Database } from '@cloudflare/workers-types';
-
-import payload from 'payload'
-// custom console keeps logs clean 
-// in const.ts turn DEBUG to false to remove these logs
-// do console.llog(msg, 0) to bypass debug mode logging.
-const console = new Console("actions");
-
-
-
-export const getAllSections = async () => {
- 
- const env =  getEnvContext();
- const query = 'SELECT * FROM sections';
-
- console.log("Fetching all sections from D1 with query: ", query);
-
- const getSections = getCacheAndValidation(v.array(s.SectionSchema));
-  return await getSections(
-    async () => {
-      const result = await env.D1.prepare(query).all();
-     
-      return result?.results;
-    },
-    query, // using the query as the cache key',
-    {
-    tags: [TAGS.SECTIONS], // tag for invalidation
-
-    },
-    async () => (await import("./mock-db")).sections
-  );
-  
-};
-
-
-export const getAllLinks = async () => {
- 
-    const query = 'SELECT * FROM links';
-    console.log("Fetching all links from D1 with query: ", query);
-
-    const env = getEnvContext();
-    const getLinks = getCacheAndValidation(v.array(s.LinkDataSchema));
-    return await getLinks(
-      async () => {
-        const result = await env.D1.prepare(query).all();
-     
-        return result?.results;// check in case results is not there
-      },
-      query, // using the query as the cache key',
-      {
-        tags: [TAGS.LINKS], // tag for invalidation
-      },
-      async () => (await import("./mock-db")).links
-    );
-  
+export async function getAllSigns() {
+  return runQuery(async () => {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "signs",
+      pagination: false,
+      sort: "id",
+      depth: 1,
+    });
+    return result.docs;
+  });
 }
 
-
-export const getLinkbyId = async (id: string) => {
- 
-    const env = getEnvContext();
-    const query = 'SELECT * FROM links WHERE id = ?';
-    console.log(`Fetching link with id ${id} from D1 with query: `, query);
-
-    const getLink = getCacheAndValidation(s.LinkDataSchema);
-    return await getLink(
-      async () => {
-        const result = await env.D1.prepare(query).bind(id).first();
-      
-        return result;
-      },
-      `link_${id}`, // using a unique cache key for each link
-      {
-        tags: [TAGS.LINKS], // tag for invalidation
-      },
-      async ()=> (await import("./mock-db")).links[Number(id)]
-    );
-  
-  
-};
-/**
- * 
- * @param id 
- * @returns 
- */
-
-
-
-export const getSignById = async (id: string) => {
-  
-    const env = getEnvContext();
-    const query = 'SELECT * FROM signs WHERE id = ?';
-    console.log(`Fetching sign with id ${id} from D1 with query: `, query);
-
-    const getSign = getCacheAndValidation(s.SignDataSchema);
-    return await getSign(
-      async () => {
-        const result = await env.D1.prepare(query).bind(id).first();
-       
-        return result;
-      },
-      `sign_${id}`, // using a unique cache key for each sign
-      {
-        tags: [TAGS.SIGNS], // tag for invalidation
-      },
-      async () =>  (await import("./mock-db")).signs[Number(id)]
-    );
- 
-};  
-
-export const getAllSigns = async () => {
- 
-    const query = 'SELECT * FROM signs';
-  
-   
-    const env = getEnvContext();
-    const getSigns = getCacheAndValidation(v.array(s.SignDataSchema));
-    return (await getSigns(
-      async () => {
-        const result = await env.D1.prepare(query).all();
-         console.log("Fetching all signs from D1 with query: ", query);
-        return result?.results;
-      },
-      query, // using the query as the cache key',
-      {
-        tags: [TAGS.SIGNS], // tag for invalidation
-      },
-      async () => (await import("./mock-db")).signs
-    )
-  ); 
+export async function getAllSections() {
+  return runQuery(async () => {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "sections",
+      pagination: false,
+      sort: "id",
+    });
+    return result.docs;
+  });
 }
 
-  export async function getSectionById(sectionId:string):Promise<ReturnData< LinkSection>>{
-    const env = getEnvContext();
+export async function getAllLinks() {
+  return runQuery(async () => {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "links",
+      pagination: false,
+      sort: "id",
+    });
+    return result.docs;
+  });
+}
 
-    // we need to get the section names and other data AND all the links
-    // that's why two calls are needed.
-    const linkQuery =  `SELECT * FROM links WHERE section = ?`
-    const sectionQuery = `SELECT *  FROM sections WHERE id = ?`
-     console.log(`Fetching links for section ${sectionId} from D1 with query: `, linkQuery, "\n", sectionQuery);
+export async function getLinkById(id: string) {
+  return runQuery(async () => {
+    const payload = await getPayload({ config });
+    return payload.findByID({ collection: "links", id });
+  });
+}
 
-     const getLinks = getCacheAndValidation(s.SectionSchema)  // return an arrya of links
-    return getLinks(async ()=> {
-    const section =  ((await env.D1.prepare(sectionQuery).bind(sectionId).first<LinkSection>()))
-    console.log("\n\n\n\n ", `${JSON.stringify(section)} \n\n\n\n\n\n`)
-      return{
-        ...section,
-   
-         links:  (await env.D1.prepare(linkQuery).bind(sectionId).all()).results as LinkData[],
-     
-      }
-    }, 
-      
-      `section_${sectionId}`,
+export async function getSignById(id: string) {
+  return runQuery(async () => {
+    const numericId = Number(id);
+    if (!Number.isSafeInteger(numericId) || numericId <= 0) {
+      throw new Error("Sign not found");
+    }
+    const payload = await getPayload({ config });
+    return payload.findByID({ collection: "signs", id: numericId, depth: 1 });
+  });
+}
 
-      { tags: [ TAGS.LINKS] },
+export async function getSectionById(id: string) {
+  return runQuery(async () => {
+    const payload = await getPayload({ config });
+    return payload.findByID({ collection: "sections", id });
+  });
+}
 
-    
-
-    )
-  }
-
-  export async function getLinkById (linkId:string){
-    const env = getEnvContext();
-   
-    const query = `SELECT * FROM links WHERE id = ?`;
-    console.log(`excuting query ${query} with id ${linkId}`)
-
-    const getLink = getCacheAndValidation(s.LinkDataSchema);
-    return getLink(
-     async () => await env.D1.prepare(query).bind(linkId).first(),
-      `link_${linkId}`,
-
-      {tags: [TAGS.LINKS]},
-
-      async ()=> (await  import("@/lib/mock-db")).links?.[Number(linkId)]
-    )
-  } 
-
-  export const getThoughtSignById = async (id: string) => {
-  
-    const env = getEnvContext();
-    
-    const query = 'SELECT * FROM thoughts WHERE sign_id = ?';
-    console.log(`Fetching sign  thoughtswith id ${id} from D1 with query: `, query);
-
-    const getSign = getCacheAndValidation(v.array(s.ThoughtSchema));
-    return await getSign(
-      async () => {
-        const result = await env.D1.prepare(query).bind(id).all(); // in cas thier are multiple thoughts
-       console.warn("", "debug result this", result)
-        return result?.results;
-      },
-      `sign_thought_${id}`, // using a unique cache key for each sign
-      {
-        tags: [TAGS.SIGNS, TAGS.THOUGHTS], // tags for revalidation if sign changes
-      }
-    );
- 
-};  
-
-export const getAllThoughts= async () => {
-  
-    const env = getEnvContext();
-    
-    const query = 'SELECT * FROM thoughts';
-    console.log(`Fetching sign  thoughts `, query);
-
-    const getSign = getCacheAndValidation(v.array(s.ThoughtSchema));
-    return await getSign(
-      async () => {
-        const result = await env.D1.prepare(query).all(); // in cas thier are multiple thoughts
-       console.warn("", "debug result this", result)
-        return result?.results;
-      },
-      `sign_thoughts`, // using a unique cache key for each sign
-      {
-        tags: [TAGS.SIGNS], // tag for invalidation
-      }
-    );
- 
-};  
-
-
-
-
-
-export const getLinkBySection = async (sectionId: string) => {
- 
- const env =  getEnvContext();
- const query = 'SELECT icon_key FROM sections';
-
- console.log("Fetching icon_key from D1 with query: ", query);
-
- const getSections = getCacheAndValidation(s.SectionIConSchema);
-  return await getSections(
-    async () => {
-      const result = await env.D1.prepare(query).first();
-     
-      return result
-    },
-    query, // using the query as the cache key',
-    {
-    tags: [TAGS.SECTIONS], // tag for invalidation
-
-    },
-    async () => (await import("./mock-db")).sections
-  );
-  
-};
+export async function getThoughtSignById(id: string) {
+  return runQuery(async () => {
+    const numericId = Number(id);
+    if (!Number.isSafeInteger(numericId) || numericId <= 0) {
+      throw new Error("Sign not found");
+    }
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "thoughts",
+      where: { sign: { equals: numericId } },
+      pagination: false,
+      sort: "id",
+    });
+    return result.docs;
+  });
+}

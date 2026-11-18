@@ -4,21 +4,24 @@ import { sqliteD1Adapter } from "@payloadcms/db-d1-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
-import { resendAdapter } from '@payloadcms/email-resend';
+import { resendAdapter } from "@payloadcms/email-resend";
 import {
   CloudflareContext,
   getCloudflareContext,
 } from "@opennextjs/cloudflare";
 import { GetPlatformProxyOptions } from "wrangler";
 import { r2Storage } from "@payloadcms/storage-r2";
-
+import { seoPlugin } from "@payloadcms/plugin-seo";
 import { Users } from "./db/collections/Users";
 import { Media } from "./db/collections/Media";
-import { Sections } from './db/collections/Sections'
-import { Links } from './db/collections/Links'
-import { Signs } from './db/collections/Signs'
-import { Thoughts } from './db/collections/Thoughts'
-
+import { Sections } from "./db/collections/Sections";
+import { Links } from "./db/collections/Links";
+import { Signs } from "./db/collections/Signs";
+import { Thoughts } from "./db/collections/Thoughts";
+import { Pages } from "./db/collections/Pages";
+import { Testbut } from "./db/collections/Test";
+import { Redirects } from "./db/collections/Redirects";
+import { Nav } from "./db/globals/Nav";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -63,8 +66,8 @@ const cloudflare =
     : await getCloudflareContext({ async: true });
 
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
-  
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
+
   admin: {
     user: Users.slug,
     importMap: {
@@ -78,9 +81,14 @@ export default buildConfig({
     Links,
     Signs,
     Thoughts,
+    Pages,
+    Redirects,
+
+    ...(process.env.NODE_ENV === "development" ? [Testbut] : []),
     // Messages,
     // Comments,
   ],
+  globals: [Nav],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
@@ -89,18 +97,20 @@ export default buildConfig({
   db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
   logger: isProduction ? cloudflareLogger : undefined,
   email: resendAdapter({
-    defaultFromAddress: 'no-reply@tailgates4Jesus.com', 
-    defaultFromName: 'Tailgates4Jesus',
-    apiKey: process.env.RESEND_API_KEY!, 
+    defaultFromAddress: "no-reply@tailgates4Jesus.com",
+    defaultFromName: "Tailgates4Jesus",
+    apiKey: process.env.RESEND_API_KEY!,
   }),
-  hooks: {
-    
-
-  },
+  hooks: {},
   plugins: [
     r2Storage({
       bucket: cloudflare.env.R2_IMAGES as any,
       collections: { media: true },
+    }),
+    seoPlugin({
+      uploadsCollection: 'media',
+      generateTitle: ({ doc }) => `tailgates4Jesus.com — ${doc.title}`,
+      generateDescription: ({ doc }) => doc.descripton
     }),
   ],
 });

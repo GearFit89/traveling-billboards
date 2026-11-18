@@ -30,6 +30,9 @@ declare global {
             // Email Notifications / Transaction Services
             RESEND_API_KEY: string;
 
+            NEXT_PUBLIC_SERVER_URL: string;
+            PREVIEW_SECRET: string;
+
 
         }
     }

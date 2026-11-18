@@ -4,7 +4,7 @@ import "@/styles/globals.css"
 import { siteContent, homePageContent } from '@/lib/content';
 import { getAllSigns } from '@/lib/actions';
 import Carousel from '@/components/signs/Carousel';
-import { Icon } from '@/lib/icons';
+import { Icon } from '@/components/icons';
 import styles from '@/styles/Home.module.css';
 import BibleVerse from '@/components/home/BibleVerse';
 import { Suspense } from 'react';
@@ -12,8 +12,10 @@ import Skeleton from '@/components/fallbacks/Skeleton';
 
 export default async function HomePage() {
   const { hero, stats, features } = homePageContent;
-  const { data: signs } = await getAllSigns();
-
+  const sign = await getAllSigns();
+  if (!sign.success) {
+    return null;
+  }
   return (
     <div className={styles.container}>
 
@@ -42,10 +44,10 @@ export default async function HomePage() {
       </section>
 
       {/* Carousel Section — featured signs, placed directly under the hero */}
-      {signs && signs.length > 0 && (
+      {sign.data.length > 0 && (
         <section className={styles.carouselWrapper}>
           <h3 className={styles.sectionTitle}>Featured Designs</h3>
-          <Carousel signs={signs} />
+          <Carousel signs={sign.data} />
         </section>
       )}
 

@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import stableCache, { Options } from './stableCache'; 
 import Console from '@/utils/console';
 import { ReturnData } from '@/types';
-import { getIsBuildPharse } from '@/lib/utils';
+import { getIsBuildPharse } from '@/lib/utils/getIsBuildPharse';
 
 const console = new Console("schema_validation");
 

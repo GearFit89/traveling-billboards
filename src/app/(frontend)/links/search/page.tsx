@@ -2,7 +2,10 @@
 import { getAllLinks } from "@/lib/actions";
 
 export default async function SearchPage(){
-const {data: links}= await getAllLinks() as {success: boolean, data: any[], error?: string};
+const links = await getAllLinks();
+if (!links.success) {
+  return null;
+}
     return (
         <>
         

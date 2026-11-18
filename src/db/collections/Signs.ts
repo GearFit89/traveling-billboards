@@ -1,47 +1,42 @@
-import { CollectionConfig } from 'payload'
+import { Sign } from "@/payload-types";
+import { CollectionConfig } from "payload";
+import { revalidatePage } from "./hooks/revilatePage";
+import { upload } from "payload/shared";
 
 export const Signs: CollectionConfig = {
-  slug: 'signs',
+  slug: "signs",
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: "title",
   },
   fields: [
+    
     {
-      name: 'id',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
     },
     {
-      name: 'imgKey',
-      type: 'text',
+      name: "description",
+      type: "textarea",
     },
     {
-      name: 'imgAlt',
-      type: 'text',
+      label: "Sign Image",
+      name: "image",
+      type: "upload",
+      relationTo: "media",
     },
     {
-      name: 'description',
-      type: 'textarea',
+      name: "imgAlt",
+      type: "text",
+      required: true, 
+      admin: {
+        description: "Describe the image for screen readers and SEO.",
+      },
     },
-    {
-      name: 'webHits',
-      type: 'number',
-      defaultValue: 0,
-    },
-    {
-      name: 'qrHits',
-      type: 'number',
-      defaultValue: 0,
-    },
-    {
-      name: 'metadata',
-      type: 'json',
-    },
+    
+    
   ],
-}
+  hooks: {
+    afterChange: [revalidatePage],
+  },
+};
