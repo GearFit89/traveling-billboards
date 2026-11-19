@@ -936,6 +936,12 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Nav {
   id: number;
+  navBrandWord1: string;
+  accentedWord?: string | null;
+  navBrandWord2?: string | null;
+  navBrandColor?: string | null;
+  navBrandAccentColor?: string | null;
+  siteLogo?: (number | null) | Media;
   links?:
     | {
         link: {
@@ -950,7 +956,7 @@ export interface Nav {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'highlighted') | null;
         };
         id?: string | null;
       }[]
@@ -963,6 +969,12 @@ export interface Nav {
  * via the `definition` "nav_select".
  */
 export interface NavSelect<T extends boolean = true> {
+  navBrandWord1?: T;
+  accentedWord?: T;
+  navBrandWord2?: T;
+  navBrandColor?: T;
+  navBrandAccentColor?: T;
+  siteLogo?: T;
   links?:
     | T
     | {

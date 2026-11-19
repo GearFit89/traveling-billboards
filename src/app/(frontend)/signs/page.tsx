@@ -11,6 +11,7 @@ import { Sign } from "@/components/signs/Sign";
 import errorHandler from "@/lib/error-handler";
 import { ErrorPageSigns } from "@/components/signs/SignError";
 import Link from "next/link";
+import { NavBar } from "@/components/navigation/NavBar";
 
 // This page will fetch all signs from the database and display them in a list format. Each sign will show its content, location, and date. The page will also include a header with a title and subtitle.
 export async function LoadSignsList() {
@@ -35,6 +36,7 @@ export async function LoadSignsList() {
 export default function SignListPage() {
   return (
     <div className={styles.signPageWrapper}>
+      <NavBar page="signs" />
       <Suspense fallback={<Spinner />}>
         <LoadSignsList />
       </Suspense>

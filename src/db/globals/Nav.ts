@@ -8,22 +8,42 @@ export const Nav: GlobalConfig = {
     read: () => true,
   },
   admin: {
-  hideAPIURL: process.env.NODE_ENV === "production" ? true : false,
-},
+    hideAPIURL: process.env.NODE_ENV === "production" ? true : false,
+  },
   fields: [
     {
-      name: "navBrand",
-      label: "Website Name",
+      name: "navBrandWord1",
+      label: "Word 1",
       type: "text",
       required: true,
     },
     {
+      name: "accentedWord",
+      label: "Text to Highlight",
+      type: "text",
+      required: false,
+    },
+    {
+      name: "navBrandWord2",
+      label: "Word 2",
+      type: "text",
+      required: false,
+    },
+    {
       name: "navBrandColor",
-      label: "Website Name Color",
+      label: "Word Color",
       type: "text",
       required: false,
       defaultValue: "red",
     },
+    {
+      name: "navBrandAccentColor",
+      label: "Highlight Color",
+      type: "text",
+      required: false,
+      defaultValue: "yellow",
+    },
+
     {
       name: "siteLogo",
       label: "Site Logo",

@@ -267,9 +267,6 @@ export const pages_blocks_element_navgrid_items = sqliteTable(
     ),
     link_newTab: integer("link_new_tab", { mode: "boolean" }),
     link_url: text("link_url"),
-    link_isHighlighted: integer("link_is_highlighted", {
-      mode: "boolean",
-    }).default(false),
     link_label: text("link_label"),
     link_appearance: text("link_appearance", {
       enum: ["default", "outline"],
@@ -506,9 +503,6 @@ export const _pages_v_blocks_element_navgrid_items = sqliteTable(
     ),
     link_newTab: integer("link_new_tab", { mode: "boolean" }),
     link_url: text("link_url"),
-    link_isHighlighted: integer("link_is_highlighted", {
-      mode: "boolean",
-    }).default(false),
     link_label: text("link_label"),
     link_appearance: text("link_appearance", {
       enum: ["default", "outline"],
@@ -1127,12 +1121,9 @@ export const nav_links = sqliteTable(
     ),
     link_newTab: integer("link_new_tab", { mode: "boolean" }),
     link_url: text("link_url"),
-    link_isHighlighted: integer("link_is_highlighted", {
-      mode: "boolean",
-    }).default(false),
     link_label: text("link_label").notNull(),
     link_appearance: text("link_appearance", {
-      enum: ["default", "outline"],
+      enum: ["default", "outline", "highlighted"],
     }).default("default"),
   },
   (columns) => [
@@ -1146,15 +1137,27 @@ export const nav_links = sqliteTable(
   ],
 );
 
-export const nav = sqliteTable("nav", {
-  id: integer("id").primaryKey(),
-  updatedAt: text("updated_at").default(
-    sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
-  ),
-  createdAt: text("created_at").default(
-    sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
-  ),
-});
+export const nav = sqliteTable(
+  "nav",
+  {
+    id: integer("id").primaryKey(),
+    navBrandWord1: text("nav_brand_word1").notNull(),
+    accentedWord: text("accented_word"),
+    navBrandWord2: text("nav_brand_word2"),
+    navBrandColor: text("nav_brand_color").default("red"),
+    navBrandAccentColor: text("nav_brand_accent_color").default("yellow"),
+    siteLogo: integer("site_logo_id").references(() => media.id, {
+      onDelete: "set null",
+    }),
+    updatedAt: text("updated_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+    createdAt: text("created_at").default(
+      sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`,
+    ),
+  },
+  (columns) => [index("nav_site_logo_idx").on(columns.siteLogo)],
+);
 
 export const nav_rels = sqliteTable(
   "nav_rels",
@@ -1605,7 +1608,12 @@ export const relations_nav_rels = relations(nav_rels, ({ one }) => ({
     relationName: "pages",
   }),
 }));
-export const relations_nav = relations(nav, ({ many }) => ({
+export const relations_nav = relations(nav, ({ one, many }) => ({
+  siteLogo: one(media, {
+    fields: [nav.siteLogo],
+    references: [media.id],
+    relationName: "siteLogo",
+  }),
   links: many(nav_links, {
     relationName: "links",
   }),

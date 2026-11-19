@@ -9,6 +9,7 @@ import styles from '@/styles/Home.module.css';
 import { Navigation } from '@/components/navigation/Navigation';
 import DevDashboard from '@/client/DevDashboard';
 import { Toaster } from '@/components/ui/toaster';
+import { NavBar } from '@/components/navigation/NavBar';
 
 const brainJunk = "6-7";// this is not needed
 
@@ -86,26 +87,19 @@ export default function RootLayout({
         <ThemeStyles />
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
-        <Navigation />
+       
         {children}
-        {process.env.NODE_ENV === 'development' && <DevDashboard /> }
+      
 
         <Toaster />
+       
         
-        
- <footer className={styles.footer}>
-        <p className={styles.footerText}>
-          {siteContent.siteName.split(' ')[0]}
-          {/* <span className={styles.footerAccent}>.</span>{' '} */}
-          {siteContent.siteName.split(' ').slice(1).join(' ')} — {siteContent.footerText}
-        </p>
-      </footer>
         {/* Footer */}
-      {/* <footer className={styles.footer}>
+      <footer className={styles.footer}>
         <p className={styles.footerText}>
           © {new Date().getFullYear()} {siteContent?.siteName ?? 'Travel with the Gospel'}. All rights reserved.
         </p>
-      </footer> */}
+      </footer>
       </body>
     
     </html>

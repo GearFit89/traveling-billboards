@@ -18,7 +18,7 @@ export const appearanceOptions: Record<
   },
   highlighted: {
     label: "Highlight",
-    value: "highlight",
+    value: "highlighted",
   },
 };
 
