@@ -6,7 +6,7 @@ import {  siteContent } from '@/lib/content/'
 import '@/styles/globals.css'
 
 import styles from '@/styles/Home.module.css';
-import { Navigation } from '@/components/navigation/Navigation';
+
 import DevDashboard from '@/client/DevDashboard';
 import { Toaster } from '@/components/ui/toaster';
 

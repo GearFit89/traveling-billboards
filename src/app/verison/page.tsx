@@ -1,7 +1,7 @@
 export default function Page () {
     return (
         <div className=" mt-[100px] py-3">
-            verison: 1.2/9
+            version: 3.5.0
         </div>
     )
 

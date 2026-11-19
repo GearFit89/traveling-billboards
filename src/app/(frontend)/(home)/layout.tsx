@@ -6,8 +6,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div style={{ backgroundColor: "red", minHeight: "100vh" }}>
       <NavBar page="/" />
+   
       {children}
     </div>
   );

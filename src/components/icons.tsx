@@ -2,12 +2,12 @@
 import { IconKey } from '@/lib/icons';
 import { type CSSProperties } from 'react';
 import BibleOpenICon from '@/assets/bible-book.svg'
-import ChangeLivesIcon from '@/assets/change-lives.svg'
-import GetInvolvedIcon from '@/assets/get-involved.svg'
-import ResourcesIcon from '@/assets/resources.svg'
+import ChangeLivesIcon from '@/assets/heart.svg'
+import GetInvolvedIcon from '@/assets/people.svg'
+import ResourcesIcon from '@/assets/doc.svg'
 import SproutIcon from '@/assets/sprout.svg'
 import ChatIcon from '@/assets/chat.svg'
-import SignsIcon from '@/assets/signs.svg'
+import SignsIcon from '@/assets/megaphone.svg'
 interface IconProps {
   className?: string;
   style?: CSSProperties;
