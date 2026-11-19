@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import Spinner from "@/components/fallbacks/Spinner"
-import getDailyVerse from "@/utils/dailyVerseGetter";
+import getDailyVerse from "@/lib/dailyVerseGetter";
 
 import "@/styles/globals.css";
 import styles from "@/styles/BibleVerse.module.css";

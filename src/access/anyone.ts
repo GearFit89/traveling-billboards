@@ -1,3 +1,3 @@
 
 
-export const anyone: true = ()=> true;
+export const anyone: ()=>true = ()=> true;

@@ -1,9 +1,11 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
-import Link from "next/link";
-import type { Nav } from "@/payload-types";
-import type { LinkAppearances } from "@/db/fields/link";
+
 import { Links } from "./Links";
+import { Icon } from "../icons";
+import { getActiveTheme } from "@/lib/themes";
+import { NavbarProvider, NavButton, NavMenu } from "./NavBarClient";
+import styles from "./Navigation.module.css";
 
 interface NavProps {
   /**
@@ -26,18 +28,27 @@ export async function NavBar({ page }: NavProps) {
   if (!nav.links || nav.links.length === 0) {
     return null;
   }
+  const theme = getActiveTheme();
   return (
-    <nav style={{ backgroundColor: "red" }}>
-      <div className="flex items-center justify-between p-4">
-        <div>
-          <h3>
-            {nav.navBrandWord1}
-            <h3 style={{ color: "yellow" }}>{nav.accentedWord}</h3>
-            {nav.navBrandWord2}
-          </h3>
+    <nav className={styles.nav}>
+      <NavbarProvider links={nav.links} page={page}>
+        <div className={styles.navInner}>
+          <div>
+            <h3 style={{ color: nav.navBrandColor ?? theme.colors.foreground }}>
+              {nav.navBrandWord1}
+              <span style={{ color: theme.colors.accent }}>{nav.accentedWord}</span>
+              {nav.navBrandWord2}
+            </h3>
+          </div>
+          <NavButton className={styles.mobileMenuButton} displayXIcon>
+            <Icon name="menu" />
+          </NavButton>
+          <div className={styles.navLinks}>
+            <Links page={page} links={nav.links} />
+          </div>
+          <NavMenu />
         </div>
-        <Links links={nav.links} page={page} />
-      </div>
+      </NavbarProvider>
     </nav>
   );
 }

@@ -1,6 +1,6 @@
 import { getAllSigns } from "@/lib/actions";
 import { siteContent, thoughtsPageContent } from "@/lib/content";
-import { AppError } from "@/utils/error";
+import { AppError } from "@/lib/error";
 import styles from "@/styles/Thoughts.module.css";
 import "@/styles/globals.css";
 

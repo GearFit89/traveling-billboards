@@ -1,5 +1,5 @@
-import { safeToString } from "@/utils/strings";
-import Console from "@/utils/console";
+import { safeToString } from "@/lib/strings";
+import Console from "@/lib/console";
 
 type KVGetTypes = "text" | "json" | "arrayBuffer" | "stream";
 

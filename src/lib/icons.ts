@@ -1,30 +1,30 @@
-// Icon Registry for Traveling Billboards
-// Add new icons here - components can reference them by key
-// This makes it easy to swap icons by changing this single file
+export const ICON_KEYS = [
+  "map",
+  "sparkle",
+  "backpack",
+  "users",
+  "thought",
+  "link",
+  "location",
+  "calendar",
+  "qrCode",
+  "arrowRight",
+  "arrowLeft",
+  "externalLink",
+  "menu",
+  "close",
+  "road",
+  "compass",
+  "bibleOpen",
+  "changeLives",
+  "getInvolved",
+  "resources",
+  "sprout",
+  "chat",
+  "signs",
+  "x",
+  "arrowLeft",
+  "arrowRight",
+] as const;
 
-import { type CSSProperties } from "react";
-
-export type IconKey =
-  | "map"
-  | "sparkle"
-  | "backpack"
-  | "users"
-  | "thought"
-  | "link"
-  | "location"
-  | "calendar"
-  | "qrCode"
-  | "arrowRight"
-  | "arrowLeft"
-  | "externalLink"
-  | "menu"
-  | "close"
-  | "road"
-  | "compass"
-  | "bibleOpen"
-  | "changeLives"
-  | "getInvoled"
-  | "resources"
-  | "sprout"
-  | "chat"
-  | "signs";
+export type IconKey = (typeof ICON_KEYS)[number];

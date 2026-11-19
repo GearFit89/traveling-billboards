@@ -2,6 +2,11 @@ import { Block } from "payload";
 
 export const Section: Block = {
   slug: "Element.section",
+  interfaceName: "SectionBlock",
+  labels: {
+    singular: "Section",
+    plural: "Sections",
+  },
   fields: [
     {
       name: "heading",

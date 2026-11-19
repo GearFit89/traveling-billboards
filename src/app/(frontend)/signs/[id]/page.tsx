@@ -10,7 +10,7 @@ import { siteContent, thoughtsPageContent } from '@/lib/content';
 
 import Skeleton from "@/components/fallbacks/Skeleton";
 import { redirect } from "next/navigation";
-import { AppError } from "@/utils/error";
+import { AppError } from "@/lib/error";
 import errorHandler from "@/lib/error-handler";
 import { ErrorPageSigns } from "@/components/signs/SignError";
 

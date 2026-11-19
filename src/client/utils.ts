@@ -2,7 +2,7 @@
 
 import { useToast } from "@/hooks/use-toast";
 import { toastContent } from "@/lib/content";
-import Console from "@/utils/console";
+import Console from "@/lib/console";
 
 const debugConsole = new Console("utils_client");
 

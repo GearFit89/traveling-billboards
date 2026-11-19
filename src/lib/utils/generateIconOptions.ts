@@ -1,12 +1,8 @@
-import { iconComponents } from '@/components/icons';
-import { type IconKey } from '@/lib/icons';
 
-
-
-const availableIcons = Object.keys(iconComponents) as IconKey[];
+import { type IconKey, ICON_KEYS } from "@/lib/icons";
 
 export function generateIconOptions(): { label: string; value: string }[] {
-  return availableIcons.map((iconKey) => ({
+  return ICON_KEYS.map((iconKey) => ({
     label: iconKey,
     value: iconKey,
   }));

@@ -49,7 +49,7 @@ export function Navigation() {
         </div>
 
         <button
-          className={styles.mobileMenuBtn}
+          className={styles.mobileMenuButton}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -64,7 +64,7 @@ export function Navigation() {
           <Link
             key={link.href}
             href={link.href}
-            className={`${styles.mobileNavLink} ${isActive(link.href) ? styles.mobileNavLinkActive : ""}`}
+            className={`${styles.mobileNavLink} `}
             onClick={() => setMobileMenuOpen(false)}
           >
             {link.label}

@@ -3,8 +3,8 @@ import { link } from "@/db/fields/link";
 import { generateIconOptions } from "@/lib/utils/generateIconOptions";
 
 export const NavGrid: Block = {
-  slug: "Element.navGrid",
-
+  slug: "Element.NavGrid",
+  interfaceName: "NavGridBlock",
   fields: [
     {
       type: "array",
@@ -28,6 +28,14 @@ export const NavGrid: Block = {
           required: false,
           type: "text",
         },
+        {
+          name: "color",
+          label: "Background Color",
+          type: "text",
+          required: false,
+          defaultValue: "#ffffff", // Default to white if not specified
+        },
+
         link({
           overrides: {
             label: "Link",
@@ -36,12 +44,12 @@ export const NavGrid: Block = {
           },
         }),
         {
-            name: "icon",
-            label: "Icon",
-            type: "select",
-            required: true,
-            options: generateIconOptions(),
-        }
+          name: "icon",
+          label: "Icon",
+          type: "select",
+          required: true,
+          options: generateIconOptions(),
+        },
       ],
     },
   ],

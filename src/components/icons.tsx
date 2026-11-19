@@ -117,9 +117,15 @@ export const iconComponents: Record<IconKey, React.FC<IconProps>> = {
       <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   ),
+  x: ({ className, style, size = 24 }) => ( 
+    <svg className={className} style={style} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  ),
+  
   bibleOpen: BibleOpenICon,
   changeLives: ChangeLivesIcon,
-  getInvoled: GetInvolvedIcon,
+  getInvolved: GetInvolvedIcon,
   resources: ResourcesIcon,
   sprout: SproutIcon,
   chat: ChatIcon,

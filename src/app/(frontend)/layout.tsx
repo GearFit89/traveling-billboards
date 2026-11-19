@@ -9,7 +9,7 @@ import styles from '@/styles/Home.module.css';
 import { Navigation } from '@/components/navigation/Navigation';
 import DevDashboard from '@/client/DevDashboard';
 import { Toaster } from '@/components/ui/toaster';
-import { NavBar } from '@/components/navigation/NavBar';
+
 
 const brainJunk = "6-7";// this is not needed
 
