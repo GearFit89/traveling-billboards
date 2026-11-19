@@ -3,7 +3,7 @@ import { link } from "@/db/fields/link";
 import { generateIconOptions } from "@/lib/utils/generateIconOptions";
 
 export const NavGrid: Block = {
-  slug: "Element.NavGrid",
+  slug: "navGrid",
   interfaceName: "NavGridBlock",
   fields: [
     {

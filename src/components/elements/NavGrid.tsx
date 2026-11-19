@@ -3,10 +3,10 @@ import { Icon } from "../icons";
 import Link from "next/link";
 
 interface NavGridProps {
-  data: NavGridBlock;
+  block: NavGridBlock;
 }
 
-export function NavGrid({ data: { items } }: NavGridProps) {
+export function NavGrid({ block: { items } }: NavGridProps) {
   if (!items || items.length === 0) {
     return null;
   }

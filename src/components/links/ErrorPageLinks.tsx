@@ -1,6 +1,6 @@
 'use client';
 
-import { Navigation } from '@/components/navigation/Navigation';
+
 import { siteContent } from '@/lib/content';
 import styles from '@/styles/Links.module.css';
 

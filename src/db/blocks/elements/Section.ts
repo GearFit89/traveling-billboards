@@ -1,7 +1,7 @@
 import { Block } from "payload";
 
 export const Section: Block = {
-  slug: "Element.section",
+  slug: "section",
   interfaceName: "SectionBlock",
   labels: {
     singular: "Section",

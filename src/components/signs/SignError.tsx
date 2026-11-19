@@ -1,6 +1,6 @@
 'use client';
 
-import { Navigation } from '@/components/navigation/Navigation';
+
 import { siteContent } from '@/lib/content';
 import styles from '@/styles/Links.module.css';
 
@@ -11,7 +11,7 @@ interface ErrorPageProps {
 export function ErrorPageSigns({ message }: ErrorPageProps) {
   return (
     <div className={styles.container}>
-      <Navigation />
+      
       <main className={styles.main}>
         
         <div className={styles.header}>
