@@ -254,8 +254,8 @@ export const pages_blocks_test_call_to_action = sqliteTable(
   ],
 );
 
-export const pages_blocks_element_navgrid_items = sqliteTable(
-  "pages_blocks_element_navgrid_items",
+export const pages_blocks_nav_grid_items = sqliteTable(
+  "pages_blocks_nav_grid_items",
   {
     _order: integer("_order").notNull(),
     _parentID: text("_parent_id").notNull(),
@@ -304,20 +304,18 @@ export const pages_blocks_element_navgrid_items = sqliteTable(
     }),
   },
   (columns) => [
-    index("pages_blocks_element_navgrid_items_order_idx").on(columns._order),
-    index("pages_blocks_element_navgrid_items_parent_id_idx").on(
-      columns._parentID,
-    ),
+    index("pages_blocks_nav_grid_items_order_idx").on(columns._order),
+    index("pages_blocks_nav_grid_items_parent_id_idx").on(columns._parentID),
     foreignKey({
       columns: [columns["_parentID"]],
-      foreignColumns: [pages_blocks_element_navgrid.id],
-      name: "pages_blocks_element_navgrid_items_parent_id_fk",
+      foreignColumns: [pages_blocks_nav_grid.id],
+      name: "pages_blocks_nav_grid_items_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
 
-export const pages_blocks_element_navgrid = sqliteTable(
-  "pages_blocks_element_navgrid",
+export const pages_blocks_nav_grid = sqliteTable(
+  "pages_blocks_nav_grid",
   {
     _order: integer("_order").notNull(),
     _parentID: integer("_parent_id").notNull(),
@@ -326,19 +324,19 @@ export const pages_blocks_element_navgrid = sqliteTable(
     blockName: text("block_name"),
   },
   (columns) => [
-    index("pages_blocks_element_navgrid_order_idx").on(columns._order),
-    index("pages_blocks_element_navgrid_parent_id_idx").on(columns._parentID),
-    index("pages_blocks_element_navgrid_path_idx").on(columns._path),
+    index("pages_blocks_nav_grid_order_idx").on(columns._order),
+    index("pages_blocks_nav_grid_parent_id_idx").on(columns._parentID),
+    index("pages_blocks_nav_grid_path_idx").on(columns._path),
     foreignKey({
       columns: [columns["_parentID"]],
       foreignColumns: [pages.id],
-      name: "pages_blocks_element_navgrid_parent_id_fk",
+      name: "pages_blocks_nav_grid_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
 
-export const pages_blocks_element_section = sqliteTable(
-  "pages_blocks_element_section",
+export const pages_blocks_section = sqliteTable(
+  "pages_blocks_section",
   {
     _order: integer("_order").notNull(),
     _parentID: integer("_parent_id").notNull(),
@@ -349,13 +347,13 @@ export const pages_blocks_element_section = sqliteTable(
     blockName: text("block_name"),
   },
   (columns) => [
-    index("pages_blocks_element_section_order_idx").on(columns._order),
-    index("pages_blocks_element_section_parent_id_idx").on(columns._parentID),
-    index("pages_blocks_element_section_path_idx").on(columns._path),
+    index("pages_blocks_section_order_idx").on(columns._order),
+    index("pages_blocks_section_parent_id_idx").on(columns._parentID),
+    index("pages_blocks_section_path_idx").on(columns._path),
     foreignKey({
       columns: [columns["_parentID"]],
       foreignColumns: [pages.id],
-      name: "pages_blocks_element_section_parent_id_fk",
+      name: "pages_blocks_section_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
@@ -501,8 +499,8 @@ export const _pages_v_blocks_test_call_to_action = sqliteTable(
   ],
 );
 
-export const _pages_v_blocks_element_navgrid_items = sqliteTable(
-  "_pages_v_blocks_element_navgrid_items",
+export const _pages_v_blocks_nav_grid_items = sqliteTable(
+  "_pages_v_blocks_nav_grid_items",
   {
     _order: integer("_order").notNull(),
     _parentID: integer("_parent_id").notNull(),
@@ -552,20 +550,18 @@ export const _pages_v_blocks_element_navgrid_items = sqliteTable(
     _uuid: text("_uuid"),
   },
   (columns) => [
-    index("_pages_v_blocks_element_navgrid_items_order_idx").on(columns._order),
-    index("_pages_v_blocks_element_navgrid_items_parent_id_idx").on(
-      columns._parentID,
-    ),
+    index("_pages_v_blocks_nav_grid_items_order_idx").on(columns._order),
+    index("_pages_v_blocks_nav_grid_items_parent_id_idx").on(columns._parentID),
     foreignKey({
       columns: [columns["_parentID"]],
-      foreignColumns: [_pages_v_blocks_element_navgrid.id],
-      name: "_pages_v_blocks_element_navgrid_items_parent_id_fk",
+      foreignColumns: [_pages_v_blocks_nav_grid.id],
+      name: "_pages_v_blocks_nav_grid_items_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
 
-export const _pages_v_blocks_element_navgrid = sqliteTable(
-  "_pages_v_blocks_element_navgrid",
+export const _pages_v_blocks_nav_grid = sqliteTable(
+  "_pages_v_blocks_nav_grid",
   {
     _order: integer("_order").notNull(),
     _parentID: integer("_parent_id").notNull(),
@@ -575,21 +571,19 @@ export const _pages_v_blocks_element_navgrid = sqliteTable(
     blockName: text("block_name"),
   },
   (columns) => [
-    index("_pages_v_blocks_element_navgrid_order_idx").on(columns._order),
-    index("_pages_v_blocks_element_navgrid_parent_id_idx").on(
-      columns._parentID,
-    ),
-    index("_pages_v_blocks_element_navgrid_path_idx").on(columns._path),
+    index("_pages_v_blocks_nav_grid_order_idx").on(columns._order),
+    index("_pages_v_blocks_nav_grid_parent_id_idx").on(columns._parentID),
+    index("_pages_v_blocks_nav_grid_path_idx").on(columns._path),
     foreignKey({
       columns: [columns["_parentID"]],
       foreignColumns: [_pages_v.id],
-      name: "_pages_v_blocks_element_navgrid_parent_id_fk",
+      name: "_pages_v_blocks_nav_grid_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
 
-export const _pages_v_blocks_element_section = sqliteTable(
-  "_pages_v_blocks_element_section",
+export const _pages_v_blocks_section = sqliteTable(
+  "_pages_v_blocks_section",
   {
     _order: integer("_order").notNull(),
     _parentID: integer("_parent_id").notNull(),
@@ -601,15 +595,13 @@ export const _pages_v_blocks_element_section = sqliteTable(
     blockName: text("block_name"),
   },
   (columns) => [
-    index("_pages_v_blocks_element_section_order_idx").on(columns._order),
-    index("_pages_v_blocks_element_section_parent_id_idx").on(
-      columns._parentID,
-    ),
-    index("_pages_v_blocks_element_section_path_idx").on(columns._path),
+    index("_pages_v_blocks_section_order_idx").on(columns._order),
+    index("_pages_v_blocks_section_parent_id_idx").on(columns._parentID),
+    index("_pages_v_blocks_section_path_idx").on(columns._path),
     foreignKey({
       columns: [columns["_parentID"]],
       foreignColumns: [_pages_v.id],
-      name: "_pages_v_blocks_element_section_parent_id_fk",
+      name: "_pages_v_blocks_section_parent_id_fk",
     }).onDelete("cascade"),
   ],
 );
@@ -1270,36 +1262,36 @@ export const relations_pages_blocks_test_call_to_action = relations(
     }),
   }),
 );
-export const relations_pages_blocks_element_navgrid_items = relations(
-  pages_blocks_element_navgrid_items,
+export const relations_pages_blocks_nav_grid_items = relations(
+  pages_blocks_nav_grid_items,
   ({ one }) => ({
-    _parentID: one(pages_blocks_element_navgrid, {
-      fields: [pages_blocks_element_navgrid_items._parentID],
-      references: [pages_blocks_element_navgrid.id],
+    _parentID: one(pages_blocks_nav_grid, {
+      fields: [pages_blocks_nav_grid_items._parentID],
+      references: [pages_blocks_nav_grid.id],
       relationName: "items",
     }),
   }),
 );
-export const relations_pages_blocks_element_navgrid = relations(
-  pages_blocks_element_navgrid,
+export const relations_pages_blocks_nav_grid = relations(
+  pages_blocks_nav_grid,
   ({ one, many }) => ({
     _parentID: one(pages, {
-      fields: [pages_blocks_element_navgrid._parentID],
+      fields: [pages_blocks_nav_grid._parentID],
       references: [pages.id],
-      relationName: "_blocks_Element.NavGrid",
+      relationName: "_blocks_navGrid",
     }),
-    items: many(pages_blocks_element_navgrid_items, {
+    items: many(pages_blocks_nav_grid_items, {
       relationName: "items",
     }),
   }),
 );
-export const relations_pages_blocks_element_section = relations(
-  pages_blocks_element_section,
+export const relations_pages_blocks_section = relations(
+  pages_blocks_section,
   ({ one }) => ({
     _parentID: one(pages, {
-      fields: [pages_blocks_element_section._parentID],
+      fields: [pages_blocks_section._parentID],
       references: [pages.id],
-      relationName: "_blocks_Element.section",
+      relationName: "_blocks_section",
     }),
   }),
 );
@@ -1327,11 +1319,11 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   _blocks_testCallToAction: many(pages_blocks_test_call_to_action, {
     relationName: "_blocks_testCallToAction",
   }),
-  "_blocks_Element.NavGrid": many(pages_blocks_element_navgrid, {
-    relationName: "_blocks_Element.NavGrid",
+  _blocks_navGrid: many(pages_blocks_nav_grid, {
+    relationName: "_blocks_navGrid",
   }),
-  "_blocks_Element.section": many(pages_blocks_element_section, {
-    relationName: "_blocks_Element.section",
+  _blocks_section: many(pages_blocks_section, {
+    relationName: "_blocks_section",
   }),
   meta_image: one(media, {
     fields: [pages.meta_image],
@@ -1367,36 +1359,36 @@ export const relations__pages_v_blocks_test_call_to_action = relations(
     }),
   }),
 );
-export const relations__pages_v_blocks_element_navgrid_items = relations(
-  _pages_v_blocks_element_navgrid_items,
+export const relations__pages_v_blocks_nav_grid_items = relations(
+  _pages_v_blocks_nav_grid_items,
   ({ one }) => ({
-    _parentID: one(_pages_v_blocks_element_navgrid, {
-      fields: [_pages_v_blocks_element_navgrid_items._parentID],
-      references: [_pages_v_blocks_element_navgrid.id],
+    _parentID: one(_pages_v_blocks_nav_grid, {
+      fields: [_pages_v_blocks_nav_grid_items._parentID],
+      references: [_pages_v_blocks_nav_grid.id],
       relationName: "items",
     }),
   }),
 );
-export const relations__pages_v_blocks_element_navgrid = relations(
-  _pages_v_blocks_element_navgrid,
+export const relations__pages_v_blocks_nav_grid = relations(
+  _pages_v_blocks_nav_grid,
   ({ one, many }) => ({
     _parentID: one(_pages_v, {
-      fields: [_pages_v_blocks_element_navgrid._parentID],
+      fields: [_pages_v_blocks_nav_grid._parentID],
       references: [_pages_v.id],
-      relationName: "_blocks_Element.NavGrid",
+      relationName: "_blocks_navGrid",
     }),
-    items: many(_pages_v_blocks_element_navgrid_items, {
+    items: many(_pages_v_blocks_nav_grid_items, {
       relationName: "items",
     }),
   }),
 );
-export const relations__pages_v_blocks_element_section = relations(
-  _pages_v_blocks_element_section,
+export const relations__pages_v_blocks_section = relations(
+  _pages_v_blocks_section,
   ({ one }) => ({
     _parentID: one(_pages_v, {
-      fields: [_pages_v_blocks_element_section._parentID],
+      fields: [_pages_v_blocks_section._parentID],
       references: [_pages_v.id],
-      relationName: "_blocks_Element.section",
+      relationName: "_blocks_section",
     }),
   }),
 );
@@ -1429,11 +1421,11 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   _blocks_testCallToAction: many(_pages_v_blocks_test_call_to_action, {
     relationName: "_blocks_testCallToAction",
   }),
-  "_blocks_Element.NavGrid": many(_pages_v_blocks_element_navgrid, {
-    relationName: "_blocks_Element.NavGrid",
+  _blocks_navGrid: many(_pages_v_blocks_nav_grid, {
+    relationName: "_blocks_navGrid",
   }),
-  "_blocks_Element.section": many(_pages_v_blocks_element_section, {
-    relationName: "_blocks_Element.section",
+  _blocks_section: many(_pages_v_blocks_section, {
+    relationName: "_blocks_section",
   }),
   version_meta_image: one(media, {
     fields: [_pages_v.version_meta_image],
@@ -1653,16 +1645,16 @@ type DatabaseSchema = {
   thoughts: typeof thoughts;
   pages_blocks_test_image: typeof pages_blocks_test_image;
   pages_blocks_test_call_to_action: typeof pages_blocks_test_call_to_action;
-  pages_blocks_element_navgrid_items: typeof pages_blocks_element_navgrid_items;
-  pages_blocks_element_navgrid: typeof pages_blocks_element_navgrid;
-  pages_blocks_element_section: typeof pages_blocks_element_section;
+  pages_blocks_nav_grid_items: typeof pages_blocks_nav_grid_items;
+  pages_blocks_nav_grid: typeof pages_blocks_nav_grid;
+  pages_blocks_section: typeof pages_blocks_section;
   pages: typeof pages;
   pages_rels: typeof pages_rels;
   _pages_v_blocks_test_image: typeof _pages_v_blocks_test_image;
   _pages_v_blocks_test_call_to_action: typeof _pages_v_blocks_test_call_to_action;
-  _pages_v_blocks_element_navgrid_items: typeof _pages_v_blocks_element_navgrid_items;
-  _pages_v_blocks_element_navgrid: typeof _pages_v_blocks_element_navgrid;
-  _pages_v_blocks_element_section: typeof _pages_v_blocks_element_section;
+  _pages_v_blocks_nav_grid_items: typeof _pages_v_blocks_nav_grid_items;
+  _pages_v_blocks_nav_grid: typeof _pages_v_blocks_nav_grid;
+  _pages_v_blocks_section: typeof _pages_v_blocks_section;
   _pages_v: typeof _pages_v;
   _pages_v_rels: typeof _pages_v_rels;
   redirects: typeof redirects;
@@ -1691,16 +1683,16 @@ type DatabaseSchema = {
   relations_thoughts: typeof relations_thoughts;
   relations_pages_blocks_test_image: typeof relations_pages_blocks_test_image;
   relations_pages_blocks_test_call_to_action: typeof relations_pages_blocks_test_call_to_action;
-  relations_pages_blocks_element_navgrid_items: typeof relations_pages_blocks_element_navgrid_items;
-  relations_pages_blocks_element_navgrid: typeof relations_pages_blocks_element_navgrid;
-  relations_pages_blocks_element_section: typeof relations_pages_blocks_element_section;
+  relations_pages_blocks_nav_grid_items: typeof relations_pages_blocks_nav_grid_items;
+  relations_pages_blocks_nav_grid: typeof relations_pages_blocks_nav_grid;
+  relations_pages_blocks_section: typeof relations_pages_blocks_section;
   relations_pages_rels: typeof relations_pages_rels;
   relations_pages: typeof relations_pages;
   relations__pages_v_blocks_test_image: typeof relations__pages_v_blocks_test_image;
   relations__pages_v_blocks_test_call_to_action: typeof relations__pages_v_blocks_test_call_to_action;
-  relations__pages_v_blocks_element_navgrid_items: typeof relations__pages_v_blocks_element_navgrid_items;
-  relations__pages_v_blocks_element_navgrid: typeof relations__pages_v_blocks_element_navgrid;
-  relations__pages_v_blocks_element_section: typeof relations__pages_v_blocks_element_section;
+  relations__pages_v_blocks_nav_grid_items: typeof relations__pages_v_blocks_nav_grid_items;
+  relations__pages_v_blocks_nav_grid: typeof relations__pages_v_blocks_nav_grid;
+  relations__pages_v_blocks_section: typeof relations__pages_v_blocks_section;
   relations__pages_v_rels: typeof relations__pages_v_rels;
   relations__pages_v: typeof relations__pages_v;
   relations_redirects: typeof relations_redirects;

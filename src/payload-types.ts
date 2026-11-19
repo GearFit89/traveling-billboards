@@ -384,7 +384,7 @@ export interface NavGridBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'Element.NavGrid';
+  blockType: 'navGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -395,7 +395,7 @@ export interface SectionBlock {
   subtitle?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'Element.section';
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -760,8 +760,8 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         testImage?: T | TestImageBlockSelect<T>;
         testCallToAction?: T | TestCallToActionBlockSelect<T>;
-        'Element.NavGrid'?: T | NavGridBlockSelect<T>;
-        'Element.section'?: T | SectionBlockSelect<T>;
+        navGrid?: T | NavGridBlockSelect<T>;
+        section?: T | SectionBlockSelect<T>;
       };
   meta?:
     | T
