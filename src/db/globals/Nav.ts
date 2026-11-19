@@ -36,13 +36,7 @@ export const Nav: GlobalConfig = {
       required: false,
       defaultValue: "red",
     },
-    {
-      name: "navBrandAccentColor",
-      label: "Highlight Color",
-      type: "text",
-      required: false,
-      defaultValue: "yellow",
-    },
+    
 
     {
       name: "siteLogo",
