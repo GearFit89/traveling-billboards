@@ -1145,7 +1145,6 @@ export const nav = sqliteTable(
     accentedWord: text("accented_word"),
     navBrandWord2: text("nav_brand_word2"),
     navBrandColor: text("nav_brand_color").default("red"),
-    navBrandAccentColor: text("nav_brand_accent_color").default("yellow"),
     siteLogo: integer("site_logo_id").references(() => media.id, {
       onDelete: "set null",
     }),

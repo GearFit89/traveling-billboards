@@ -940,7 +940,6 @@ export interface Nav {
   accentedWord?: string | null;
   navBrandWord2?: string | null;
   navBrandColor?: string | null;
-  navBrandAccentColor?: string | null;
   siteLogo?: (number | null) | Media;
   links?:
     | {
@@ -973,7 +972,6 @@ export interface NavSelect<T extends boolean = true> {
   accentedWord?: T;
   navBrandWord2?: T;
   navBrandColor?: T;
-  navBrandAccentColor?: T;
   siteLogo?: T;
   links?:
     | T
