@@ -1,10 +1,12 @@
 import Link from "next/link";
-import type { Nav } from "@/payload-types";
+import type { Nav, Page } from "@/payload-types";
 import type { LinkAppearances } from "@/db/fields/link";
 import styles from "./Navigation.module.css";
 
 export type NavLink = NonNullable<Nav["links"]>[number];
 export type NavLinkItem = NonNullable<Nav["links"]>[number]["link"];
+
+const LINK_FALLBACK = "#";
 
 export const appearanceClasses: Record<LinkAppearances, string> = {
   default: styles.linkDefault,
@@ -29,12 +31,18 @@ export function Links({ links, page }: LinksProps) {
   return (
     <div>
       {links.map(({ link, id }) => {
-        const href = link.url ?? "#";
+        const href =
+          link.type === "custom"
+            ? (link.url ?? LINK_FALLBACK)
+            : ((link.reference?.value as Page).slug ?? LINK_FALLBACK);
+        
         // Normalize slashes so "/about" and "about" both match accurately
         const isActive =
           page.replace(/^\/|\/$/g, "") === href.replace(/^\/|\/$/g, "");
 
-        return <LinkItem key={id} link={link} isActive={isActive} />;
+        return (
+          <LinkItem key={id} href={href} link={link} isActive={isActive} />
+        );
       })}
     </div>
   );
@@ -42,10 +50,11 @@ export function Links({ links, page }: LinksProps) {
 
 interface LinkItemProps {
   link: NavLink["link"];
+  href: string;
   isActive: boolean;
 }
 
-export function LinkItem({ link, isActive }: LinkItemProps) {
+export function LinkItem({ link, href, isActive }: LinkItemProps) {
   const appearance = link.appearance ?? "default";
   const appearanceClass = appearanceClasses[appearance];
 
@@ -55,9 +64,13 @@ export function LinkItem({ link, isActive }: LinkItemProps) {
       ? styles.navLinkActiveHighlighted
       : styles.navLinkActive
     : "";
-
   return (
-    <Link href={link.url ?? "#"} className={`${styles.link} ${appearanceClass} ${activeClass}`}>
+    <Link
+      href={href}
+      className={`${styles.link} ${appearanceClass} ${activeClass}`}
+      target={link.newTab ? "_blank" : "_self"}
+      rel={link.newTab ? "noopener noreferrer" : undefined}
+    >
       {link.label}
     </Link>
   );

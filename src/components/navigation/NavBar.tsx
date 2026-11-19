@@ -5,7 +5,9 @@ import { Links } from "./Links";
 import { Icon } from "../icons";
 import { getActiveTheme } from "@/lib/themes";
 import { NavbarProvider, NavButton, NavMenu } from "./NavBarClient";
+
 import styles from "./Navigation.module.css";
+import { notFound } from "next/navigation";
 
 interface NavProps {
   /**
@@ -26,7 +28,8 @@ export async function NavBar({ page }: NavProps) {
   });
 
   if (!nav.links || nav.links.length === 0) {
-    return null;
+    console.error("No navigation links found in the nav global.");
+    return <div style={{ color: "white", backgroundColor: "red", padding: "1rem" }}>Error: No navigation links available.</div>
   }
   const theme = getActiveTheme();
   return (
