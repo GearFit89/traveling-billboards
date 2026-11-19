@@ -36,6 +36,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "svgr.d.ts",
     "src/**/*", // 👈 Forces TS to look ONLY inside your actual source code
     ".next/types/**/*.ts" // 👈 Required for Next.js App Router type safety
     ,
