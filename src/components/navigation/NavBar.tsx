@@ -1,56 +1,39 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
-
-import { Links } from "./Links";
-import { Icon } from "../icons";
-import { getActiveTheme } from "@/lib/themes";
+import Link from "next/link";
+import { siteContent } from "@/lib/content";
+import { Links, type NavLink } from "./Links";
 import { NavbarProvider, NavButton, NavMenu } from "./NavBarClient";
-
 import styles from "./Navigation.module.css";
-import { notFound } from "next/navigation";
 
-interface NavProps {
-  /**
-   * NavProps.page is the current page that navbar displays as active. Can be `/slug`, `slug`,`slug/`, etc. All `/` and `\` are striped out
-   */
-  page: string;
-}
-/**
- *
- * @param NavProps - NavProps.page is the current page that navbar displays as active. Can be `/slug`, `slug`,`slug/`, etc. All `/` and `\` are striped out
- * @returns
- */
-export async function NavBar({ page }: NavProps) {
+export async function NavBar({ page }: { page: string }) {
   const payload = await getPayload({ config });
+  const nav = await payload.findGlobal({ slug: "nav" });
+  const links: NavLink[] = nav.links?.length
+    ? nav.links
+    : siteContent.navLinks.map(({ href, label }) => ({
+        link: { type: "custom", url: href, label },
+      }));
 
-  const nav = await payload.findGlobal({
-    slug: "nav",
-  });
-
-  if (!nav.links || nav.links.length === 0) {
-    console.error("No navigation links found in the nav global.");
-    return <div style={{ color: "white", backgroundColor: "red", padding: "1rem" }}>Error: No navigation links available.</div>
-  }
-  const theme = getActiveTheme();
   return (
-    <nav className={styles.nav}>
-      <NavbarProvider links={nav.links} page={page}>
+    <nav className={styles.nav} aria-label="Main navigation">
+      <NavbarProvider links={links} page={page}>
         <div className={styles.navInner}>
-          <div>
-            <h3 style={{ color: nav.navBrandColor ?? theme.colors.foreground }}>
-              {nav.navBrandWord1}
-              <span style={{ color: theme.colors.accent }}>{nav.accentedWord}</span>
-              {nav.navBrandWord2}
-            </h3>
-          </div>
-          <NavButton className={styles.mobileMenuButton} displayXIcon>
-            <Icon name="menu" />
-          </NavButton>
+          <Link
+            href="/"
+            className={styles.logo}
+            style={nav.navBrandColor ? { color: nav.navBrandColor } : undefined}
+          >
+            {nav.navBrandWord1 || "Tailgates"}
+            <span className={styles.logoAccent}>{nav.accentedWord ?? "4"}</span>
+            {nav.navBrandWord2 ?? "Jesus"}
+          </Link>
           <div className={styles.navLinks}>
-            <Links page={page} links={nav.links} />
+            <Links page={page} links={links} />
           </div>
-          <NavMenu />
+          <NavButton />
         </div>
+        <NavMenu />
       </NavbarProvider>
     </nav>
   );

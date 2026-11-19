@@ -36,7 +36,7 @@ export async function LoadSignsList() {
 export default function SignListPage() {
   return (
     <div className={styles.signPageWrapper}>
-      <NavBar page="signs" />
+     
       <Suspense fallback={<Spinner />}>
         <LoadSignsList />
       </Suspense>

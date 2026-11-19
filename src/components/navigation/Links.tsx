@@ -1,12 +1,10 @@
 import Link from "next/link";
-import type { Nav, Page } from "@/payload-types";
+import type { Nav } from "@/payload-types";
 import type { LinkAppearances } from "@/db/fields/link";
 import styles from "./Navigation.module.css";
 
 export type NavLink = NonNullable<Nav["links"]>[number];
-export type NavLinkItem = NonNullable<Nav["links"]>[number]["link"];
-
-const LINK_FALLBACK = "#";
+export type NavLinkItem = NavLink["link"];
 
 export const appearanceClasses: Record<LinkAppearances, string> = {
   default: styles.linkDefault,
@@ -14,62 +12,59 @@ export const appearanceClasses: Record<LinkAppearances, string> = {
   outline: styles.linkOutline,
 };
 
-interface LinksProps {
-  /**
-   * NavProps.page NavProps.page is the current page that navbar displays as active. Can be `/slug`, `slug`,`slug/`, etc. All `/` and `\` are striped out
-   */
+export function getLinkHref(link: NavLinkItem) {
+  const reference = link.reference?.value;
+  if (link.type === "reference" && reference && typeof reference === "object" && reference.slug) {
+    return reference.slug === "home" ? "/" : `/${reference.slug.replace(/^\/+/, "")}`;
+  }
 
-  page: string;
-  links: NavLink[];
+  return link.url || "#";
 }
-/**
- *
- * @param NavProps - NavProps.page is the current page that navbar displays as active. Can be `/slug`, `slug`,`slug/`, etc. All `/` and `\` are striped out
- * @returns
- */
-export function Links({ links, page }: LinksProps) {
+
+export function Links({ links, page, onNavigate }: {
+  links: NavLink[];
+  page: string;
+  onNavigate?: () => void;
+}) {
+  const currentPage = page.replace(/^\/+|\/+$/g, "");
+
   return (
-    <div>
+    <ul className={styles.links}>
       {links.map(({ link, id }) => {
-        const href =
-          link.type === "custom"
-            ? (link.url ?? LINK_FALLBACK)
-            : ((link.reference?.value as Page).slug ?? LINK_FALLBACK);
-        
-        // Normalize slashes so "/about" and "about" both match accurately
-        const isActive =
-          page.replace(/^\/|\/$/g, "") === href.replace(/^\/|\/$/g, "");
+        const href = getLinkHref(link);
+        const isActive = href.replace(/^\/+|\/+$/g, "") === currentPage;
 
         return (
-          <LinkItem key={id} href={href} link={link} isActive={isActive} />
+          <li key={id ?? href}>
+            <LinkItem href={href} link={link} isActive={isActive} onNavigate={onNavigate} />
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
 
-interface LinkItemProps {
-  link: NavLink["link"];
+export function LinkItem({ link, href, isActive, onNavigate }: {
+  link: NavLinkItem;
   href: string;
   isActive: boolean;
-}
-
-export function LinkItem({ link, href, isActive }: LinkItemProps) {
+  onNavigate?: () => void;
+}) {
   const appearance = link.appearance ?? "default";
-  const appearanceClass = appearanceClasses[appearance];
-
-  // Yellow underline for normal links when active; white underline for yellow highlighted links
   const activeClass = isActive
     ? appearance === "highlighted"
       ? styles.navLinkActiveHighlighted
       : styles.navLinkActive
     : "";
+
   return (
     <Link
       href={href}
-      className={`${styles.link} ${appearanceClass} ${activeClass}`}
-      target={link.newTab ? "_blank" : "_self"}
+      className={`${styles.link} ${appearanceClasses[appearance]} ${activeClass}`}
+      aria-current={isActive ? "page" : undefined}
+      target={link.newTab ? "_blank" : undefined}
       rel={link.newTab ? "noopener noreferrer" : undefined}
+      onClick={onNavigate}
     >
       {link.label}
     </Link>
