@@ -1,7 +1,13 @@
 
 import { IconKey } from '@/lib/icons';
 import { type CSSProperties } from 'react';
-
+import BibleOpenICon from '@/assets/bible-book.svg'
+import ChangeLivesIcon from '@/assets/change-lives.svg'
+import GetInvolvedIcon from '@/assets/get-involved.svg'
+import ResourcesIcon from '@/assets/resources.svg'
+import SproutIcon from '@/assets/sprout.svg'
+import ChatIcon from '@/assets/chat.svg'
+import SignsIcon from '@/assets/signs.svg'
 interface IconProps {
   className?: string;
   style?: CSSProperties;
@@ -111,6 +117,13 @@ export const iconComponents: Record<IconKey, React.FC<IconProps>> = {
       <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   ),
+  bibleOpen: BibleOpenICon,
+  changeLives: ChangeLivesIcon,
+  getInvoled: GetInvolvedIcon,
+  resources: ResourcesIcon,
+  sprout: SproutIcon,
+  chat: ChatIcon,
+  signs: SignsIcon
 };
 
 
