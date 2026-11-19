@@ -288,60 +288,7 @@ export interface Page {
     isHighlighted?: boolean | null;
   };
   backgroundImage: number | Media;
-  layout: (
-    | TestImageBlock
-    | TestCallToActionBlock
-    | {
-        items?:
-          | {
-              heading: string;
-              description?: string | null;
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?: {
-                  relationTo: 'pages';
-                  value: number | Page;
-                } | null;
-                url?: string | null;
-                label: string;
-                /**
-                 * Choose how the link should be rendered.
-                 */
-                appearance?: ('default' | 'outline') | null;
-              };
-              icon:
-                | 'map'
-                | 'sparkle'
-                | 'backpack'
-                | 'users'
-                | 'thought'
-                | 'link'
-                | 'location'
-                | 'calendar'
-                | 'qrCode'
-                | 'arrowRight'
-                | 'arrowLeft'
-                | 'externalLink'
-                | 'menu'
-                | 'close'
-                | 'road'
-                | 'compass';
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'Element.navGrid';
-      }
-    | {
-        heading: string;
-        subtitle?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'Element.section';
-      }
-  )[];
+  layout: (TestImageBlock | TestCallToActionBlock | NavGridBlock | SectionBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -382,6 +329,73 @@ export interface TestCallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'testCallToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NavGridBlock".
+ */
+export interface NavGridBlock {
+  items?:
+    | {
+        heading: string;
+        description?: string | null;
+        color?: string | null;
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        icon:
+          | 'map'
+          | 'sparkle'
+          | 'backpack'
+          | 'users'
+          | 'thought'
+          | 'link'
+          | 'location'
+          | 'calendar'
+          | 'qrCode'
+          | 'arrowRight'
+          | 'arrowLeft'
+          | 'externalLink'
+          | 'menu'
+          | 'close'
+          | 'road'
+          | 'compass'
+          | 'bibleOpen'
+          | 'changeLives'
+          | 'getInvolved'
+          | 'resources'
+          | 'sprout'
+          | 'chat'
+          | 'signs'
+          | 'x';
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Element.NavGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock".
+ */
+export interface SectionBlock {
+  heading: string;
+  subtitle?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'Element.section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -746,38 +760,8 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         testImage?: T | TestImageBlockSelect<T>;
         testCallToAction?: T | TestCallToActionBlockSelect<T>;
-        'Element.navGrid'?:
-          | T
-          | {
-              items?:
-                | T
-                | {
-                    heading?: T;
-                    description?: T;
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    icon?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        'Element.section'?:
-          | T
-          | {
-              heading?: T;
-              subtitle?: T;
-              id?: T;
-              blockName?: T;
-            };
+        'Element.NavGrid'?: T | NavGridBlockSelect<T>;
+        'Element.section'?: T | SectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -811,6 +795,43 @@ export interface TestCallToActionBlockSelect<T extends boolean = true> {
   heading?: T;
   buttonLabel?: T;
   href?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NavGridBlock_select".
+ */
+export interface NavGridBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        color?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        icon?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionBlock_select".
+ */
+export interface SectionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  subtitle?: T;
   id?: T;
   blockName?: T;
 }

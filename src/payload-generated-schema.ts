@@ -262,6 +262,7 @@ export const pages_blocks_element_navgrid_items = sqliteTable(
     id: text("id").primaryKey(),
     heading: text("heading"),
     description: text("description"),
+    color: text("color").default("#ffffff"),
     link_type: text("link_type", { enum: ["reference", "custom"] }).default(
       "reference",
     ),
@@ -289,6 +290,16 @@ export const pages_blocks_element_navgrid_items = sqliteTable(
         "close",
         "road",
         "compass",
+        "bibleOpen",
+        "changeLives",
+        "getInvolved",
+        "resources",
+        "sprout",
+        "chat",
+        "signs",
+        "x",
+        "arrowLeft",
+        "arrowRight",
       ],
     }),
   },
@@ -498,6 +509,7 @@ export const _pages_v_blocks_element_navgrid_items = sqliteTable(
     id: integer("id").primaryKey(),
     heading: text("heading"),
     description: text("description"),
+    color: text("color").default("#ffffff"),
     link_type: text("link_type", { enum: ["reference", "custom"] }).default(
       "reference",
     ),
@@ -525,6 +537,16 @@ export const _pages_v_blocks_element_navgrid_items = sqliteTable(
         "close",
         "road",
         "compass",
+        "bibleOpen",
+        "changeLives",
+        "getInvolved",
+        "resources",
+        "sprout",
+        "chat",
+        "signs",
+        "x",
+        "arrowLeft",
+        "arrowRight",
       ],
     }),
     _uuid: text("_uuid"),
@@ -1264,7 +1286,7 @@ export const relations_pages_blocks_element_navgrid = relations(
     _parentID: one(pages, {
       fields: [pages_blocks_element_navgrid._parentID],
       references: [pages.id],
-      relationName: "_blocks_Element.navGrid",
+      relationName: "_blocks_Element.NavGrid",
     }),
     items: many(pages_blocks_element_navgrid_items, {
       relationName: "items",
@@ -1305,8 +1327,8 @@ export const relations_pages = relations(pages, ({ one, many }) => ({
   _blocks_testCallToAction: many(pages_blocks_test_call_to_action, {
     relationName: "_blocks_testCallToAction",
   }),
-  "_blocks_Element.navGrid": many(pages_blocks_element_navgrid, {
-    relationName: "_blocks_Element.navGrid",
+  "_blocks_Element.NavGrid": many(pages_blocks_element_navgrid, {
+    relationName: "_blocks_Element.NavGrid",
   }),
   "_blocks_Element.section": many(pages_blocks_element_section, {
     relationName: "_blocks_Element.section",
@@ -1361,7 +1383,7 @@ export const relations__pages_v_blocks_element_navgrid = relations(
     _parentID: one(_pages_v, {
       fields: [_pages_v_blocks_element_navgrid._parentID],
       references: [_pages_v.id],
-      relationName: "_blocks_Element.navGrid",
+      relationName: "_blocks_Element.NavGrid",
     }),
     items: many(_pages_v_blocks_element_navgrid_items, {
       relationName: "items",
@@ -1407,8 +1429,8 @@ export const relations__pages_v = relations(_pages_v, ({ one, many }) => ({
   _blocks_testCallToAction: many(_pages_v_blocks_test_call_to_action, {
     relationName: "_blocks_testCallToAction",
   }),
-  "_blocks_Element.navGrid": many(_pages_v_blocks_element_navgrid, {
-    relationName: "_blocks_Element.navGrid",
+  "_blocks_Element.NavGrid": many(_pages_v_blocks_element_navgrid, {
+    relationName: "_blocks_Element.NavGrid",
   }),
   "_blocks_Element.section": many(_pages_v_blocks_element_section, {
     relationName: "_blocks_Element.section",
