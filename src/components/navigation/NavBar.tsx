@@ -1,7 +1,6 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
 import Link from "next/link";
-import { siteContent } from "@/lib/content";
 import { Links, type NavLink } from "./Links";
 import { NavbarProvider, NavButton, NavMenu } from "./NavBarClient";
 import styles from "./Navigation.module.css";
@@ -9,12 +8,12 @@ import styles from "./Navigation.module.css";
 export async function NavBar({ page }: { page: string }) {
   const payload = await getPayload({ config });
   const nav = await payload.findGlobal({ slug: "nav" });
-  const links: NavLink[] = nav.links?.length
-    ? nav.links
-    : siteContent.navLinks.map(({ href, label }) => ({
-        link: { type: "custom", url: href, label },
-      }));
+  
+  if(!links || links.length === 0){
+    return null
+  }
 
+  const links: NavLink[] = nav.links;
   return (
     <nav className={styles.nav} aria-label="Main navigation">
       <NavbarProvider links={links} page={page}>
