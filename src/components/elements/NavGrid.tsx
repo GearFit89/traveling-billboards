@@ -4,8 +4,9 @@ import { Icon } from "../icons";
 import { getLinkHref } from "../navigation/Links";
 import Link from "next/link";
 import styles from "./NavGrid.module.css";
+import type { BlockProps } from '@/types';
 
-export function NavGrid({ block: { items } }: { block: NavGridBlock }) {
+export function NavGrid({ block: { items } }: BlockProps<NavGridBlock> ) {
   if (!items?.length) return null;
 
   return (
