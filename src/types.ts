@@ -1,6 +1,7 @@
 
 import * as s from "@/lib/schemas";
 import * as v from "valibot";
+import type { Page } from '@/payload-types'
 
 export type SearchType = "signs" | "billboard" | "links" | "thoughts";
 export type SignColumns =
