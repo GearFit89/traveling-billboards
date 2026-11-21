@@ -1,6 +1,7 @@
 
 import * as s from "@/lib/schemas";
 import * as v from "valibot";
+import type { Page } from '@/payload-types'
 
 export type SearchType = "signs" | "billboard" | "links" | "thoughts";
 export type SignColumns =
@@ -88,7 +89,15 @@ export type ReturnStatus =
       fullError?: Error;
       message?: string;
     };
-
+export type Pagination = false|{
+  perPage: number;
+  currentPageNumber: number;
+};
+export interface BlockProps<TBlock> {
+  page: Page;
+  block: TBlock;
+  pagination: Pagination;
+}
 export interface setQueryReturnData {
   success: boolean;
 

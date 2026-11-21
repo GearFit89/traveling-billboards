@@ -1,7 +1,7 @@
-import { AppError } from "@/utils/error";
+import { AppError } from "@/lib/error";
 import { redirect } from "next/navigation";
-import { getIsBuildPharse } from "./utils";
-import Console from "@/utils/console";
+import { getIsBuildPharse } from "./utils/getIsBuildPharse";
+import Console from "@/lib/console";
 
 
 const lConsole = new Console('ERROR_HANDLER') // lConsole to avoid mixing up with console

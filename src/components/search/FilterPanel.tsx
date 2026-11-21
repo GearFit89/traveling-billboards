@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styles from "@/styles/Search.module.css";
-import { Icon } from "@/lib/icons";
+
 import { LinkData } from "@/types";
 import { getLinkSearchResults } from "@/lib/server-actions";
 import { LinkFilters } from "@/types";

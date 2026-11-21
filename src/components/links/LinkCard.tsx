@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon } from '@/lib/icons';
+import { Icon } from '@/components/icons';
 import styles from '@/styles/Links.module.css';
 
 interface LinkCardProps {

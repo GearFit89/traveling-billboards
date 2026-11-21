@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SignData } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icon } from '@/lib/icons';
+import { Icon } from '@/components/icons';
 import styles from '@/styles/Home.module.css';
+import type { Sign } from "@/payload-types";
 
-export default function Carousel({ signs }: { signs: SignData[] }) {
+
+export default function Carousel({ signs }: { signs: Sign[] }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ export default function Carousel({ signs }: { signs: SignData[] }) {
 
   if (!signs || signs.length === 0) return null;
 
-  const cur = signs[index];
+  const cur = signs[index % signs.length];
 
   return (
     <div className={styles.carouselSection} role="region" aria-label="Signs carousel">
@@ -42,17 +43,6 @@ export default function Carousel({ signs }: { signs: SignData[] }) {
             </div>
           </div>
 
-          {cur.img_key && (
-            <div className={styles.carouselImageWrapper}>
-              <Image
-                src={cur.img_key}
-                alt={cur.img_alt || cur.title}
-                fill
-                sizes="100vw"
-                className={styles.carouselImage}
-              />
-            </div>
-          )}
         </div>
 
         <button

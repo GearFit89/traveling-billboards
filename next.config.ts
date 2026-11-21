@@ -1,3 +1,5 @@
+
+import { withPayload } from "@payloadcms/next/withPayload";
 // Enable Cloudflare context in development
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
@@ -21,8 +23,24 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "5mb",
     },
   },
-
+async redirects() {
+    return [
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/signs/pages",
+        destination: "/signs/pages/1",
+        permanent: true,
+      }
+    ];
+  },
   turbopack: {
+      resolveAlias: {
+      'drizzle-kit/api': './src/stubs/drizzle-kit-api.ts',
+    },
     rules: {
       "*.svg": {
         loaders: ["@svgr/webpack"],
@@ -32,4 +50,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

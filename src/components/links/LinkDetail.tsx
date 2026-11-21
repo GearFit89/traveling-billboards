@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon, IconKey } from '@/lib/icons';
+import { Icon } from '@/components/icons';
+import type { IconKey } from '@/lib/icons';
 import { useToast } from '@/hooks/use-toast';
 import { copyToClipBoard, shareText } from '@/client/utils';
 import styles from '@/styles/Links.module.css';

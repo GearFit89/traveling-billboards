@@ -1,4 +1,5 @@
-import { createColumnSchema, getEnvContext } from '@/lib/utils';
+import { createColumnSchema } from '@/lib/utils/createColumnSchema';
+import { getEnvContext } from '@/lib/utils/getEnvContext';
 import { Table } from '@/types';
 import { SORT } from "@/const"
 import Fuse, { Expression, FuseResult, FuseSearchOptions, IFuseOptions } from 'fuse.js';

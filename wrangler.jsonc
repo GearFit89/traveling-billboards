@@ -3,51 +3,65 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "traveling-billboards",
-	"main": ".open-next/worker.js",
-	"compatibility_date": "2026-06-06",
-	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-	"account_id": "bb30f718d1554a9e59439f2a23fdff92",
-	"assets": {
-		"binding": "ASSETS",
-		"directory": ".open-next/assets"
-	},
-	"d1_databases": [{
-    "binding": "D1",
-    "database_name": "d1-database-id-1",
-    "database_id": "69b4628f-11c7-496e-9bf6-095452ea019a"
- }],
-	"kv_namespaces": [{
-                    "binding": "KV",
-                    "id": "25028869eff645c1b663d9d94aec0598"
-                 }],
-
-	"r2_buckets": [
-  {
-    "binding": "NEXT_INC_CACHE_R2_BUCKET", // What OpenNext searches for
-    "bucket_name": "open-next-r2-bucket-1",
-
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "traveling-billboards",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-06",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "account_id": "bb30f718d1554a9e59439f2a23fdff92",
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
   },
-  {
-	"binding": "R2_IMAGES",
-	"bucket_name": "r2-images-tailgates4jesus"
-  }
-],
-"durable_objects": {
-  "bindings": [
-    { "name": "NEXT_CACHE_DO_QUEUE", "class_name": "DOQueueHandler" },
-    { "name": "NEXT_TAG_CACHE_DO_SHARDED", "class_name": "DOShardedTagCache" }
-  ]
-},
-"migrations": [
-  {
-    "tag": "v1",
-    "new_sqlite_classes": ["DOQueueHandler", "DOShardedTagCache"]
-  }
-],
-	"observability": {
-		"enabled": true
-	},
-	"upload_source_maps": true
+  "d1_databases": [
+    {
+      "binding": "D1",
+      "database_name": "d1-database-id-1",
+      "database_id": "69b4628f-11c7-496e-9bf6-095452ea019a"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "25028869eff645c1b663d9d94aec0598"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET", // What OpenNext searches for
+      "bucket_name": "open-next-r2-bucket-1",
+    },
+    {
+      "binding": "R2_IMAGES",
+      "bucket_name": "r2-images-tailgates4jesus"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_CACHE_DO_QUEUE",
+        "class_name": "DOQueueHandler"
+      },
+      {
+        "name": "NEXT_TAG_CACHE_DO_SHARDED",
+        "class_name": "DOShardedTagCache"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "DOQueueHandler",
+        "DOShardedTagCache"
+      ]
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "upload_source_maps": true
 }

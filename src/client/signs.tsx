@@ -8,7 +8,11 @@ export function TestFecth() {
 
   async function fetchData() {
     const res = await getAllSigns();
-    setData(JSON.stringify(res));
+    if (!res.success) {
+      setData(res.error);
+      return;
+    }
+    setData(JSON.stringify(res.data));
     return data;
   }
   

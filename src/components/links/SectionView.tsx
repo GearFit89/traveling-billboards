@@ -1,24 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { Icon, IconKey } from '@/lib/icons';
+import { Icon} from '@/components/icons';
+import type { IconKey } from '@/lib/icons';
 import { LinkCard } from './LinkCard';
 
 import styles from '@/styles/Links.module.css';
 
-interface Link {
-  id: string;
-  title: string;
-  description: string;
-  link: string
-}
+import type { Link as LinkData } from '@/payload-types';
 
 interface SectionViewProps {
   sectionId: string;
   sectionName: string;
   sectionDescription: string;
   sectionIcon: string;
-  links: Link[];
+  links: LinkData[];
   pageTitle: string;
   backToAllText: string;
 }
@@ -67,7 +63,7 @@ export function SectionView({
             key={link.id}
             id={link.id}
             title={link.title}
-            description={link.description}
+            description={link.description || ""}
             sectionId={sectionId}
             link={link.link}
           />

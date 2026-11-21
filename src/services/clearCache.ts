@@ -1,4 +1,4 @@
-import { getEnvContext } from "@/lib/utils";
+import { getEnvContext } from "@/lib/utils/getEnvContext";
 import { R2Bucket } from "@cloudflare/workers-types";
 import { ListRestart } from "lucide-react";
 

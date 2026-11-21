@@ -1,20 +1,21 @@
 "use server";
 
 import { COOKIE_KEYS, TAGS } from "@/const";
-import { getAllLinks } from "@/lib/actions";
 
 import SearchDB from "@/services/search";
 import Fuse from "fuse.js";
 import { revalidateTag } from "next/cache";
 import * as s from "@/lib/schemas";
-import { getEnvContext, getHeaders, getRandomUUID } from "./utils";
+import { getEnvContext } from "./utils/getEnvContext";
+import { getHeaders } from "./utils/getHeaders";
+import { getRandomUUID } from "./utils/getRandomUUID";
 import { send } from "process";
-import { safeToString } from "@/utils/strings";
+import { safeToString } from "@/lib/strings";
 import { LinkData, MessageType, ReturnData, ReturnStatus } from "@/types";
-import Console from "@/utils/console";
+import Console from "@/lib/console";
 import { error } from "console";
 import { cookies, headers } from "next/headers";
-import { AppError } from "@/utils/error";
+import { AppError } from "@/lib/error";
 import { Ratelimit } from "@upstash/ratelimit";
 import { isRateLimited } from "@/services/rateLimiter";
 
