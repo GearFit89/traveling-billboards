@@ -88,7 +88,15 @@ export type ReturnStatus =
       fullError?: Error;
       message?: string;
     };
-
+export type Pagination = false|{
+  perPage: number;
+  currentPageNumber: number;
+};
+export interface BlockProps<TBlock> {
+  page: Page;
+  block: TBlock;
+  pagination: Pagination;
+}
 export interface setQueryReturnData {
   success: boolean;
 
